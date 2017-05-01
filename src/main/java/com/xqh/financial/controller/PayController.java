@@ -51,7 +51,7 @@ public class PayController {
         sb.append("times=" + times);
         logger.info(sb.toString());
 
-        return "redirect:" + sb.toString();
+        return sb.toString();
 
     }
 
