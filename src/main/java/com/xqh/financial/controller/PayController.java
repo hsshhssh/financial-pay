@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ public class PayController {
     private static Logger logger = LoggerFactory.getLogger(PayController.class);
 
     @RequestMapping("/pay")
-    public String pay(@RequestParam("money") int money) {
+    public void pay(@RequestParam("money") int money, HttpServletResponse resp) {
         String partnerId = "1000100020001163";
         String appId = "3061";
         String currency = "1000200010000000";
@@ -51,7 +53,11 @@ public class PayController {
         sb.append("times=" + times);
         logger.info(sb.toString());
 
-        return sb.toString();
+        try {
+            resp.sendRedirect(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
