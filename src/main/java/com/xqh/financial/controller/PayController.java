@@ -49,7 +49,7 @@ public class PayController {
         sb.append("appFeeName=" + name + "&");
         sb.append("paymode=1&");
         sb.append("times=" + times);
-        System.out.println(sb.toString());
+        logger.info(sb.toString());
 
         return sb.toString();
 
