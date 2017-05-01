@@ -61,7 +61,7 @@ public class PayController {
 
 
     @RequestMapping("/nodifyUrl")
-    public int nodifyUrl(@RequestParam("result") int result) {
+    public int nodifyUrl(@RequestParam(value="result", required = false) int result) {
         logger.info("nodifyUri result:{}", result);
         return result;
     }
