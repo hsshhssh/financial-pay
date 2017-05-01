@@ -2,9 +2,6 @@ package com.xqh.financial.controller;
 
 
 import com.xqh.financial.utils.CommonUtils;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +21,7 @@ public class PayController {
     private static Logger logger = LoggerFactory.getLogger(PayController.class);
 
     @RequestMapping("/pay")
-    public void pay(@RequestParam("money") int money) {
+    public String pay(@RequestParam("money") int money) {
         String partnerId = "1000100020001163";
         String appId = "3061";
         String currency = "1000200010000000";
@@ -54,8 +51,7 @@ public class PayController {
         sb.append("times=" + times);
         System.out.println(sb.toString());
 
-        HttpClient client = new HttpClient();
-        HttpMethod method = new GetMethod(sb.toString());
+        return sb.toString();
 
     }
 
