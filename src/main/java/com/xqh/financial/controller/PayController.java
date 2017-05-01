@@ -51,14 +51,25 @@ public class PayController {
         sb.append("times=" + times);
         logger.info(sb.toString());
 
-        return sb.toString();
+        return "redirect:" + sb.toString();
 
     }
 
 
     @RequestMapping("/nodifyUrl")
-    public int nodifyUrl(@RequestParam(value="result", required = false) int result) {
+    public int nodifyUrl(@RequestParam(value="result", required = false) int result, HttpServletRequest request) {
         logger.info("nodifyUri result:{}", result);
+        Map<String, String[]> params = request.getParameterMap();
+        String queryString = "";
+        for (String key : params.keySet()) {
+            String[] values = params.get(key);
+            for (int i = 0; i < values.length; i++) {
+                String value = values[i];
+                queryString += key + "=" + value + "&";
+            }
+        }
+        logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
+
         return result;
     }
 
@@ -73,6 +84,7 @@ public class PayController {
                 queryString += key + "=" + value + "&";
             }
         }
+        logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
         return queryString.substring(0, queryString.length() - 1);
     }
 }
