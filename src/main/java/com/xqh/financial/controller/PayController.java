@@ -91,10 +91,10 @@ public class PayController {
             }
         }
         logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
-        try {
-            response.getWriter().print(1);
-        } catch (IOException e) {
+        //try {
+        //    response.getWriter().print(1);
+        //} catch (IOException e) {
             throw new RuntimeException();
-        }
+        //}
     }
 }
