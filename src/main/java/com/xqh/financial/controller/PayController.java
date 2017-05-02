@@ -65,22 +65,22 @@ public class PayController {
     @RequestMapping("/nodifyUrl")
     public int nodifyUrl(@RequestParam(value="result", required = false) int result, HttpServletRequest request) {
         logger.info("nodifyUri result:{}", result);
-        Map<String, String[]> params = request.getParameterMap();
-        String queryString = "";
-        for (String key : params.keySet()) {
-            String[] values = params.get(key);
-            for (int i = 0; i < values.length; i++) {
-                String value = values[i];
-                queryString += key + "=" + value + "&";
-            }
-        }
-        logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
+        //Map<String, String[]> params = request.getParameterMap();
+        //String queryString = "";
+        //for (String key : params.keySet()) {
+        //    String[] values = params.get(key);
+        //    for (int i = 0; i < values.length; i++) {
+        //        String value = values[i];
+        //        queryString += key + "=" + value + "&";
+        //    }
+        //}
+        //logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
 
         return result;
     }
 
     @RequestMapping("/pay/callback")
-    public String callback(HttpServletRequest request) {
+    public void callback(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String[]> params = request.getParameterMap();
         String queryString = "";
         for (String key : params.keySet()) {
@@ -91,6 +91,10 @@ public class PayController {
             }
         }
         logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
-        return queryString.substring(0, queryString.length() - 1);
+        try {
+            response.getWriter().print(1);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 }
