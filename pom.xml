@@ -30,6 +30,11 @@
 
 		<zkdb.version>0.0.1-SNAPSHOT</zkdb.version>
 
+		<springfox.swagger2.version>2.2.2</springfox.swagger2.version>
+		<springfox.swagger.ui.version>2.2.2</springfox.swagger.ui.version>
+
+		<dozer.version>5.4.0</dozer.version>
+
 	</properties>
 
 	<dependencies>
@@ -70,6 +75,25 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.swagger2.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.swagger.ui.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>${dozer.version}</version>
 		</dependency>
 
 		<dependency>
