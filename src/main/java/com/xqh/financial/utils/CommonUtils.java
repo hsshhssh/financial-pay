@@ -1,5 +1,10 @@
 package com.xqh.financial.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -9,6 +14,8 @@ import java.util.Date;
  * Created by hssh on 2017/5/1.
  */
 public class CommonUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(CommonUtils.class);
 
     public static String getFormatDate(String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -46,6 +53,14 @@ public class CommonUtils {
             return null;
         }
 
+    }
+
+    public static void sendError(HttpServletResponse resp, int status, String msg) {
+        try {
+            resp.sendError(status, msg);
+        } catch (IOException e) {
+            logger.error("sendError error:{}", e.toString());
+        }
     }
 
 }

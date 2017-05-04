@@ -3,5 +3,14 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
+    <mapping>
+        <class-a>com.xqh.financial.entity.dto.PayUserCreateDTO</class-a>
+        <class-b>com.xqh.financial.entity.PayUser</class-b>
+        <field custom-converter="com.xqh.financial.utils.DozerPasswordEncryptConverter">
+            <a>password</a>
+            <b>password</b>
+        </field>
+
+    </mapping>
 
 </mappings>

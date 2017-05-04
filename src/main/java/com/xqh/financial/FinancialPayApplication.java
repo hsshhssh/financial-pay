@@ -32,7 +32,7 @@ public class FinancialPayApplication {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.xqh.financial.controller.api"))
+                .apis(RequestHandlerSelectors.basePackage("com.xqh.financial.controller.impl"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -49,7 +49,7 @@ public class FinancialPayApplication {
     @Bean
     public DozerBeanMapper dozerBean() {
         List<String> mappingFiles = Arrays.asList(
-                "dozer-mapping.xml"
+                "dozer/dozer-mapping.xml"
         );
 
         DozerBeanMapper dozerBean = new DozerBeanMapper();
