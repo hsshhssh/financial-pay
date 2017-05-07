@@ -3,6 +3,7 @@ package com.xqh.financial.controller;
 
 import com.xqh.financial.service.ZPayService;
 import com.xqh.financial.utils.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,11 @@ public class PayController {
                 queryString += key + "=" + value + "&";
             }
         }
-        logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
+        if(StringUtils.isNotBlank(queryString)) {
+            logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
+        } else {
+            logger.info("/nodifyUrl Param: no param");
+        }
 
         return 1;
     }
