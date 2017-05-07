@@ -39,7 +39,7 @@ public class PayController {
         sb.append("qn=zyap3061_56450_100&");
         sb.append("currency="+ currency +"&");
         sb.append("sign=" + sign + "&");
-        sb.append("cpparam=1&");
+        sb.append("cpparam=abc&");
         sb.append("notifyUrl=http://139.196.51.152:8080/nodifyUrl&");
         String name = null;
         try {
@@ -91,7 +91,7 @@ public class PayController {
         //}
         //logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
         try {
-            response.getWriter().print(1);
+            response.getWriter().print(0);
         } catch (IOException e) {
             throw new RuntimeException();
         }

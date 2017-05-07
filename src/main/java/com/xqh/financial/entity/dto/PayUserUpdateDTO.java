@@ -18,6 +18,9 @@ public class PayUserUpdateDTO {
     private String password;
 
     @Length(min = 6, max = 50)
+    private String passwordOld;
+
+    @Length(min = 6, max = 50)
     private String name;
 
     @Length(max = 20)
