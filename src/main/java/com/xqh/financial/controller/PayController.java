@@ -68,8 +68,8 @@ public class PayController {
 
 
     @RequestMapping("/nodifyUrl")
-    public int nodifyUrl(@RequestParam(value="result", required = false) int result, HttpServletRequest request) {
-        logger.info("nodifyUri result:{}", result);
+    public int nodifyUrl(HttpServletRequest request) {
+        //logger.info("nodifyUri result:{}", result);
         Map<String, String[]> params = request.getParameterMap();
         String queryString = "";
         for (String key : params.keySet()) {
@@ -81,7 +81,7 @@ public class PayController {
         }
         logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
 
-        return result;
+        return 1;
     }
 
     @RequestMapping("/pay/callback")
