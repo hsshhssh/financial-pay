@@ -46,7 +46,7 @@ public class PayController {
         sb.append("currency="+ currency +"&");
         sb.append("sign=" + sign + "&");
         sb.append("cpparam=abc&");
-        sb.append("notifyUrl=http://139.196.51.152:8080/nodifyUrl&");
+        sb.append("notifyUrl=http://139.196.51.152:8080/nodifyUrl?num=aaa&");
         String name = null;
         try {
             name = java.net.URLEncoder.encode("测试项目","utf-8");
