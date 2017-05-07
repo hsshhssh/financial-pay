@@ -1,6 +1,7 @@
 package com.xqh.financial;
 
 import com.google.common.collect.Lists;
+import com.xqh.financial.utils.UrlUtils;
 import org.junit.Test;
 
 import java.util.List;
@@ -24,6 +25,9 @@ public class FinancialPayApplicationTests {
 		List<String> fields = Lists.newArrayList("aa", "bb");
 		String[] properties = fields.toArray(new String[fields.size()]);
 		System.out.println(properties);
+
+
+		System.out.println(UrlUtils.UrlPage("adfadf"));
 	}
 
 }

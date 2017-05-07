@@ -35,6 +35,8 @@
 
 		<dozer.version>5.4.0</dozer.version>
 
+		<httpclient.version>4.5.3</httpclient.version>
+
 	</properties>
 
 	<dependencies>
@@ -94,6 +96,12 @@
 			<groupId>net.sf.dozer</groupId>
 			<artifactId>dozer</artifactId>
 			<version>${dozer.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
 		</dependency>
 
 		<dependency>

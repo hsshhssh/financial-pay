@@ -1,9 +1,11 @@
 package com.xqh.financial.controller;
 
 
+import com.xqh.financial.service.ZPayService;
 import com.xqh.financial.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,9 @@ import java.util.Map;
 public class PayController {
 
     private static Logger logger = LoggerFactory.getLogger(PayController.class);
+
+    @Autowired
+    ZPayService zPayService;
 
     @RequestMapping("/pay")
     public void pay(@RequestParam("money") int money, HttpServletResponse resp) {
@@ -65,16 +70,16 @@ public class PayController {
     @RequestMapping("/nodifyUrl")
     public int nodifyUrl(@RequestParam(value="result", required = false) int result, HttpServletRequest request) {
         logger.info("nodifyUri result:{}", result);
-        //Map<String, String[]> params = request.getParameterMap();
-        //String queryString = "";
-        //for (String key : params.keySet()) {
-        //    String[] values = params.get(key);
-        //    for (int i = 0; i < values.length; i++) {
-        //        String value = values[i];
-        //        queryString += key + "=" + value + "&";
-        //    }
-        //}
-        //logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
+        Map<String, String[]> params = request.getParameterMap();
+        String queryString = "";
+        for (String key : params.keySet()) {
+            String[] values = params.get(key);
+            for (int i = 0; i < values.length; i++) {
+                String value = values[i];
+                queryString += key + "=" + value + "&";
+            }
+        }
+        logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
 
         return result;
     }
@@ -100,4 +105,9 @@ public class PayController {
         //    e.printStackTrace();
         }
     }
+
+
+
+
+
 }
