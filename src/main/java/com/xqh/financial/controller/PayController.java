@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 /**
  * Created by hssh on 2017/4/30.
@@ -80,16 +81,16 @@ public class PayController {
 
     @RequestMapping("/pay/callback")
     public void callback(HttpServletRequest request, HttpServletResponse response) {
-        //Map<String, String[]> params = request.getParameterMap();
-        //String queryString = "";
-        //for (String key : params.keySet()) {
-        //    String[] values = params.get(key);
-        //    for (int i = 0; i < values.length; i++) {
-        //        String value = values[i];
-        //        queryString += key + "=" + value + "&";
-        //    }
-        //}
-        //logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
+        Map<String, String[]> params = request.getParameterMap();
+        String queryString = "";
+        for (String key : params.keySet()) {
+            String[] values = params.get(key);
+            for (int i = 0; i < values.length; i++) {
+                String value = values[i];
+                queryString += key + "=" + value + "&";
+            }
+        }
+        logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
         try {
             response.getWriter().print(0);
         } catch (IOException e) {
