@@ -92,9 +92,12 @@ public class PayController {
         }
         logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
         try {
+            Thread.sleep(20000);
             response.getWriter().print(0);
         } catch (IOException e) {
             throw new RuntimeException();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
