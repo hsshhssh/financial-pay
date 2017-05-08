@@ -12,12 +12,12 @@ import com.xqh.financial.utils.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 import java.io.IOException;
 
 /**
@@ -39,7 +39,7 @@ public class ZPayController implements IZPayController {
 
     @Override
     public void nodifyUrl(@RequestParam(value = "result", required = false) int result,
-                          @PathParam("appId") int appId,
+                          @PathVariable("appId") int appId,
                           HttpServletRequest req,
                           HttpServletResponse resp) {
         logger.info("/nodifyUrl/appId: appId:{}, result:{}", appId, result);
@@ -67,7 +67,7 @@ public class ZPayController implements IZPayController {
         sb.append("payType=" + callbackEntity.getPayType() + "&");
         sb.append("userParam=" + callbackEntity.getUserParam() + "&");
         sb.append("userOrderNo=" + callbackEntity.getUserOrderNo() + "&");
-        sb.append("sign=" + callbackEntity.getSign() + "&");
+        sb.append("sign=" + callbackEntity.getSign());
 
         logger.info("callback url {}", sb.toString());
         HttpResult httpResult = HttpUtils.get(sb.toString());

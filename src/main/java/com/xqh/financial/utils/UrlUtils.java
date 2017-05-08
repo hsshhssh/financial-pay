@@ -20,7 +20,7 @@ public class UrlUtils {
         String strPage=null;
         String[] arrSplit=null;
 
-        strURL=strURL.trim().toLowerCase();
+        strURL=strURL.trim();
 
         arrSplit=strURL.split("[?]");
         if(strURL.length()>0)
@@ -31,6 +31,9 @@ public class UrlUtils {
                 {
                     strPage=arrSplit[0];
                 }
+            }
+            else {
+                strPage = strURL;
             }
         }
 

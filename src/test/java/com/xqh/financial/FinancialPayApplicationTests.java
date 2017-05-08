@@ -28,7 +28,7 @@ public class FinancialPayApplicationTests {
 		System.out.println(properties);
 
 
-		System.out.println(UrlUtils.UrlPage("adfadf"));
+		System.out.println(UrlUtils.UrlPage("aaa?"));
 
 		System.out.println(CommonUtils.getMd5("1000100020001163" + "3061" + "1" + "1494252321" + "A3F4A7E77AD7474E9105AD5B7DFB8240"));
 

@@ -19,7 +19,7 @@ public interface IZPayController {
      * @param req
      * @return
      */
-    @RequestMapping("/nodifyUrl/${appId}")
+    @RequestMapping("/nodifyUrl/{appId}")
     public void nodifyUrl(@RequestParam(value="result", required = false) int result,
                           @PathVariable("appId") int appId,
                          HttpServletRequest req,
