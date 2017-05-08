@@ -27,7 +27,7 @@ public class ZPayService {
     /**
      * 掌易付支付接口
      */
-    public void pay(HttpServletResponse resp,  int userId, int appId, int money, int userOrderNo) {
+    public void pay(HttpServletResponse resp,  String userId, int appId, int money, String userOrderNo) {
         String partnerId = String.valueOf(userId);
         //String currency = "1000200010000000";
         String times = CommonUtils.getFormatDate("yyyyMMddHHmmss");
@@ -44,7 +44,7 @@ public class ZPayService {
         sb.append("currency="+ tempEntity.getCurrency() +"&");
         sb.append("sign=" + sign + "&");
         sb.append("cpparam=" + userOrderNo + "&");
-        sb.append("notifyUrl=http://139.196.51.152:8080/nodifyUrl&");
+        sb.append("notifyUrl=http://139.196.51.152:8080/xqh/financial/zpay/nodifyUrl/" + appId + "&");
         String name = null;
         try {
             name = java.net.URLEncoder.encode(tempEntity.getAppFeeName(),"utf-8");
@@ -67,7 +67,7 @@ public class ZPayService {
     public CallbackEntity genCallbackEntity(HttpServletRequest resp) {
         CallbackEntity callbackEntity = new CallbackEntity();
         callbackEntity.setOrderNo(resp.getParameter("orderid"));
-        callbackEntity.setPayUserId(Integer.valueOf(tempEntity.getUserId()));
+        callbackEntity.setPayUserId(tempEntity.getUserId());
         callbackEntity.setAppId(Integer.valueOf(resp.getParameter("appId")));
         callbackEntity.setPayType(1); // 暂时只有微信wap支付
         callbackEntity.setUserParam("1");// 目前只传1

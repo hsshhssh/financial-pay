@@ -1,14 +1,17 @@
 package com.xqh.financial.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by hssh on 2017/5/1.
@@ -60,6 +63,23 @@ public class CommonUtils {
             resp.sendError(status, msg);
         } catch (IOException e) {
             logger.error("sendError error:{}", e.toString());
+        }
+    }
+
+    public static void getRequestParam(HttpServletRequest rep, String url) {
+        Map<String, String[]> params = rep.getParameterMap();
+        String queryString = "";
+        for (String key : params.keySet()) {
+            String[] values = params.get(key);
+            for (int i = 0; i < values.length; i++) {
+                String value = values[i];
+                queryString += key + "=" + value + "&";
+            }
+        }
+        if(StringUtils.isNotBlank(queryString)) {
+            logger.info("{} Param:  {}" ,url, queryString.substring(0, queryString.length() - 1));
+        } else {
+            logger.info("{} Param: no param");
         }
     }
 

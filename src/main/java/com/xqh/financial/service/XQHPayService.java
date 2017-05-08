@@ -33,7 +33,7 @@ public class XQHPayService {
         String userParam = req.getParameter("userParam");
 
         PayEntity payEntity = new PayEntity();
-        payEntity.setPayUserId(Integer.valueOf(payUserIdStr));
+        payEntity.setPayUserId(payUserIdStr);
         payEntity.setAppId(Integer.valueOf(appIdStr));
         payEntity.setMoney(Integer.valueOf(moneyStr));
         payEntity.setTime(Integer.valueOf(timeStr));

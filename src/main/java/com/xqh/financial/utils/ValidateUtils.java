@@ -22,7 +22,7 @@ public class ValidateUtils {
      */
     public static void validateEntity(Object object) {
 
-        Set<ConstraintViolation<Object>> validateRes = validator.validate(object, object.getClass());
+        Set<ConstraintViolation<Object>> validateRes = validator.validate(object, new Class[]{});
         if(validateRes != null && validateRes.size() > 0) {
             StringBuilder sb = new StringBuilder();
             for (ConstraintViolation<Object> v : validateRes) {

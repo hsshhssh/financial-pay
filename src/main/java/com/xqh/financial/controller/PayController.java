@@ -71,6 +71,7 @@ public class PayController {
     @RequestMapping("/nodifyUrl")
     public int nodifyUrl(HttpServletRequest request) {
         //logger.info("nodifyUri result:{}", result);
+        logger.info(request.getRequestURI());
         Map<String, String[]> params = request.getParameterMap();
         String queryString = "";
         for (String key : params.keySet()) {

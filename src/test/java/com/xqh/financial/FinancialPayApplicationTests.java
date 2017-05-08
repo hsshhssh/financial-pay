@@ -1,6 +1,7 @@
 package com.xqh.financial;
 
 import com.google.common.collect.Lists;
+import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.UrlUtils;
 import org.junit.Test;
 
@@ -28,6 +29,9 @@ public class FinancialPayApplicationTests {
 
 
 		System.out.println(UrlUtils.UrlPage("adfadf"));
+
+		System.out.println(CommonUtils.getMd5("1000100020001163" + "3061" + "1" + "1494252321" + "A3F4A7E77AD7474E9105AD5B7DFB8240"));
+
 	}
 
 }

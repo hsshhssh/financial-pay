@@ -5,6 +5,7 @@ import com.xqh.financial.entity.other.PayEntity;
 import com.xqh.financial.entity.other.TempEntity;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.service.XQHPayService;
+import com.xqh.financial.service.ZPayService;
 import com.xqh.financial.utils.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +24,13 @@ public class XQHPayController implements IXQHPayController{
     private static Logger logger = LoggerFactory.getLogger(IXQHPayController.class);
 
     @Autowired
-    XQHPayService xqhPayService;
+    private XQHPayService xqhPayService;
 
     @Autowired
-    TempEntity tempEntity;
+    private TempEntity tempEntity;
+
+    @Autowired
+    private ZPayService zPayService;
 
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
@@ -46,7 +50,7 @@ public class XQHPayController implements IXQHPayController{
             return ;
         }
 
-
-
+        // 根据路由得到支付平台
+        zPayService.pay(resp, payEntity.getPayUserId(), payEntity.getAppId(), payEntity.getMoney(), payEntity.getUserOrderNo());
     }
 }

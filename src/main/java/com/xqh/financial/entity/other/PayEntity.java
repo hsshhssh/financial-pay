@@ -15,7 +15,7 @@ public class PayEntity {
 
     @Min(1)
     @NotNull
-    private Integer payUserId;
+    private String payUserId;
 
     @Min(1)
     @NotNull

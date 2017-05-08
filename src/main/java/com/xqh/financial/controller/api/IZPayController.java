@@ -1,5 +1,6 @@
 package com.xqh.financial.controller.api;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,8 +19,9 @@ public interface IZPayController {
      * @param req
      * @return
      */
-    @RequestMapping("/nodifyUrl")
+    @RequestMapping("/nodifyUrl/${appId}")
     public void nodifyUrl(@RequestParam(value="result", required = false) int result,
+                          @PathVariable("appId") int appId,
                          HttpServletRequest req,
                          HttpServletResponse resp);
 

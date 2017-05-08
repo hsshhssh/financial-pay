@@ -9,7 +9,7 @@ import lombok.Data;
 public class CallbackEntity {
 
     private String orderNo;
-    private Integer payUserId;
+    private String payUserId;
     private Integer appId;
     private Integer payType;
     private String userParam;
