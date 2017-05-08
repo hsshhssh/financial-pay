@@ -15,6 +15,11 @@ public class Constant {
      */
     public static int RESULT_INVALID_PARAM = 1004;
 
+    /**
+     * 用户取消支付
+     */
+    public static int RESULT_CANCEL_PAY= 1005;
+
 
     /**
      * 支付接口未知异常
