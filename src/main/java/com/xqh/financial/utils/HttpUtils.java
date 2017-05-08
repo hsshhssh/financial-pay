@@ -1,6 +1,7 @@
 package com.xqh.financial.utils;
 
 import com.xqh.financial.entity.other.HttpResult;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -11,6 +12,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -33,8 +36,10 @@ public class HttpUtils {
         if(response != null) {
             try {
                 httpResult.setStatus(response.getStatusLine().getStatusCode());
-                httpResult.setContent(response.getEntity().getContent().toString());
-                //EntityUtils.consume(entity1);
+                InputStream inputStream = response.getEntity().getContent();
+                StringWriter writer = new StringWriter();
+                IOUtils.copy(inputStream, writer, "utf-8");
+                httpResult.setContent(writer.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
