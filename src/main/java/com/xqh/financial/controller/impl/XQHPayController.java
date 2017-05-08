@@ -55,6 +55,15 @@ public class XQHPayController implements IXQHPayController{
 
         logger.info("payEntity:{}", payEntity);
 
+        // 校验sign
+        String sign = CommonUtils.getMd5(payEntity.getPayUserId() + payEntity.getAppId() + payEntity.getMoney() + payEntity.getTime() + tempEntity.getSecretKey());
+        if(sign != payEntity.getSign()) {
+            logger.error("新企航支付参数校验失败 payEntity:{}", payEntity);
+            xqhPayService.notifyResult(resp, tempEntity.getNotifyUrl(), Constant.RESULT_INVALID_SIGN);
+            return;
+        }
+
+        logger.info("发起支付");
         // 根据路由得到支付平台
         zPayService.pay(resp, payEntity.getPayUserId(), payEntity.getAppId(), payEntity.getMoney(), payEntity.getUserOrderNo());
     }

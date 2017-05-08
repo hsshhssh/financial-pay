@@ -11,6 +11,11 @@ public class Constant {
     public static int RESULT_SUCCESS = 1;
 
     /**
+     * 参数校验失败1001
+     */
+    public static int RESULT_INVALID_SIGN = 1001;
+
+    /**
      * 支付参数无效
      */
     public static int RESULT_INVALID_PARAM = 1004;
