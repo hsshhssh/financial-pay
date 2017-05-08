@@ -63,9 +63,11 @@ public class ZPayController implements IZPayController {
     @Override
     public void callback(HttpServletRequest req, HttpServletResponse resp) {
 
-        CommonUtils.getRequestParam(req, req.getRequestURI());
+        CommonUtils.getRequestParam(req, "掌易付回调");
 
         CallbackEntity callbackEntity = zPayService.genCallbackEntity(req);
+
+        logger.info("callbackEntity:{}", callbackEntity);
 
         StringBuilder sb = new StringBuilder();
         sb.append(tempEntity.getCallback() + "?");
@@ -77,8 +79,10 @@ public class ZPayController implements IZPayController {
         sb.append("userOrderNo=" + callbackEntity.getUserOrderNo() + "&");
         sb.append("sign=" + callbackEntity.getSign());
 
-        logger.info("callback url {}", sb.toString());
+        logger.info("回调商户 url {}", sb.toString());
         HttpResult httpResult = HttpUtils.get(sb.toString());
+
+        logger.info("回调商户返回值: {}", httpResult);
 
         try {
             resp.getWriter().print(httpResult.getContent());

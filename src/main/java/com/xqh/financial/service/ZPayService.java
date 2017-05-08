@@ -54,7 +54,7 @@ public class ZPayService {
         sb.append("appFeeName=" + name + "&");
         sb.append("paymode=1&");
         sb.append("times=" + times);
-        logger.info(sb.toString());
+        logger.info("请求掌易付支付接口：{}", sb.toString());
 
         try {
             resp.sendRedirect(sb.toString());

@@ -6,6 +6,7 @@ import com.xqh.financial.entity.other.TempEntity;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.service.XQHPayService;
 import com.xqh.financial.service.ZPayService;
+import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,8 @@ public class XQHPayController implements IXQHPayController{
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
 
+        CommonUtils.getRequestParam(req, "新企航支付请求");
+
         PayEntity payEntity = null;
 
         try {
@@ -49,6 +52,8 @@ public class XQHPayController implements IXQHPayController{
             xqhPayService.notifyResult(resp, tempEntity.getNotifyUrl(), Constant.RESULT_UNKNOWN_ERROR);
             return ;
         }
+
+        logger.info("payEntity:{}", payEntity);
 
         // 根据路由得到支付平台
         zPayService.pay(resp, payEntity.getPayUserId(), payEntity.getAppId(), payEntity.getMoney(), payEntity.getUserOrderNo());
