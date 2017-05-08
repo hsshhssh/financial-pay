@@ -17,9 +17,6 @@ public class TempEntity {
     @Value(path = "/config/zkconf/xqhpay.conf", key = "callback")
     private String callback;
 
-    @Value(path = "/config/zkconf/xqhpay.conf", key = "currency")
-    private String currency;
-
     @Value(path = "/config/zkconf/xqhpay.conf", key = "secretKey")
     private String secretKey;
 

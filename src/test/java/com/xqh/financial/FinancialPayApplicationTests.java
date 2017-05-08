@@ -30,7 +30,7 @@ public class FinancialPayApplicationTests {
 
 		System.out.println(UrlUtils.UrlPage("aaa?"));
 
-		System.out.println(CommonUtils.getMd5("1000100020001163" + "3061" + "1" + "1494252321" + "A3F4A7E77AD7474E9105AD5B7DFB8240"));
+		System.out.println(CommonUtils.getMd5("1000100020001163" + "3083" + "1" + "1494252321" + "B27E304EF78E40239D31A0EDF1CD3E49"));
 
 	}
 

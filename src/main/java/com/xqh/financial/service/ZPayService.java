@@ -29,11 +29,11 @@ public class ZPayService {
      */
     public void pay(HttpServletResponse resp,  String userId, int appId, int money, String userOrderNo) {
         String partnerId = String.valueOf(userId);
-        //String currency = "1000200010000000";
+        String currency = "1000200010000000";
         String times = CommonUtils.getFormatDate("yyyyMMddHHmmss");
         //String secretKey = "A3F4A7E77AD7474E9105AD5B7DFB8240";
 
-        String sign = CommonUtils.getMd5(partnerId + appId + tempEntity.getCurrency() + money+times + tempEntity.getSecretKey());
+        String sign = CommonUtils.getMd5(partnerId + appId + currency + money+times + tempEntity.getSecretKey());
 
         StringBuffer sb = new StringBuffer();
         sb.append("http://pay.csl2016.cn:8000/sp/theThirdPayWapEntrance.e?");
@@ -41,7 +41,7 @@ public class ZPayService {
         sb.append("appId="+ appId +"&");
         sb.append("money="+ money +"&");
         sb.append("qn=" + tempEntity.getQn() + "&");
-        sb.append("currency="+ tempEntity.getCurrency() +"&");
+        sb.append("currency="+ currency +"&");
         sb.append("sign=" + sign + "&");
         sb.append("cpparam=" + userOrderNo + "&");
         sb.append("notifyUrl=http://139.196.51.152:8080/xqh/financial/zpay/nodifyUrl/" + appId + "&");
