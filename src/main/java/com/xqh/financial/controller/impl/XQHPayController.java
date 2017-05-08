@@ -57,7 +57,7 @@ public class XQHPayController implements IXQHPayController{
 
         // 校验sign
         String sign = CommonUtils.getMd5(payEntity.getPayUserId() + payEntity.getAppId() + payEntity.getMoney() + payEntity.getTime() + tempEntity.getSecretKey());
-        if(sign != payEntity.getSign()) {
+        if(!sign.equals(payEntity.getSign())) {
             logger.error("新企航支付参数校验失败 payEntity:{}", payEntity);
             xqhPayService.notifyResult(resp, tempEntity.getNotifyUrl(), Constant.RESULT_INVALID_SIGN);
             return;
