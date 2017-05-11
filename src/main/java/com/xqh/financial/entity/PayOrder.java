@@ -21,6 +21,12 @@ public class PayOrder {
     private String orderNo;
 
     /**
+     * 订单流水号
+     */
+    @Column(name = "order_serial")
+    private Integer orderSerial;
+
+    /**
      * 用户id
      */
     @Column(name = "user_id")
@@ -64,8 +70,8 @@ public class PayOrder {
     /**
      * 应扣手续费 单位分
      */
-    @Column(name = "handling_charge")
-    private Integer handlingCharge;
+    @Column(name = "interest_rate")
+    private Integer interestRate;
 
     /**
      * 回调成功时间

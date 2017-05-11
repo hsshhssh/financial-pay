@@ -15,7 +15,7 @@ public class PayEntity {
 
     @Min(1)
     @NotNull
-    private String payUserId;
+    private Integer payUserId;
 
     @Min(1)
     @NotNull
@@ -33,7 +33,7 @@ public class PayEntity {
     @Max(1)
     private Integer payType;
 
-    @Length(min = 32, max = 32)
+    @Length(min = 1, max = 32)
     private String sign;
 
     @Length(max = 50)
@@ -41,5 +41,15 @@ public class PayEntity {
 
     @Length(max = 255)
     private String userParam;
+
+    /**
+     * 订单流水号
+     */
+    private Integer orderSerial;
+
+    /**
+     * 支付平台
+     */
+    private Integer platformId;
 
 }

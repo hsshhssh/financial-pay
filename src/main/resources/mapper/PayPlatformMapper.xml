@@ -12,10 +12,4 @@
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, platform_name, platform_code, pay_type, create_time, update_time
-  </sql>
 </mapper>

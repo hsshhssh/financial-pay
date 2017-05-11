@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xqh.financial.mapper.PayUserParamMapper" >
-  <resultMap id="BaseResultMap" type="com.xqh.financial.entity.PayUserParam" >
+<mapper namespace="com.xqh.financial.mapper.PayOrderSerialMapper" >
+  <resultMap id="BaseResultMap" type="com.xqh.financial.entity.PayOrderSerial" >
     <!--
       WARNING - @mbg.generated
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="app_id" property="appId" jdbcType="INTEGER" />
+    <result column="pay_type" property="payType" jdbcType="TINYINT" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+    <result column="platform_id" property="platformId" jdbcType="INTEGER" />
     <result column="user_order_no" property="userOrderNo" jdbcType="CHAR" />
     <result column="user_param" property="userParam" jdbcType="VARCHAR" />
+    <result column="request_time" property="requestTime" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>

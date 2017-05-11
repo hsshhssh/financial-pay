@@ -14,7 +14,7 @@ public class TempEntity {
     @Value(path = "/config/zkconf/xqhpay.conf", key = "notifyUrl")
     private String notifyUrl;
 
-    @Value(path = "/config/zkconf/xqhpay.conf", key = "callback")
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "callbackUrl")
     private String callback;
 
     @Value(path = "/config/zkconf/xqhpay.conf", key = "secretKey")

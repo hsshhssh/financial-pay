@@ -53,7 +53,7 @@ public class CommonUtils {
             //return buf.toString().substring(8, 24);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
 
     }
@@ -80,6 +80,14 @@ public class CommonUtils {
             logger.info("{} Param:  {}" ,url, queryString.substring(0, queryString.length() - 1));
         } else {
             logger.info("{} Param: no param");
+        }
+    }
+
+    public static void writeResponse(HttpServletResponse resp, Object object) {
+        try {
+            resp.getWriter().print(object);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

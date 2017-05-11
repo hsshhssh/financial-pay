@@ -14,10 +14,4 @@
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, username, password, name, phone, role, create_time, update_time
-  </sql>
 </mapper>

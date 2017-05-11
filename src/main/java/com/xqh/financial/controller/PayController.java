@@ -102,7 +102,7 @@ public class PayController {
                 queryString += key + "=" + value + "&";
             }
         }
-        logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
+        logger.info("/pay/callbackUrl param: " + queryString.substring(0, queryString.length() - 1));
         try {
             //Thread.sleep(20000);
             response.getWriter().print(0);

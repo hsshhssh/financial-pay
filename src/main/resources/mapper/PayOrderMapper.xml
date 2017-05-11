@@ -7,6 +7,7 @@
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="CHAR" />
+    <result column="order_serial" property="orderSerial" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="app_id" property="appId" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="INTEGER" />
@@ -14,17 +15,10 @@
     <result column="pay_type" property="payType" jdbcType="TINYINT" />
     <result column="callback_state" property="callbackState" jdbcType="TINYINT" />
     <result column="platform_order_no" property="platformOrderNo" jdbcType="CHAR" />
-    <result column="handling_charge" property="handlingCharge" jdbcType="INTEGER" />
+    <result column="interest_rate" property="interestRate" jdbcType="INTEGER" />
     <result column="callback_success_time" property="callbackSuccessTime" jdbcType="INTEGER" />
     <result column="callback_fail_time" property="callbackFailTime" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, order_no, user_id, app_id, money, platform_id, pay_type, callback_state, platform_order_no, 
-    handling_charge, callback_success_time, callback_fail_time, create_time, update_time
-  </sql>
 </mapper>

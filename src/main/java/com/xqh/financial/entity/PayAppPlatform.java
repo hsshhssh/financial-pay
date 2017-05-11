@@ -38,7 +38,7 @@ public class PayAppPlatform {
     private Integer state;
 
     /**
-     * 手续费比例 单位为%
+     * 手续费比例 单位万分之几
      */
     @Column(name = "interest_rate")
     private Integer interestRate;

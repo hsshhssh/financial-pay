@@ -15,11 +15,4 @@
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="upadte_time" property="upadteTime" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, user_id, app_id, zpay_parent_id, zpay_app_id, zpay_key, zpay_qn, create_time, 
-    upadte_time
-  </sql>
 </mapper>

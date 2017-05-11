@@ -9,14 +9,9 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="app_name" property="appName" jdbcType="CHAR" />
     <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR" />
+    <result column="nodify_url" property="nodifyUrl" jdbcType="VARCHAR" />
     <result column="key" property="key" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, user_id, app_name, callback_url, key, create_time, update_time
-  </sql>
 </mapper>

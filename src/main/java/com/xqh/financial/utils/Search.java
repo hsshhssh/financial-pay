@@ -1,9 +1,9 @@
 package com.xqh.financial.utils;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by hssh on 2017/5/3.
  */
-public abstract class Search implements Map<String, Object> {
+public  class Search extends HashMap<String, Object> {
 }

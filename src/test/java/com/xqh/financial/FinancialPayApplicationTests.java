@@ -32,6 +32,18 @@ public class FinancialPayApplicationTests {
 
 		System.out.println(CommonUtils.getMd5("1000100020001163" + "3083" + "1" + "1494252321" + "B27E304EF78E40239D31A0EDF1CD3E49"));
 
+		System.out.println(String.format("%010d", 1));
+		System.out.println(String.format("%010d", 10));
+		System.out.println(String.format("%010d", 100));
+		System.out.println(String.format("%010d", 1000));
+		System.out.println(String.format("%010d", 10000));
+		System.out.println(String.format("%010d", 10000));
+		System.out.println(String.format("%010d", 100000));
+		System.out.println(String.format("%010d", 1000000));
+		System.out.println(String.format("%010d", 10000000));
+		System.out.println(String.format("%010d", 100000000));
+		System.out.println(String.format("%010d", 1000000000));
+
 	}
 
 }

@@ -32,6 +32,9 @@ public class PayApp {
     @Column(name = "callback_url")
     private String callbackUrl;
 
+    @Column(name = "nodify_url")
+    private String nodifyUrl;
+
     /**
      * 应用秘钥
      */

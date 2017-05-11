@@ -14,10 +14,4 @@
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, app_id, platform_id, pay_type, state, interest_rate, create_time, update_time
-  </sql>
 </mapper>

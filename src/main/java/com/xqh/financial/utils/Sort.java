@@ -1,9 +1,9 @@
 package com.xqh.financial.utils;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by hssh on 2017/5/3.
  */
-public abstract class Sort implements List<String> {
+public class Sort extends ArrayList<String> {
 }
