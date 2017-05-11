@@ -136,7 +136,7 @@ public class ZPayService {
         callbackEntity.setUserParam(payOrderSerial.getUserParam());// 目前只传1
         callbackEntity.setUserOrderNo(payOrderSerial.getUserOrderNo());
 
-        String sign = CommonUtils.getMd5(callbackEntity.getOrderNo() + callbackEntity.getPayUserId() + callbackEntity.getAppId() + callbackEntity.getPayType() + payApp.getKey());
+        String sign = CommonUtils.getMd5(callbackEntity.getOrderNo() + callbackEntity.getPayUserId() + callbackEntity.getAppId() + callbackEntity.getPayType() + payApp.getSecretkey());
         callbackEntity.setSign(sign);
 
 

@@ -38,7 +38,8 @@ public class PayApp {
     /**
      * 应用秘钥
      */
-    private String key;
+    @Column(name = "secretKey")
+    private String secretkey;
 
     /**
      * 创建时间

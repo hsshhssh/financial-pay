@@ -81,7 +81,7 @@ public class XQHPayService {
 
 
         // 校验sign
-        String sign = CommonUtils.getMd5(payEntity.getPayUserId() + payEntity.getAppId() + payEntity.getMoney() + payEntity.getTime() + payApp.getKey());
+        String sign = CommonUtils.getMd5(payEntity.getPayUserId() + payEntity.getAppId() + payEntity.getMoney() + payEntity.getTime() + payApp.getSecretkey());
 
         if(!sign.equals(payEntity.getSign())) {
             logger.error("新企航支付参数校验失败 payEntity:{}", payEntity);

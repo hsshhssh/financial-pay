@@ -10,7 +10,7 @@
     <result column="app_name" property="appName" jdbcType="CHAR" />
     <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR" />
     <result column="nodify_url" property="nodifyUrl" jdbcType="VARCHAR" />
-    <result column="key" property="key" jdbcType="CHAR" />
+    <result column="secretKey" property="secretkey" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
