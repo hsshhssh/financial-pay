@@ -1,7 +1,9 @@
 package com.xqh.financial.service;
 
+import com.xqh.financial.entity.PayApp;
 import com.xqh.financial.entity.PayAppPlatform;
 import com.xqh.financial.mapper.PayAppPlatformMapper;
+import com.xqh.financial.utils.Constant;
 import com.xqh.financial.utils.ExampleBuilder;
 import com.xqh.financial.utils.Search;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,8 @@ public class AppPlatformService {
     @Autowired
     private PayAppPlatformMapper payAppPlatformMapper;
 
-    public PayAppPlatform selectByAppIdPlatformId(int appId, int platformId) {
+    public PayAppPlatform selectByAppIdPlatformId(int appId, int platformId)
+    {
         Search search = new Search();
         search.put("appId_eq", appId);
         search.put("platformId_eq", platformId);
@@ -30,5 +33,8 @@ public class AppPlatformService {
 
         return list.size() > 0 ? list.get(0) : null;
     }
+
+
+
 
 }

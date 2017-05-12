@@ -2,9 +2,11 @@ package com.xqh.financial.controller.impl;
 
 import com.xqh.financial.controller.api.IXQHPayController;
 import com.xqh.financial.entity.PayApp;
+import com.xqh.financial.entity.PayPlatform;
 import com.xqh.financial.entity.other.PayEntity;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.mapper.PayAppMapper;
+import com.xqh.financial.service.PayPlatformService;
 import com.xqh.financial.service.XQHPayService;
 import com.xqh.financial.service.ZPayService;
 import com.xqh.financial.utils.CommonUtils;
@@ -33,6 +35,9 @@ public class XQHPayController implements IXQHPayController{
 
     @Autowired
     private PayAppMapper payAppMapper;
+
+    @Autowired
+    private PayPlatformService payPlatformService;
 
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
@@ -77,8 +82,14 @@ public class XQHPayController implements IXQHPayController{
         }
 
         //TODO 根据路由得到支付平台
-        int platfomId = 1;
-        payEntity.setPlatformId(platfomId);
+        PayPlatform payPlatform = payPlatformService.selectValidRecordByAppIdPayType(payEntity.getAppId(), payEntity.getPayType());
+        if(null == payPlatform)
+        {
+            logger.error("无支付通道或者支付通道异常 appId:{}, payType:{}", payEntity.getAppId(), payEntity.getPayType());
+            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_NO_PAYTYPE);
+        }
+        payEntity.setPlatformId(payPlatform.getId());
+
 
         // 取得订到流水号
         xqhPayService.getOrderSerial(payEntity);

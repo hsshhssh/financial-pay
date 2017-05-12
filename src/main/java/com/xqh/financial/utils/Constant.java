@@ -21,6 +21,11 @@ public class Constant {
     public static int RESULT_TIME_OUT = 1002;
 
     /**
+     * 链接超时失效1002
+     */
+    public static int RESULT_NO_PAYTYPE = 1003;
+
+    /**
      * 支付参数无效
      */
     public static int RESULT_INVALID_PARAM = 1004;
@@ -47,4 +52,26 @@ public class Constant {
      */
     public static int CALLBACK_FAIL = 2;
 
+
+    /**
+     * 启动状态
+     */
+    public static int ENABLE_STATE = 1;
+
+
+    /**
+     * 禁用
+     */
+    public static int DISABLE_STATE = 2;
+
+    /**
+     * 成功状态
+     */
+    public static int SUCCESS_STATE = 1;
+
+
+    /**
+     * 失败状态
+     */
+    public static int FAIL_STATE = 2;
 }

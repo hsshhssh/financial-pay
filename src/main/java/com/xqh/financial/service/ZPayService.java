@@ -4,6 +4,7 @@ import com.xqh.financial.entity.*;
 import com.xqh.financial.entity.other.CallbackEntity;
 import com.xqh.financial.entity.other.HttpResult;
 import com.xqh.financial.mapper.PayAppMapper;
+import com.xqh.financial.mapper.PayCFRMapper;
 import com.xqh.financial.mapper.PayOrderMapper;
 import com.xqh.financial.mapper.PayOrderSerialMapper;
 import com.xqh.financial.utils.CommonUtils;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +49,7 @@ public class ZPayService {
     private AppPlatformService appPlatformService;
 
     @Autowired
-    private PayOrderService payOrderService;
+    private PayCFRMapper payCFRMapper;
 
 
     /**
@@ -109,6 +111,7 @@ public class ZPayService {
      * @param req
      * @return
      */
+    @Transactional
     public CallbackEntity insertOrderAndGenCallbackEntity(HttpServletRequest req) {
 
         Integer cporderid = Integer.parseInt(req.getParameter("cporderid"));
@@ -162,11 +165,24 @@ public class ZPayService {
         }
         payOrder.setInterestRate(appPlatform.getInterestRate());
 
-
         payOrderMapper.insertSelective(payOrder);
+
 
         callbackEntity.setOrderId(payOrder.getId());
         callbackEntity.setCallbackUrl(payApp.getCallbackUrl());
+
+        // 插入回调失败记录表
+        PayCFR payCFR = new PayCFR();
+        payCFR.setUserId(payOrderSerial.getUserId());
+        payCFR.setAppId(payOrderSerial.getAppId());
+        payCFR.setOrderNo(payOrder.getOrderNo());
+        payCFR.setMoney(payOrderSerial.getMoney());
+        payCFR.setCallbackUrl(genCallbackUrl(callbackEntity));
+        payCFR.setState(Constant.SUCCESS_STATE);
+        payCFR.setCreateTime(nowTime);
+        payCFR.setUpdateTime(nowTime);
+
+        payCFRMapper.insertSelective(payCFR);
 
         return callbackEntity;
     }
