@@ -68,18 +68,18 @@ public class XQHPayController implements IXQHPayController{
             logger.error("无效appId:{}", payEntity.getAppId());
             CommonUtils.writeResponse(resp, Constant.RESULT_INVALID_PARAM);
         }
-        if(payApp.getUserId() != payEntity.getPayUserId()) {
-            logger.error("无效用户Id:{}", payEntity.getPayUserId());
+        if(payApp.getUserId() != payEntity.getUserId()) {
+            logger.error("无效用户Id:{}", payEntity.getUserId());
             CommonUtils.writeResponse(resp, Constant.RESULT_INVALID_PARAM);
         }
 
         // 校验
-        int verifyRes = xqhPayService.verifyParam(payEntity, payApp);
-        if(verifyRes != 0) {
-            logger.error("校验不通过 payEntity:{}", payEntity);
-            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), verifyRes);
-            return ;
-        }
+        //int verifyRes = xqhPayService.verifyParam(payEntity, payApp);
+        //if(verifyRes != 0) {
+        //    logger.error("校验不通过 payEntity:{}", payEntity);
+        //    xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), verifyRes);
+        //    return ;
+        //}
 
         //TODO 根据路由得到支付平台
         PayPlatform payPlatform = payPlatformService.selectValidRecordByAppIdPayType(payEntity.getAppId(), payEntity.getPayType());
@@ -97,6 +97,6 @@ public class XQHPayController implements IXQHPayController{
 
         logger.info("发起支付 payEntity:{}", payEntity);
 
-        zPayService.pay(resp, payEntity.getPayUserId(), payEntity.getAppId(), payEntity.getMoney(), payEntity.getPayType(),payEntity.getOrderSerial(), payApp);
+        zPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(), payEntity.getPayType(),payEntity.getOrderSerial(), payApp);
     }
 }

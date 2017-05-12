@@ -105,7 +105,7 @@ public class PayController {
         logger.info("/pay/callbackUrl param: " + queryString.substring(0, queryString.length() - 1));
         try {
             //Thread.sleep(20000);
-            response.getWriter().print(0);
+            response.getWriter().print(1);
         } catch (IOException e) {
             throw new RuntimeException();
         //} catch (InterruptedException e) {

@@ -50,7 +50,7 @@ public class XQHPayService {
         String userParam = req.getParameter("userParam");
 
         PayEntity payEntity = new PayEntity();
-        payEntity.setPayUserId(Integer.valueOf(payUserIdStr));
+        payEntity.setUserId(Integer.valueOf(payUserIdStr));
         payEntity.setAppId(Integer.valueOf(appIdStr));
         payEntity.setMoney(Integer.valueOf(moneyStr));
         payEntity.setTime(Integer.valueOf(timeStr));
@@ -81,7 +81,7 @@ public class XQHPayService {
 
 
         // 校验sign
-        String sign = CommonUtils.getMd5(payEntity.getPayUserId() + payEntity.getAppId() + payEntity.getMoney() + payEntity.getTime() + payApp.getSecretkey());
+        String sign = CommonUtils.getMd5(payEntity.getUserId() + payEntity.getAppId() + payEntity.getMoney() + payEntity.getTime() + payApp.getSecretkey());
 
         if(!sign.equals(payEntity.getSign())) {
             logger.error("新企航支付参数校验失败 payEntity:{}", payEntity);
@@ -98,13 +98,14 @@ public class XQHPayService {
     public void getOrderSerial(PayEntity payEntity) {
 
         PayOrderSerial payOrderSerial = new PayOrderSerial();
-        payOrderSerial.setRequestTime(payEntity.getTime()/300);
+        payOrderSerial.setUserId(payEntity.getUserId());
         payOrderSerial.setAppId(payEntity.getAppId());
-        payOrderSerial.setUserOrderNo(payEntity.getUserOrderNo());
-        payOrderSerial.setUserParam(payEntity.getUserParam());
         payOrderSerial.setPayType(payEntity.getPayType());
         payOrderSerial.setMoney(payEntity.getMoney());
         payOrderSerial.setPlatformId(payEntity.getPlatformId());
+        payOrderSerial.setUserOrderNo(payEntity.getUserOrderNo());
+        payOrderSerial.setUserParam(payEntity.getUserParam());
+        payOrderSerial.setRequestTime(payEntity.getTime()/300);
 
         int orderSerial = orderSerialService.insert(payOrderSerial);
         logger.info("订单流水号 orderSerial:{}", orderSerial);

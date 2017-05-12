@@ -8,6 +8,7 @@ import com.xqh.financial.mapper.PayCFRMapper;
 import com.xqh.financial.mapper.PayOrderMapper;
 import com.xqh.financial.mapper.PayOrderSerialMapper;
 import com.xqh.financial.utils.CommonUtils;
+import com.xqh.financial.utils.ConfigParamsUtils;
 import com.xqh.financial.utils.Constant;
 import com.xqh.financial.utils.HttpUtils;
 import org.slf4j.Logger;
@@ -51,6 +52,9 @@ public class ZPayService {
     @Autowired
     private PayCFRMapper payCFRMapper;
 
+    @Autowired
+    private ConfigParamsUtils configParamsUtils;
+
 
     /**
      * 掌易付支付接口
@@ -65,6 +69,7 @@ public class ZPayService {
 
 
         String partnerId = payPZI.getZpayParentId();
+        int zpayAppId = payPZI.getZpayAppId();
         String currency = getCurrency(payType);
         String times = CommonUtils.getFormatDate("yyyyMMddHHmmss");
         String secretKey = payPZI.getZpayKey();
@@ -72,18 +77,18 @@ public class ZPayService {
         String paymode = getPaymode(payType);
         String appName = payApp.getAppName();
 
-        String sign = CommonUtils.getMd5(partnerId + appId + currency + money+times + secretKey);
+        String sign = CommonUtils.getMd5(partnerId + zpayAppId + currency + money+times + secretKey);
 
         StringBuffer sb = new StringBuffer();
         sb.append("http://pay.csl2016.cn:8000/sp/theThirdPayWapEntrance.e?");
         sb.append("partnerId=" + partnerId +"&");
-        sb.append("appId="+ appId +"&");
+        sb.append("appId="+ zpayAppId +"&");
         sb.append("money="+ money +"&");
         sb.append("qn=" + qn + "&");
         sb.append("currency="+ currency +"&");
         sb.append("sign=" + sign + "&");
         sb.append("cpparam=" + orderSerial + "&");
-        sb.append("notifyUrl=http://139.196.51.152:8080/xqh/financial/zpay/nodifyUrl/" + appId + "&");
+        sb.append("notifyUrl=" + configParamsUtils.getZpayNotifyHost() + "/xqh/financial/zpay/nodifyUrl/" + appId + "&");
         String name = null;
         try {
             name = java.net.URLEncoder.encode(appName, "utf-8");
@@ -115,6 +120,7 @@ public class ZPayService {
     public CallbackEntity insertOrderAndGenCallbackEntity(HttpServletRequest req) {
 
         Integer cporderid = Integer.parseInt(req.getParameter("cporderid"));
+        String platformOrderNo = req.getParameter("orderid");
 
         PayOrderSerial payOrderSerial = orderSerialMapper.selectByPrimaryKey(cporderid);
 
@@ -154,6 +160,7 @@ public class ZPayService {
         payOrder.setPlatformId(payOrderSerial.getPlatformId());
         payOrder.setPayType(payOrderSerial.getPayType());
         payOrder.setCallbackState(Constant.CALLBACK_FAIL); // 初始值为回调失败
+        payOrder.setPlatformOrderNo(platformOrderNo);
         payOrder.setCreateTime(nowTime);
         payOrder.setUpdateTime(nowTime);
 
@@ -176,13 +183,16 @@ public class ZPayService {
         payCFR.setUserId(payOrderSerial.getUserId());
         payCFR.setAppId(payOrderSerial.getAppId());
         payCFR.setOrderNo(payOrder.getOrderNo());
+        payCFR.setOrderId(payOrder.getId());
         payCFR.setMoney(payOrderSerial.getMoney());
         payCFR.setCallbackUrl(genCallbackUrl(callbackEntity));
-        payCFR.setState(Constant.SUCCESS_STATE);
+        payCFR.setState(Constant.FAIL_STATE);
         payCFR.setCreateTime(nowTime);
         payCFR.setUpdateTime(nowTime);
 
         payCFRMapper.insertSelective(payCFR);
+
+        callbackEntity.setCfrId(payCFR.getId());
 
         return callbackEntity;
     }
@@ -193,7 +203,6 @@ public class ZPayService {
         logger.info("回调商户异步操作开始 orderId:{}", callbackEntity.getOrderId());
 
         String url = genCallbackUrl(callbackEntity);
-        int orderId = callbackEntity.getOrderId();
 
         logger.info("回调商户 url {}", url);
         HttpResult httpResult = HttpUtils.get(url);
@@ -201,21 +210,45 @@ public class ZPayService {
         logger.info("回调商户返回值: {}", httpResult);
 
         // TODO 增加重试机制
-        int nowTime = (int) System.currentTimeMillis();
+        updateOrderStatus(httpResult, callbackEntity.getOrderId(), callbackEntity.getCfrId());
+
+        logger.info("回调商户异步操作结束 orderId:{}", callbackEntity.getOrderId());
+    }
+
+    @Transactional
+    private void updateOrderStatus(HttpResult httpResult, int orderId, int crfId)
+    {
+        int nowTime = (int) (System.currentTimeMillis()/1000);
         if("1".equals(httpResult.getContent()))
         {
             // 成功
             logger.info("orderId:{} 回调商户成功", orderId);
+
+            // 修改订单状态
             PayOrder payOrder = new PayOrder();
             payOrder.setId(orderId);
             payOrder.setCallbackState(Constant.CALLBACK_SUCCESS);
             payOrder.setCallbackSuccessTime(nowTime);
             payOrder.setUpdateTime(nowTime);
-            int res = payOrderMapper.updateByPrimaryKeySelective(payOrder);
-            if(res <= 0)
+            int resOrder = payOrderMapper.updateByPrimaryKeySelective(payOrder);
+            if(resOrder <= 0)
             {
-                logger.error("支付商户成功 修改订单状态失败 orderId:{}", orderId);
+                logger.error("回调商户成功 修改订单状态失败 orderId:{}", orderId);
             }
+
+            // 修改回调记录状态
+            PayCFR payCFR = new PayCFR();
+            payCFR.setId(crfId);
+            payCFR.setState(Constant.SUCCESS_STATE);
+            payCFR.setSuccessTime(nowTime);
+            payCFR.setLastCallTime(nowTime);
+            payCFR.setUpdateTime(nowTime);
+            int resCRF = payCFRMapper.updateByPrimaryKeySelective(payCFR);
+            if(resCRF <= 0)
+            {
+                logger.error("回调商户商户成功 修改回调状态失败 payCFRId:{}", crfId);
+            }
+
         }
         else
         {
@@ -229,12 +262,23 @@ public class ZPayService {
             int res = payOrderMapper.updateByPrimaryKeySelective(payOrder);
             if(res <= 0)
             {
-                logger.error("支付商户成功 修改订单状态失败 orderId:{}", orderId);
+                logger.error("回调商户失败 修改订单状态失败 orderId:{}", orderId);
             }
 
-        }
+            // 修改回调记录状态
+            PayCFR payCFR = new PayCFR();
+            payCFR.setId(crfId);
+            payCFR.setState(Constant.FAIL_STATE);
+            payCFR.setLastCallTime(nowTime);
+            payCFR.setUpdateTime(nowTime);
+            int resCRF = payCFRMapper.updateByPrimaryKeySelective(payCFR);
+            if(resCRF <= 0)
+            {
+                logger.error("回调商户失败 修改回调状态失败 payCFRId:{}", crfId);
+            }
 
-        logger.info("回调商户异步操作结束 orderId:{}", callbackEntity.getOrderId());
+
+        }
     }
 
 
@@ -248,7 +292,7 @@ public class ZPayService {
         StringBuilder sb = new StringBuilder();
         sb.append(callbackEntity.getCallbackUrl() + "?");
         sb.append("orderNo=" + callbackEntity.getOrderNo() + "&");
-        sb.append("payUserId=" + callbackEntity.getPayUserId() + "&");
+        sb.append("userId=" + callbackEntity.getPayUserId() + "&");
         sb.append("appId=" + callbackEntity.getAppId() + "&");
         sb.append("payType=" + callbackEntity.getPayType() + "&");
         sb.append("userParam=" + callbackEntity.getUserParam() + "&");

@@ -33,6 +33,12 @@ public class PayCFR {
     private String orderNo;
 
     /**
+     * 订单id
+     */
+    @Column(name = "order_id")
+    private Integer orderId;
+
+    /**
      * 金额（单位分）
      */
     private Integer money;

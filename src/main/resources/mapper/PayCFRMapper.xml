@@ -9,6 +9,7 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="app_id" property="appId" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="CHAR" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="INTEGER" />
     <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="TINYINT" />

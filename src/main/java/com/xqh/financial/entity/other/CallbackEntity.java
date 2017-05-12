@@ -18,6 +18,7 @@ public class CallbackEntity {
 
     private Integer orderId;
     private String callbackUrl;
+    private Integer cfrId;
 
 
 }
