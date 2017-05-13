@@ -83,6 +83,7 @@ public class ZPayController implements IZPayController {
         if(null == callbackEntity) {
             logger.error("掌易付回调异常 callbackEntity=null");
             CommonUtils.writeResponse(resp, 1);
+            return ;
         }
 
         // 掌易付回调成功
