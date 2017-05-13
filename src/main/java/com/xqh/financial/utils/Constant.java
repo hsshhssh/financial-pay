@@ -37,6 +37,12 @@ public class Constant {
 
 
     /**
+     * 订单重复支付
+     */
+    public static int RESULT_REPEAT_PAY= 1006;
+
+
+    /**
      * 支付接口未知异常
      */
     public static int RESULT_UNKNOWN_ERROR = 1100;

@@ -4,6 +4,7 @@ import com.xqh.financial.controller.api.IXQHPayController;
 import com.xqh.financial.entity.PayApp;
 import com.xqh.financial.entity.PayAppPlatform;
 import com.xqh.financial.entity.other.PayEntity;
+import com.xqh.financial.exception.RepeatPayException;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.mapper.PayAppMapper;
 import com.xqh.financial.service.AppPlatformService;
@@ -51,13 +52,18 @@ public class XQHPayController implements IXQHPayController{
         // 取得支付实体类
         PayEntity payEntity = null;
 
-        try {
+        try
+        {
             payEntity = xqhPayService.genPayEntity(req);
-        } catch (ValidationException ve) {
+        }
+        catch (ValidationException ve)
+        {
             logger.error("支付接口参数不符合要求 msg:{}", ve.getMessage());
             CommonUtils.writeResponse(resp, Constant.RESULT_INVALID_PARAM);
             return ;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             logger.error("转换参数 未知异常 {}", e.getMessage());
             CommonUtils.writeResponse(resp, Constant.RESULT_UNKNOWN_ERROR);
@@ -68,20 +74,23 @@ public class XQHPayController implements IXQHPayController{
 
         // 校验应用、用户信息
         PayApp payApp = payAppMapper.selectByPrimaryKey(payEntity.getAppId());
-        if(null == payApp) {
+        if(null == payApp)
+        {
             logger.error("无效appId:{}", payEntity.getAppId());
             CommonUtils.writeResponse(resp, Constant.RESULT_INVALID_PARAM);
             return ;
         }
-        if(payApp.getUserId() != payEntity.getUserId()) {
+        if(payApp.getUserId() != payEntity.getUserId())
+        {
             logger.error("无效用户Id:{}", payEntity.getUserId());
             CommonUtils.writeResponse(resp, Constant.RESULT_INVALID_PARAM);
             return ;
         }
 
-        // 校验
+        //// 校验
         //int verifyRes = xqhPayService.verifyParam(payEntity, payApp);
-        //if(verifyRes != 0) {
+        //if(verifyRes != 0)
+        //{
         //    logger.error("校验不通过 payEntity:{}", payEntity);
         //    xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), verifyRes);
         //    return ;
@@ -93,12 +102,23 @@ public class XQHPayController implements IXQHPayController{
         {
             logger.error("无支付通道或者支付通道异常 appId:{}, payType:{}", payEntity.getAppId(), payEntity.getPayType());
             xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_NO_PAYTYPE);
+            return ;
         }
         payEntity.setPlatformId(payAppPlatform.getPlatformId());
 
 
         // 取得订到流水号
-        xqhPayService.getOrderSerial(payEntity);
+        try
+        {
+            xqhPayService.getOrderSerial(payEntity);
+        }
+        catch (RepeatPayException e)
+        {
+            //e.printStackTrace();
+            logger.error("订单重复支付 userOrderNo:{} msg:{}", payEntity.getUserOrderNo(), e.getMessage());
+            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_REPEAT_PAY);
+            return;
+        }
 
 
         logger.info("发起支付 payEntity:{}", payEntity);

@@ -3,6 +3,7 @@ package com.xqh.financial.service;
 import com.xqh.financial.entity.PayApp;
 import com.xqh.financial.entity.PayOrderSerial;
 import com.xqh.financial.entity.other.PayEntity;
+import com.xqh.financial.exception.RepeatPayException;
 import com.xqh.financial.mapper.PayAppMapper;
 import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.Constant;
@@ -95,7 +96,8 @@ public class XQHPayService {
      * 取得订单流水号
      * @param payEntity
      */
-    public void getOrderSerial(PayEntity payEntity) {
+    public void getOrderSerial(PayEntity payEntity) throws RepeatPayException
+    {
 
         PayOrderSerial payOrderSerial = new PayOrderSerial();
         payOrderSerial.setUserId(payEntity.getUserId());

@@ -1,6 +1,8 @@
 package com.xqh.financial.service;
 
+import com.xqh.financial.entity.PayOrder;
 import com.xqh.financial.entity.PayOrderSerial;
+import com.xqh.financial.exception.RepeatPayException;
 import com.xqh.financial.mapper.PayOrderSerialMapper;
 import com.xqh.financial.utils.ExampleBuilder;
 import com.xqh.financial.utils.Search;
@@ -25,7 +27,16 @@ public class OrderSerialService {
     @Autowired
     private PayOrderSerialMapper orderSerialMapper;
 
-    public int insert(PayOrderSerial payOrderSerial) {
+    @Autowired
+    private PayOrderService payOrderService;
+
+
+    /**
+     *
+     * @param payOrderSerial
+     * @return
+     */
+    public int insert(PayOrderSerial payOrderSerial) throws RepeatPayException{
 
         int nowTime = (int) (System.currentTimeMillis()/1000);
         payOrderSerial.setCreateTime(nowTime);
@@ -37,6 +48,14 @@ public class OrderSerialService {
             //e.printStackTrace();
             PayOrderSerial serial = selectOne(payOrderSerial.getAppId(), payOrderSerial.getUserOrderNo(), payOrderSerial.getRequestTime());
             logger.warn("支付重复请求 orderSerial:{} appId:{} request_time:{},user_order_no:{}", serial.getId(), serial.getAppId(), serial.getRequestTime(), serial.getUserOrderNo());
+
+            // 判断订单是否已经支付
+            PayOrder payOrder = payOrderService.selectByOrderSerial(serial.getId());
+            if(payOrder != null)
+            {
+                throw new RepeatPayException(String.format("订单流水号 orderSerial:" + serial.getId() + " 重复支付"));
+            }
+
             return serial.getId();
         }
 
