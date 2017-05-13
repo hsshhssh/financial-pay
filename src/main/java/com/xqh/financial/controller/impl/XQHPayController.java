@@ -99,6 +99,6 @@ public class XQHPayController implements IXQHPayController{
 
         logger.info("发起支付 payEntity:{}", payEntity);
 
-        zPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),,payEntity.getOrderSerial(), payEntity.getPayType() payApp);
+        zPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
     }
 }
