@@ -67,10 +67,12 @@ public class XQHPayController implements IXQHPayController{
         if(null == payApp) {
             logger.error("无效appId:{}", payEntity.getAppId());
             CommonUtils.writeResponse(resp, Constant.RESULT_INVALID_PARAM);
+            return ;
         }
         if(payApp.getUserId() != payEntity.getUserId()) {
             logger.error("无效用户Id:{}", payEntity.getUserId());
             CommonUtils.writeResponse(resp, Constant.RESULT_INVALID_PARAM);
+            return ;
         }
 
         // 校验
