@@ -88,13 +88,13 @@ public class XQHPayController implements IXQHPayController{
         }
 
         //// 校验
-        //int verifyRes = xqhPayService.verifyParam(payEntity, payApp);
-        //if(verifyRes != 0)
-        //{
-        //    logger.error("校验不通过 payEntity:{}", payEntity);
-        //    xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), verifyRes);
-        //    return ;
-        //}
+        int verifyRes = xqhPayService.verifyParam(payEntity, payApp);
+        if(verifyRes != 0)
+        {
+            logger.error("校验不通过 payEntity:{}", payEntity);
+            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), verifyRes);
+            return ;
+        }
 
         //TODO 根据路由得到支付平台
         PayAppPlatform payAppPlatform = appPlatformService.selectValidRecordByAppIdPayType(payEntity.getAppId(), payEntity.getPayType());

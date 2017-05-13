@@ -5,10 +5,7 @@ import com.xqh.financial.entity.PayOrderSerial;
 import com.xqh.financial.entity.other.PayEntity;
 import com.xqh.financial.exception.RepeatPayException;
 import com.xqh.financial.mapper.PayAppMapper;
-import com.xqh.financial.utils.CommonUtils;
-import com.xqh.financial.utils.Constant;
-import com.xqh.financial.utils.UrlUtils;
-import com.xqh.financial.utils.ValidateUtils;
+import com.xqh.financial.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,9 @@ public class XQHPayService {
 
     @Autowired
     private PayAppMapper payAppMapper;
+
+    @Autowired
+    private ConfigParamsUtils paramsUtils;
 
     /**
      * 从请求参数中获得约定的支付参数
@@ -72,6 +72,12 @@ public class XQHPayService {
      * @param payEntity
      */
     public int verifyParam(PayEntity payEntity, PayApp payApp) {
+
+        if("1".equals(paramsUtils.getDebugFlag())
+        {
+            logger.info("跳过支付参数校验");
+            return 0;
+        }
 
         // 校验时间
         int nowTime = (int) (currentTimeMillis()/1000);

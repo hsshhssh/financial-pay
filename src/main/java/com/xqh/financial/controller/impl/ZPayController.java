@@ -51,15 +51,16 @@ public class ZPayController implements IZPayController {
         }
 
         int res;
-        if(1 == result) {
+        if(1 == result)
+        {
             // 成功
             logger.info("支付成功 appId:{}", appId);
             res = Constant.RESULT_SUCCESS;
-        } else if(0 == result) {
+        } else if(2 == result) {
             logger.info("用户取消支付 appId:{}", appId);
             res = Constant.RESULT_CANCEL_PAY;
         } else {
-            logger.info("未知异常 appId:{}, result:{}", result);
+            logger.info("未知异常 appId:{}, result:{}",appId, result);
             res = Constant.RESULT_UNKNOWN_ERROR;
         }
         xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), res);
