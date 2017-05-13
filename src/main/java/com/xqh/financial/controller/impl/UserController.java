@@ -5,6 +5,7 @@ import com.xqh.financial.entity.PayUser;
 import com.xqh.financial.entity.dto.PayUserCreateDTO;
 import com.xqh.financial.entity.dto.PayUserUpdateDTO;
 import com.xqh.financial.entity.vo.PayUserVO;
+import com.xqh.financial.mapper.PayUserMapper;
 import com.xqh.financial.service.UserService;
 import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.DozerUtils;
@@ -13,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -32,6 +31,9 @@ public class UserController implements IUserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PayUserMapper payUserMapper;
 
     @Override
     public int insert(@RequestBody @Valid PayUserCreateDTO user,
@@ -56,5 +58,11 @@ public class UserController implements IUserController {
     @Override
     public List<PayUserVO> queryList(@RequestParam("search") Search search, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") @Max(1000) Integer size) {
         return null;
+    }
+
+    @GetMapping("/{id}")
+    public PayUser get(@PathVariable("id") int id)
+    {
+        return  payUserMapper.selectByPrimaryKey(id);
     }
 }
