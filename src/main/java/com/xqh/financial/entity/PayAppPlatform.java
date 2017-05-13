@@ -27,6 +27,12 @@ public class PayAppPlatform {
     private Integer platformId;
 
     /**
+     * 支付平台编码
+     */
+    @Column(name = "platform_code")
+    private String platformCode;
+
+    /**
      * 支付方式 冗余字段
      */
     @Column(name = "pay_type")

@@ -2,10 +2,11 @@ package com.xqh.financial.controller.impl;
 
 import com.xqh.financial.controller.api.IXQHPayController;
 import com.xqh.financial.entity.PayApp;
-import com.xqh.financial.entity.PayPlatform;
+import com.xqh.financial.entity.PayAppPlatform;
 import com.xqh.financial.entity.other.PayEntity;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.mapper.PayAppMapper;
+import com.xqh.financial.service.AppPlatformService;
 import com.xqh.financial.service.PayPlatformService;
 import com.xqh.financial.service.XQHPayService;
 import com.xqh.financial.service.ZPayService;
@@ -38,6 +39,9 @@ public class XQHPayController implements IXQHPayController{
 
     @Autowired
     private PayPlatformService payPlatformService;
+
+    @Autowired
+    private AppPlatformService appPlatformService;
 
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
@@ -84,13 +88,13 @@ public class XQHPayController implements IXQHPayController{
         //}
 
         //TODO 根据路由得到支付平台
-        PayPlatform payPlatform = payPlatformService.selectValidRecordByAppIdPayType(payEntity.getAppId(), payEntity.getPayType());
-        if(null == payPlatform)
+        PayAppPlatform payAppPlatform = appPlatformService.selectValidRecordByAppIdPayType(payEntity.getAppId(), payEntity.getPayType());
+        if(null == payAppPlatform)
         {
             logger.error("无支付通道或者支付通道异常 appId:{}, payType:{}", payEntity.getAppId(), payEntity.getPayType());
             xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_NO_PAYTYPE);
         }
-        payEntity.setPlatformId(payPlatform.getId());
+        payEntity.setPlatformId(payAppPlatform.getPlatformId());
 
 
         // 取得订到流水号
@@ -99,6 +103,16 @@ public class XQHPayController implements IXQHPayController{
 
         logger.info("发起支付 payEntity:{}", payEntity);
 
-        zPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
+        if(Constant.ZPAY_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
+        {
+            logger.info("掌易付支付通道 payEntity:{}", payEntity);
+            zPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
+        }
+        else
+        {
+            logger.error("支付通道无效 payAppPlayform: {}", payAppPlatform);
+            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_NO_PAYTYPE);
+        }
+
     }
 }

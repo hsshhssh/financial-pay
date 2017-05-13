@@ -74,4 +74,12 @@ public class Constant {
      * 失败状态
      */
     public static int FAIL_STATE = 2;
+
+
+    /**
+     * 掌易付支付通道
+     */
+    public static String ZPAY_CHANNEL_CODE = "0001";
+
+
 }

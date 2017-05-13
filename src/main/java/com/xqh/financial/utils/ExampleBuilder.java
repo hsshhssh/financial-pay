@@ -15,11 +15,11 @@ public class ExampleBuilder {
 
     public Example example;
 
-    public Search search;
+    private Search search;
 
-    public Fields fields;
+    private Fields fields;
 
-    public Sort sort;
+    private Sort sort;
 
     public Class<?> entityClass;
 
@@ -44,6 +44,9 @@ public class ExampleBuilder {
     }
 
     public Example build() {
+        buildFields();
+        buildSearch();
+        buildSort();
         return this.example;
     }
 

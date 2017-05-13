@@ -36,7 +36,7 @@ public class OrderSerialService {
         } catch (DuplicateKeyException e) {
             //e.printStackTrace();
             PayOrderSerial serial = selectOne(payOrderSerial.getAppId(), payOrderSerial.getUserOrderNo(), payOrderSerial.getRequestTime());
-            logger.warn("支付重复请求 orderSerial:{}", serial.getId());
+            logger.warn("支付重复请求 orderSerial:{} appId:{} request_time:{},user_order_no:{}", serial.getId(), serial.getAppId(), serial.getRequestTime(), serial.getUserOrderNo());
             return serial.getId();
         }
 

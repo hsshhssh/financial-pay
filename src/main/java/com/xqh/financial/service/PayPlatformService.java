@@ -21,31 +21,6 @@ public class PayPlatformService {
     private PayPlatformMapper payPlatformMapper;
 
 
-    /**
-     * 注意当存在多个有效的支付平台是 返回为null
-     * @param appId
-     * @param payType
-     * @return
-     */
-    public PayPlatform selectValidRecordByAppIdPayType(int appId, int payType)
-    {
-        Search search = new Search();
-        search.put("appId_eq", appId);
-        search.put("payType_eq", payType);
-        search.put("state_eq", Constant.ENABLE_STATE);
 
-        Example example = new ExampleBuilder(PayPlatform.class).search(search).build();
-
-        List<PayPlatform> list = payPlatformMapper.selectByExample(example);
-
-        if(list.size() == 1)
-        {
-            return list.get(0);
-        }
-        else
-        {
-            return null;
-        }
-    }
 
 }
