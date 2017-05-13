@@ -29,6 +29,7 @@
 		<guava.version>19.0</guava.version>
 
 		<zkdb.version>0.0.1-SNAPSHOT</zkdb.version>
+		<print.sql.version>0.0.1-SNAPSHOT</print.sql.version>
 
 		<springfox.swagger2.version>2.2.2</springfox.swagger2.version>
 		<springfox.swagger.ui.version>2.2.2</springfox.swagger.ui.version>
@@ -54,6 +55,12 @@
 			<groupId>org.hssh.common</groupId>
 			<artifactId>zkdb-starter</artifactId>
 			<version>${zkdb.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hssh.common</groupId>
+			<artifactId>print-sql-starter</artifactId>
+			<version>${print.sql.version}</version>
 		</dependency>
 
 		<dependency>
