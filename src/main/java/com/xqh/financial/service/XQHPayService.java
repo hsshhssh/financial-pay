@@ -73,7 +73,7 @@ public class XQHPayService {
      */
     public int verifyParam(PayEntity payEntity, PayApp payApp) {
 
-        if("1".equals(paramsUtils.getDebugFlag())
+        if("1".equals(paramsUtils.getDebugFlag()))
         {
             logger.info("跳过支付参数校验");
             return 0;
