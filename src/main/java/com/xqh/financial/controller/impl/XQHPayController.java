@@ -108,17 +108,17 @@ public class XQHPayController implements IXQHPayController{
 
 
         // 取得订到流水号
-        try
-        {
+        //try
+        //{
             xqhPayService.getOrderSerial(payEntity);
-        }
-        catch (RepeatPayException e)
-        {
-            //e.printStackTrace();
-            logger.error("订单重复支付 userOrderNo:{} msg:{}", payEntity.getUserOrderNo(), e.getMessage());
-            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_REPEAT_PAY);
-            return;
-        }
+        //}
+        //catch (RepeatPayException e)
+        //{
+        //    //e.printStackTrace();
+        //    logger.error("订单重复支付 userOrderNo:{} msg:{}", payEntity.getUserOrderNo(), e.getMessage());
+        //    xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_REPEAT_PAY);
+        //    return;
+        //}
 
 
         logger.info("发起支付 payEntity:{}", payEntity);
