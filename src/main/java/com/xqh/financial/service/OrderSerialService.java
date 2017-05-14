@@ -42,23 +42,6 @@ public class OrderSerialService {
         payOrderSerial.setCreateTime(nowTime);
         payOrderSerial.setUpdateTime(nowTime);
 
-        /*try {
-            orderSerialMapper.insertSelective(payOrderSerial);
-        } catch (DuplicateKeyException e) {
-            //e.printStackTrace();
-            PayOrderSerial serial = selectOne(payOrderSerial.getAppId(), payOrderSerial.getUserOrderNo(), payOrderSerial.getRequestTime());
-            logger.warn("支付重复请求 orderSerial:{} appId:{} request_time:{},user_order_no:{}", serial.getId(), serial.getAppId(), serial.getRequestTime(), serial.getUserOrderNo());
-
-            // 判断订单是否已经支付
-            PayOrder payOrder = payOrderService.selectByOrderSerial(serial.getId());
-            if(payOrder != null)
-            {
-                throw new RepeatPayException(String.format("订单流水号 orderSerial:" + serial.getId() + " 重复支付"));
-            }
-
-            return serial.getId();
-        }*/
-
         orderSerialMapper.insertSelective(payOrderSerial);
 
         return payOrderSerial.getId();
