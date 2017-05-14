@@ -2,6 +2,7 @@ package com.xqh.financial;
 
 import com.google.common.collect.Lists;
 import com.xqh.financial.utils.CommonUtils;
+import com.xqh.financial.utils.DoubleUtils;
 import com.xqh.financial.utils.UrlUtils;
 import org.junit.Test;
 
@@ -43,6 +44,11 @@ public class FinancialPayApplicationTests {
 		System.out.println(String.format("%010d", 10000000));
 		System.out.println(String.format("%010d", 100000000));
 		System.out.println(String.format("%010d", 1000000000));
+
+
+		System.out.println(CommonUtils.getZeroHourTime(0));
+
+		System.out.println(DoubleUtils.mul(1, DoubleUtils.div(200, 10000)));
 
 	}
 

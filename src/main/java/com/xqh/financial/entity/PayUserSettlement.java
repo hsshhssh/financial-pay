@@ -24,19 +24,19 @@ public class PayUserSettlement {
      * 总金额
      */
     @Column(name = "total_money")
-    private Integer totalMoney;
+    private Double totalMoney;
 
     /**
      * 总手续费
      */
     @Column(name = "total_handling_charge")
-    private Integer totalHandlingCharge;
+    private Double totalHandlingCharge;
 
     /**
      * 应结总金额
      */
     @Column(name = "settlement_money")
-    private Integer settlementMoney;
+    private Double settlementMoney;
 
     /**
      * 创建时间

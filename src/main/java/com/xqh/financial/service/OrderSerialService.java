@@ -42,7 +42,7 @@ public class OrderSerialService {
         payOrderSerial.setCreateTime(nowTime);
         payOrderSerial.setUpdateTime(nowTime);
 
-        try {
+        /*try {
             orderSerialMapper.insertSelective(payOrderSerial);
         } catch (DuplicateKeyException e) {
             //e.printStackTrace();
@@ -57,7 +57,9 @@ public class OrderSerialService {
             }
 
             return serial.getId();
-        }
+        }*/
+
+        orderSerialMapper.insertSelective(payOrderSerial);
 
         return payOrderSerial.getId();
 
