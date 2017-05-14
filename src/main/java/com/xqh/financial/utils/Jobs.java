@@ -36,34 +36,71 @@ public class Jobs
     @Autowired
     PayUserSettlementMapper userSettlementMapper;
 
-    @Scheduled(cron = "0 0 1 * * ? *")
+    @Scheduled(cron = "0 0 1 * * ? ")
     public void settlement()
     {
         int nowTime = (int) (System.currentTimeMillis()/1000);
         logger.info("结算开始 当前时间: {}", nowTime);
 
+        // 取得昨天的订单
+        List<PayOrder> orderList = getOrderListByDay(-1);
+        logger.info("昨天订单数 size:{}", orderList.size());
+
+        Map<Integer, PayAppSettlement> appSettlementMap = getAppSettlement(orderList);
+
+        Map<Integer, PayUserSettlement> userSettlementMap = getUserSettlement(orderList);
+
+
+        // 入库
+        for (Integer appId : appSettlementMap.keySet())
+        {
+            appSettlementMapper.insertSelective(appSettlementMap.get(appId));
+        }
+
+        for(Integer userId : userSettlementMap.keySet())
+        {
+            userSettlementMapper.insertSelective(userSettlementMap.get(userId));
+        }
+
+    }
+
+
+    /**
+     * 取得订单列表
+     * @param day 0今天  -1昨天 依次类推
+     * @return
+     */
+    public List<PayOrder> getOrderListByDay(int day)
+    {
         Search search = new Search();
-        search.put("createTime_gt", CommonUtils.getZeroHourTime(-1));
-        search.put("createTime_lt", CommonUtils.getZeroHourTime(0));
+        search.put("createTime_gt", CommonUtils.getZeroHourTime(day));
+        search.put("createTime_lt", CommonUtils.getZeroHourTime(day + 1));
 
         Example example = new ExampleBuilder(PayOrder.class).search(search).build();
 
         List<PayOrder> orderList = payOrderMapper.selectByExample(example);
+
+        return orderList;
+    }
+
+
+    /**
+     * 应用结算
+     * @param orderList
+     * @return
+     */
+    public Map<Integer, PayAppSettlement> getAppSettlement(List<PayOrder> orderList)
+    {
+        int nowTime = (int) (System.currentTimeMillis()/1000);
 
         // appId=>payOrder
         Multimap<Integer, PayOrder> appOrderMap = ArrayListMultimap.create();
         // appId=>payAppSettlement
         Map<Integer, PayAppSettlement> appSettlementMap = Maps.newHashMap();
 
-        // userId=>payOrder
-        Multimap<Integer, PayOrder> userOrderMap = ArrayListMultimap.create();
-        // appId=>payAppSettlement
-        Map<Integer, PayUserSettlement> userSettlementMap = Maps.newHashMap();
-
         for (PayOrder payOrder : orderList)
         {
             appOrderMap.put(payOrder.getAppId(), payOrder);
-            userOrderMap.put(payOrder.getUserId(), payOrder);
         }
 
         // 应用结算
@@ -93,6 +130,29 @@ public class Jobs
 
         }
 
+        return appSettlementMap;
+    }
+
+    /**
+     * 用户结算
+     * @param orderList
+     * @return
+     */
+    public Map<Integer, PayUserSettlement> getUserSettlement(List<PayOrder> orderList)
+    {
+        int nowTime = (int) (System.currentTimeMillis()/1000);
+
+        // userId=>payOrder
+        Multimap<Integer, PayOrder> userOrderMap = ArrayListMultimap.create();
+        // appId=>payAppSettlement
+        Map<Integer, PayUserSettlement> userSettlementMap = Maps.newHashMap();
+
+        for (PayOrder payOrder : orderList)
+        {
+            userOrderMap.put(payOrder.getUserId(), payOrder);
+        }
+
+
         // 用户结算
         for (Integer userId : userOrderMap.keySet())
         {
@@ -117,19 +177,8 @@ public class Jobs
             userSettlementMap.put(userId, payUserSettlement);
         }
 
-
-        // 入库
-        for (Integer appId : appSettlementMap.keySet())
-        {
-            appSettlementMapper.insertSelective(appSettlementMap.get(appId));
-        }
-
-        for(Integer userId : userSettlementMap.keySet())
-        {
-            userSettlementMapper.insertSelective(userSettlementMap.get(userId));
-        }
+        return userSettlementMap;
 
     }
-
 
 }

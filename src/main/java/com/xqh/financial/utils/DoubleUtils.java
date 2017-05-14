@@ -1,6 +1,7 @@
 package com.xqh.financial.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Created by hssh on 2017/5/13.
@@ -24,7 +25,7 @@ public class DoubleUtils
         BigDecimal abd = new BigDecimal(a);
         BigDecimal bbd = new BigDecimal(b);
 
-        return abd.multiply(bbd).doubleValue();
+        return abd.multiply(bbd).setScale(4, RoundingMode.HALF_UP).doubleValue();
 
     }
 
@@ -50,7 +51,7 @@ public class DoubleUtils
         BigDecimal abd = new BigDecimal(a);
         BigDecimal bbd = new BigDecimal(b);
 
-        return abd.add(bbd).doubleValue();
+        return abd.add(bbd).setScale(4, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
@@ -64,7 +65,7 @@ public class DoubleUtils
         BigDecimal abd = new BigDecimal(a);
         BigDecimal bbd = new BigDecimal(b);
 
-        return abd.subtract(bbd).doubleValue();
+        return abd.subtract(bbd).setScale(4, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
@@ -83,6 +84,6 @@ public class DoubleUtils
         BigDecimal abd = new BigDecimal(a);
         BigDecimal bbd = new BigDecimal(b);
 
-        return abd.divide(bbd).doubleValue();
+        return abd.divide(bbd, 4, RoundingMode.HALF_UP).doubleValue();
     }
 }
