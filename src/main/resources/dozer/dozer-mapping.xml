@@ -10,6 +10,20 @@
             <a>password</a>
             <b>password</b>
         </field>
+    </mapping>
+
+
+    <mapping>
+        <class-a>com.xqh.financial.entity.PayOrder</class-a>
+        <class-b>com.xqh.financial.entity.vo.PayOrderVO</class-b>
+        <field custom-converter="com.xqh.financial.utils.DozerPayTypeConverter">
+            <a>payType</a>
+            <b>payTypeStr</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.DozerCallbackStateConverter">
+            <a>callbackState</a>
+            <b>callbackStateStr</b>
+        </field>
 
     </mapping>
 

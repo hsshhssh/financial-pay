@@ -88,4 +88,9 @@ public class Constant {
     public static String ZPAY_CHANNEL_CODE = "0001";
 
 
+    /**
+     * 微信wap支付方式
+     */
+    public final static Integer WXWAP_PAY_TYPE = 1;
+
 }

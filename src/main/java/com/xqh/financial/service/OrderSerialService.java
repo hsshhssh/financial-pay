@@ -42,6 +42,7 @@ public class OrderSerialService {
         payOrderSerial.setCreateTime(nowTime);
         payOrderSerial.setUpdateTime(nowTime);
 
+
         orderSerialMapper.insertSelective(payOrderSerial);
 
         return payOrderSerial.getId();

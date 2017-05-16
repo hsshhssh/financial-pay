@@ -3,6 +3,9 @@ package com.xqh.financial.utils;
 import com.google.common.base.Preconditions;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by hssh on 2017/5/3.
  */
@@ -28,8 +31,15 @@ public class ExampleBuilder {
         this.example = new Example(entityClass);
     }
 
-    public ExampleBuilder search(Search search) {
+    public ExampleBuilder search(Search search)
+    {
         this.search = search;
+        return this;
+    }
+
+    public ExampleBuilder search(Map<String, Object> search)
+    {
+        this.search = new Search(search);
         return this;
     }
 
@@ -40,6 +50,11 @@ public class ExampleBuilder {
 
     public ExampleBuilder sort(Sort sort) {
         this.sort = sort;
+        return this;
+    }
+
+    public ExampleBuilder sort(List<String> sort) {
+        this.sort = new Sort(sort);
         return this;
     }
 
