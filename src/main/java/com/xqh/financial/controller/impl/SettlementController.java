@@ -80,10 +80,10 @@ public class SettlementController implements ISettlementController
     {
         List<Double> res = Lists.newArrayList();
 
-        // 取得昨日结算金额
+        // 取得昨日结算金额 凌晨一点=》昨天订单结算
         Search searchSet = new Search();
-        searchSet.put("createTime_gt", CommonUtils.getZeroHourTime(-1));
-        searchSet.put("createTime_lt", CommonUtils.getZeroHourTime(0));
+        searchSet.put("createTime_gt", CommonUtils.getZeroHourTime(0));
+        searchSet.put("createTime_lt", CommonUtils.getZeroHourTime(1));
         searchSet.put("userId_eq", userId);
 
         Example exampleSet = new ExampleBuilder(PayUserSettlement.class).search(searchSet).sort(Arrays.asList("id_desc")).build();
