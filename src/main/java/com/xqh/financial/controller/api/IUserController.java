@@ -3,6 +3,7 @@ package com.xqh.financial.controller.api;
 import com.xqh.financial.entity.dto.PayUserCreateDTO;
 import com.xqh.financial.entity.dto.PayUserUpdateDTO;
 import com.xqh.financial.entity.vo.PayUserVO;
+import com.xqh.financial.entity.vo.UserInfoVO;
 import com.xqh.financial.utils.Search;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,5 +39,34 @@ public interface IUserController {
     public List<PayUserVO> queryList(@RequestParam("search") Search search,
                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") @Max(1000) Integer size);
+
+
+    @ApiOperation(value = "登录接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+    })
+    @PostMapping("/login")
+    public UserInfoVO login(@RequestParam(value = "userName") String userName,
+                            @RequestParam(value = "password") String password,
+                            HttpServletResponse resp);
+
+
+    @ApiOperation(value = "根据token获得用户信息接口")
+    @ApiImplicitParam(name = "token", value = "用户登录凭证", required = true, dataType = "String")
+    @GetMapping("/info")
+    public UserInfoVO info(@RequestParam(value = "token") String token);
+
+    @ApiOperation(value = "重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "passwordOld", value = "原密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
+    })
+    @PostMapping("/reset")
+    public int info(@RequestParam(value = "userName") String userName,
+                    @RequestParam(value = "passwordOld") String passwordOld,
+                    @RequestParam(value = "password") String password,
+                    HttpServletResponse resp);
 
 }

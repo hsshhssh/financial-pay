@@ -50,6 +50,8 @@ public class FinancialPayApplicationTests {
 
 		System.out.println(DoubleUtils.mul(1, DoubleUtils.div(200, 10000)));
 
+		System.out.println(CommonUtils.getMd5("123456"));
+
 	}
 
 }
