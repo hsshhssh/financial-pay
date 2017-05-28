@@ -117,7 +117,8 @@ public class ZPayService {
      * @return
      */
     @Transactional
-    public CallbackEntity insertOrderAndGenCallbackEntity(HttpServletRequest req) {
+    public CallbackEntity insertOrderAndGenCallbackEntity(HttpServletRequest req)
+    {
 
         Integer cporderid = Integer.parseInt(req.getParameter("cporderid"));
         String platformOrderNo = req.getParameter("orderid");
@@ -154,6 +155,7 @@ public class ZPayService {
         int nowTime = (int) (System.currentTimeMillis()/1000);
         payOrder.setOrderNo(callbackEntity.getOrderNo());
         payOrder.setOrderSerial(payOrderSerial.getId());
+        payOrder.setUserOrderNo(payOrderSerial.getUserOrderNo());
         payOrder.setUserId(payOrderSerial.getUserId());
         payOrder.setAppId(payOrderSerial.getAppId());
         payOrder.setMoney(payOrderSerial.getMoney());

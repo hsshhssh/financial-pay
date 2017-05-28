@@ -2,6 +2,7 @@ package com.xqh.financial.controller.api;
 
 import com.xqh.financial.entity.PayAppSettlement;
 import com.xqh.financial.entity.PayUserSettlement;
+import com.xqh.financial.entity.vo.PayAppSettlementVO;
 import com.xqh.financial.utils.PageResult;
 import com.xqh.financial.utils.Search;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,9 +32,9 @@ public interface ISettlementController
 
 
     @PostMapping("/app/list")
-    public PageResult<PayAppSettlement> list(@RequestParam("search") @Valid @NotNull Search search,
-                                             @RequestParam(value = "page", defaultValue = "1")  int page,
-                                             @RequestParam(value = "size", defaultValue = "10") int size);
+    public PageResult<PayAppSettlementVO> list(@RequestParam("search") @Valid @NotNull Search search,
+                                               @RequestParam(value = "page", defaultValue = "1")  int page,
+                                               @RequestParam(value = "size", defaultValue = "10") int size);
 
     @PostMapping("/data")
     public List<Double> getPayData(@RequestParam("userId") @Min(1) Integer userId);

@@ -12,6 +12,7 @@ public class PayOrderVO
     private Integer id;
     private String orderNo;
     private Integer orderSerial;
+    private String userOrderNo;
     private Integer userId;
     private Integer appId;
     private Integer money;
@@ -27,5 +28,8 @@ public class PayOrderVO
 
     private String payTypeStr;
     private String callbackStateStr;
+    private String userName;
+    private Double moneyYuan;
+    private Double interestRatePrecent;
 
 }

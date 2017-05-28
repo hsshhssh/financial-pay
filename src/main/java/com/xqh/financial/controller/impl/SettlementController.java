@@ -6,6 +6,7 @@ import com.xqh.financial.controller.api.ISettlementController;
 import com.xqh.financial.entity.PayAppSettlement;
 import com.xqh.financial.entity.PayOrder;
 import com.xqh.financial.entity.PayUserSettlement;
+import com.xqh.financial.entity.vo.PayAppSettlementVO;
 import com.xqh.financial.mapper.PayAppSettlementMapper;
 import com.xqh.financial.mapper.PayOrderMapper;
 import com.xqh.financial.mapper.PayUserSettlementMapper;
@@ -62,16 +63,16 @@ public class SettlementController implements ISettlementController
     }
 
     @Override
-    public PageResult<PayAppSettlement> list(@RequestParam("search") @Valid @NotNull Search search,
-                                             @RequestParam(value = "page", defaultValue = "1") int page,
-                                             @RequestParam(value = "size", defaultValue = "10") int size)
+    public PageResult<PayAppSettlementVO> list(@RequestParam("search") @Valid @NotNull Search search,
+                                               @RequestParam(value = "page", defaultValue = "1") int page,
+                                               @RequestParam(value = "size", defaultValue = "10") int size)
     {
 
         Example example = new ExampleBuilder(PayAppSettlement.class).search(search).sort(Arrays.asList("id_desc")).build();
 
         Page<PayAppSettlement> settlementList = (Page<PayAppSettlement>) appSettlementMapper.selectByExampleAndRowBounds(example, new RowBounds(page, size));
 
-        return new PageResult<>(settlementList.getTotal(), settlementList.getResult());
+        return new PageResult<>(settlementList.getTotal(), DozerUtils.mapList(settlementList.getResult(), PayAppSettlementVO.class));
 
     }
 

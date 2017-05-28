@@ -123,6 +123,7 @@ public class Jobs
             payAppSettlement.setTotalMoney(totalMoney);
             payAppSettlement.setTotalHandlingCharge(totalHandlingCharge);
             payAppSettlement.setSettlementMoney(DoubleUtils.sub(totalMoney, totalHandlingCharge));
+            payAppSettlement.setOrderTime(CommonUtils.getZeroHourTime(-1));
             payAppSettlement.setUpdateTime(nowTime);
             payAppSettlement.setCreateTime(nowTime);
 
@@ -171,6 +172,7 @@ public class Jobs
             payUserSettlement.setTotalMoney(totalMoney);
             payUserSettlement.setTotalHandlingCharge(totalHandlingCharge);
             payUserSettlement.setSettlementMoney(DoubleUtils.sub(totalMoney, totalHandlingCharge));
+            payUserSettlement.setOrderTime(CommonUtils.getZeroHourTime(-1));
             payUserSettlement.setCreateTime(nowTime);
             payUserSettlement.setUpdateTime(nowTime);
 

@@ -6,7 +6,7 @@
     <mapping>
         <class-a>com.xqh.financial.entity.dto.PayUserCreateDTO</class-a>
         <class-b>com.xqh.financial.entity.PayUser</class-b>
-        <field custom-converter="com.xqh.financial.utils.DozerPasswordEncryptConverter">
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPasswordEncryptConverter">
             <a>password</a>
             <b>password</b>
         </field>
@@ -16,13 +16,68 @@
     <mapping>
         <class-a>com.xqh.financial.entity.PayOrder</class-a>
         <class-b>com.xqh.financial.entity.vo.PayOrderVO</class-b>
-        <field custom-converter="com.xqh.financial.utils.DozerPayTypeConverter">
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPayTypeConverter">
             <a>payType</a>
             <b>payTypeStr</b>
         </field>
-        <field custom-converter="com.xqh.financial.utils.DozerCallbackStateConverter">
+        <field custom-converter="com.xqh.financial.utils.converter.DozerCallbackStateConverter">
             <a>callbackState</a>
             <b>callbackStateStr</b>
+        </field>
+        <field>
+            <a>userId</a>
+            <b>userId</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPayUserConverter">
+            <a>userId</a>
+            <b>userName</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>money</a>
+            <b>moneyYuan</b>
+        </field>
+        <field>
+            <a>money</a>
+            <b>money</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>interestRate</a>
+            <b>interestRatePrecent</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>com.xqh.financial.entity.PayAppSettlement</class-a>
+        <class-b>com.xqh.financial.entity.vo.PayAppSettlementVO</class-b>
+
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPayUserConverter">
+            <a>userId</a>
+            <b>userName</b>
+        </field>
+
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>totalMoney</a>
+            <b>totalMoneyYuan</b>
+        </field>
+        <field>
+            <a>totalMoney</a>
+            <b>totalMoney</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>totalHandlingCharge</a>
+            <b>totalHandlingChargeYuan</b>
+        </field>
+        <field>
+            <a>totalHandlingCharge</a>
+            <b>totalHandlingCharge</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>settlementMoney</a>
+            <b>settlementMoneyYuan</b>
+        </field>
+        <field>
+            <a>settlementMoney</a>
+            <b>settlementMoney</b>
         </field>
 
     </mapping>

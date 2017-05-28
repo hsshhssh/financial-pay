@@ -1,5 +1,6 @@
-package com.xqh.financial.utils;
+package com.xqh.financial.utils.converter;
 
+import com.xqh.financial.utils.Constant;
 import org.dozer.CustomConverter;
 
 /**

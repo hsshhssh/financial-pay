@@ -39,6 +39,12 @@ public class PayUserSettlement {
     private Double settlementMoney;
 
     /**
+     * 订单日期
+     */
+    @Column(name = "order_time")
+    private Integer orderTime;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")

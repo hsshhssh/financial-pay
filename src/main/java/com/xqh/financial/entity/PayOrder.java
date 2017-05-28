@@ -27,6 +27,12 @@ public class PayOrder {
     private Integer orderSerial;
 
     /**
+     * 商户订单号
+     */
+    @Column(name = "user_order_no")
+    private String userOrderNo;
+
+    /**
      * 用户id
      */
     @Column(name = "user_id")
