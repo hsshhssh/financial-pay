@@ -16,4 +16,7 @@ public class ConfigParamsUtils {
 
     @Value(path = "/config/zkconf/xqhpay.conf", key = "debugFlag")
     private String debugFlag;
+
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "callbackValue")
+    private String callbackValue;
 }

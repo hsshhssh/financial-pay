@@ -3,6 +3,7 @@ package com.xqh.financial.controller;
 
 import com.xqh.financial.service.ZPayService;
 import com.xqh.financial.utils.CommonUtils;
+import com.xqh.financial.utils.ConfigParamsUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class PayController {
 
     @Autowired
     ZPayService zPayService;
+
+    @Autowired
+    private ConfigParamsUtils configParamsUtils;
 
     @RequestMapping("/pay")
     public void pay(@RequestParam("money") int money, HttpServletResponse resp) {
@@ -105,7 +109,7 @@ public class PayController {
         logger.info("/pay/callbackUrl param: " + queryString.substring(0, queryString.length() - 1));
         try {
             //Thread.sleep(20000);
-            response.getWriter().print(1);
+            response.getWriter().print(configParamsUtils.getCallbackValue());
         } catch (IOException e) {
             throw new RuntimeException();
         //} catch (InterruptedException e) {
