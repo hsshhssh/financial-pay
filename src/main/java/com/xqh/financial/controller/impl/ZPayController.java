@@ -68,19 +68,24 @@ public class ZPayController implements IZPayController {
     }
 
     @Override
-    public void callback(HttpServletRequest req, HttpServletResponse resp) {
+    public void callback(HttpServletRequest req, HttpServletResponse resp)
+    {
 
         CommonUtils.getRequestParam(req, "掌易付回调");
 
         CallbackEntity callbackEntity = null;
-        try {
+        try
+        {
             callbackEntity = zPayService.insertOrderAndGenCallbackEntity(req);
-        } catch (DuplicateKeyException e) {
+        }
+        catch (DuplicateKeyException e)
+        {
             logger.warn("掌易付 重复回调 订单流水号{}", req.getParameter("cporderid"));
             return ;
         }
 
-        if(null == callbackEntity) {
+        if(null == callbackEntity)
+        {
             logger.error("掌易付回调异常 callbackEntity=null");
             CommonUtils.writeResponse(resp, 1);
             return ;

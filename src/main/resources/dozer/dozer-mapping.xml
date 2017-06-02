@@ -82,4 +82,33 @@
 
     </mapping>
 
+    <mapping>
+        <class-a>com.xqh.financial.entity.PayCFR</class-a>
+        <class-b>com.xqh.financial.entity.vo.PayCFRVO</class-b>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPayUserConverter">
+            <a>userId</a>
+            <b>userName</b>
+        </field>
+        <field>
+            <a>userId</a>
+            <b>userId</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPayAppConverter">
+            <a>appId</a>
+            <b>appName</b>
+        </field>
+        <field>
+            <a>appId</a>
+            <b>appId</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>money</a>
+            <b>moneyYuan</b>
+        </field>
+        <field>
+            <a>money</a>
+            <b>money</b>
+        </field>
+    </mapping>
+
 </mappings>

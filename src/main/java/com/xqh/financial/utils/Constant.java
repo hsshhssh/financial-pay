@@ -6,6 +6,11 @@ package com.xqh.financial.utils;
 public class Constant {
 
     /**
+     * 支付回调商户返回的正确值
+     */
+    public static String CALLBACK_SUCCESS_RESULT = "1";
+
+    /**
      * 支付成功
      */
     public static int RESULT_SUCCESS = 1;

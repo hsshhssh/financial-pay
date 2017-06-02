@@ -126,13 +126,15 @@ public class ZPayService {
         PayOrderSerial payOrderSerial = orderSerialMapper.selectByPrimaryKey(cporderid);
 
         // TODO 检验其他参数
-        if(null == payOrderSerial) {
+        if(null == payOrderSerial)
+        {
             logger.error("参数校验异常 cporderid:{} 无效", cporderid);
             return null;
         }
 
         PayApp payApp = payAppMapper.selectByPrimaryKey(payOrderSerial.getAppId());
-        if(null == payApp) {
+        if(null == payApp)
+        {
             logger.error("参数校验失败 appId:{} 无效", payOrderSerial.getAppId());
             return null;
         }
@@ -168,7 +170,8 @@ public class ZPayService {
 
         // TODO 根据appId platformId取得利息
         PayAppPlatform appPlatform = appPlatformService.selectByAppIdPlatformId(payOrderSerial.getAppId(), payOrderSerial.getPlatformId());
-        if(null == appPlatform) {
+        if(null == appPlatform)
+        {
             logger.error("计算手续费比例失败 appPlatform = null  appId:{}, platformId:{}", payOrderSerial.getAppId(), payOrderSerial.getPlatformId());
             return null;
         }
@@ -185,6 +188,7 @@ public class ZPayService {
         payCFR.setUserId(payOrderSerial.getUserId());
         payCFR.setAppId(payOrderSerial.getAppId());
         payCFR.setOrderNo(payOrder.getOrderNo());
+        payCFR.setUserOrderNo(payOrder.getUserOrderNo());
         payCFR.setOrderId(payOrder.getId());
         payCFR.setMoney(payOrderSerial.getMoney());
         payCFR.setCallbackUrl(genCallbackUrl(callbackEntity));
@@ -218,10 +222,10 @@ public class ZPayService {
     }
 
     @Transactional
-    private void updateOrderStatus(HttpResult httpResult, int orderId, int crfId)
+    public void updateOrderStatus(HttpResult httpResult, int orderId, int crfId)
     {
         int nowTime = (int) (System.currentTimeMillis()/1000);
-        if("1".equals(httpResult.getContent()))
+        if(Constant.CALLBACK_SUCCESS_RESULT.equals(httpResult.getContent()))
         {
             // 成功
             logger.info("orderId:{} 回调商户成功", orderId);
