@@ -8,10 +8,7 @@ import com.xqh.financial.entity.vo.PayUserVO;
 import com.xqh.financial.entity.vo.UserInfoVO;
 import com.xqh.financial.mapper.PayUserMapper;
 import com.xqh.financial.service.UserService;
-import com.xqh.financial.utils.CommonUtils;
-import com.xqh.financial.utils.DozerUtils;
-import com.xqh.financial.utils.ExampleBuilder;
-import com.xqh.financial.utils.Search;
+import com.xqh.financial.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +45,7 @@ public class UserController implements IUserController {
            id = userService.insertSingle(payUser);
         } catch (DuplicateKeyException e) {
             logger.error("用户名重复 username{} user:{}", user.getUsername(), user);
-            CommonUtils.sendError(resp ,HttpServletResponse.SC_EXPECTATION_FAILED, "用户名重复" + user.getUsername());
+            CommonUtils.sendError(resp, ErrorResponseEunm.DUPLICATE_USERNAME);
         }
         return id;
     }
@@ -69,6 +66,7 @@ public class UserController implements IUserController {
                             @RequestParam(value = "password") String password,
                             HttpServletResponse resp)
     {
+
         Search search = new Search();
         search.put("username_eq", userName);
         Example example = new ExampleBuilder(PayUser.class).search(search).build();
@@ -77,7 +75,7 @@ public class UserController implements IUserController {
         if(payUsers.size() != 1)
         {
             logger.warn("登录失败 用户不存在 userName:{} password:{}, payUsers:{}", userName, password, payUsers);
-            CommonUtils.sendError(resp, 401, "用户不存在");
+            CommonUtils.sendError(resp, ErrorResponseEunm.INVALID_USER);
             return null;
         }
 
@@ -85,13 +83,12 @@ public class UserController implements IUserController {
         if(!CommonUtils.getMd5(password).equals(payUser.getPassword()))
         {
             logger.warn("登录失败 密码错误 useName:{}, password:{}", userName, password);
-            CommonUtils.sendError(resp, 401, "密码错误");
+            CommonUtils.sendError(resp, ErrorResponseEunm.INVALID_PASSWORD);
             return null;
         }
 
         // 登录成功 返回用户信息
         return userService.genUserInfoVOByPayUser(payUser);
-
 
     }
 
@@ -123,14 +120,14 @@ public class UserController implements IUserController {
 
         if(payUserList.size() != 1)
         {
-            CommonUtils.sendError(resp, 401, "用户不存在");
+            CommonUtils.sendError(resp, ErrorResponseEunm.INVALID_USER);
             return 0;
         }
 
         PayUser payUser = payUserList.get(0);
         if(!CommonUtils.getMd5(passwordOld).equals(payUser.getPassword()))
         {
-            CommonUtils.sendError(resp, 401, "密码错误");
+            CommonUtils.sendError(resp, ErrorResponseEunm.INVALID_PASSWORD);
             return 0;
         }
 

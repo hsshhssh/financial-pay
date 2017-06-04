@@ -59,6 +59,18 @@ public class CommonUtils {
 
     }
 
+    public static void sendError(HttpServletResponse resp, ErrorResponseEunm errorResponseEunm)
+    {
+        try
+        {
+            resp.sendError(errorResponseEunm.status, errorResponseEunm.msg);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public static void sendError(HttpServletResponse resp, int status, String msg) {
         try {
             resp.sendError(status, msg);

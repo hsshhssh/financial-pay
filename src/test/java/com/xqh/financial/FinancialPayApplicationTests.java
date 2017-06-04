@@ -7,6 +7,7 @@ import com.xqh.financial.utils.UrlUtils;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
@@ -52,6 +53,7 @@ public class FinancialPayApplicationTests {
 
 		System.out.println(CommonUtils.getMd5("123456"));
 
+		System.out.println(CommonUtils.getMd5(UUID.randomUUID().toString()).toUpperCase());
 	}
 
 }

@@ -104,7 +104,7 @@ public class ExampleBuilder {
                         criteria.andNotIn(property, (Iterable) search.get(key));
                         break;
                     case like:
-                        criteria.andLike(property, (String) search.get(key));
+                        criteria.andLike(property, "%" + (String) search.get(key) + "%");
                         break;
                     case nlike:
                         criteria.andLike(property, (String) search.get(key));

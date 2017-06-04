@@ -1,10 +1,14 @@
 package com.xqh.financial.controller.api;
 
 import com.xqh.financial.entity.PayApp;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.xqh.financial.entity.dto.PayAppCreateDTO;
+import com.xqh.financial.entity.dto.PayAppUpdateDTO;
+import com.xqh.financial.utils.PageResult;
+import com.xqh.financial.utils.Search;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -17,4 +21,15 @@ public interface IPayAppController
     @PostMapping("listNoPage")
     public List<PayApp> listNoPage(@RequestParam("userId") int userId);
 
+    @PostMapping("/list")
+    public PageResult list(@RequestParam("search") @Valid @NotNull Search search,
+                           @RequestParam(value = "page", defaultValue = "1")  int page,
+                           @RequestParam(value = "size", defaultValue = "10") int size);
+
+    @PutMapping
+    public int create(@RequestBody @Valid @NotNull PayAppCreateDTO dto);
+
+
+    @PostMapping
+    public int update(@RequestBody @Valid @NotNull PayAppUpdateDTO dto);
 }
