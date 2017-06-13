@@ -12,6 +12,19 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>com.xqh.financial.entity.PayUser</class-a>
+        <class-b>com.xqh.financial.entity.vo.PayUserVO</class-b>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerUserRoleConverter">
+            <a>role</a>
+            <b>roleStr</b>
+        </field>
+        <field>
+            <a>role</a>
+            <b>role</b>
+        </field>
+    </mapping>
+
 
     <mapping>
         <class-a>com.xqh.financial.entity.PayOrder</class-a>

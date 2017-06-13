@@ -1,14 +1,19 @@
 package com.xqh.financial.controller.impl;
 
+import com.github.pagehelper.Page;
 import com.xqh.financial.controller.api.IUserController;
 import com.xqh.financial.entity.PayUser;
+import com.xqh.financial.entity.XqhRole;
+import com.xqh.financial.entity.XqhUserRole;
 import com.xqh.financial.entity.dto.PayUserCreateDTO;
 import com.xqh.financial.entity.dto.PayUserUpdateDTO;
 import com.xqh.financial.entity.vo.PayUserVO;
 import com.xqh.financial.entity.vo.UserInfoVO;
 import com.xqh.financial.mapper.PayUserMapper;
+import com.xqh.financial.mapper.XqhUserRoleMapper;
 import com.xqh.financial.service.UserService;
 import com.xqh.financial.utils.*;
+import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,9 @@ import tk.mybatis.mapper.entity.Example;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,15 +43,21 @@ public class UserController implements IUserController {
     @Autowired
     private PayUserMapper payUserMapper;
 
+    @Autowired
+    private XqhUserRoleMapper userRoleMapper;
+
     @Override
     public int insert(@RequestBody @Valid PayUserCreateDTO user,
                       HttpServletResponse resp) {
         PayUser payUser = DozerUtils.map(user, PayUser.class);
         int id = 0;
 
-        try {
+        try
+        {
            id = userService.insertSingle(payUser);
-        } catch (DuplicateKeyException e) {
+        }
+        catch (DuplicateKeyException e)
+        {
             logger.error("用户名重复 username{} user:{}", user.getUsername(), user);
             CommonUtils.sendError(resp, ErrorResponseEunm.DUPLICATE_USERNAME);
         }
@@ -51,14 +65,30 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public int update(@RequestBody @Valid PayUserUpdateDTO user) {
-        return 0;
+    public int update(@RequestBody @Valid PayUserUpdateDTO user)
+    {
+        PayUser payUser = DozerUtils.map(user, PayUser.class);
+
+        payUser.setUpdateTime((int) (System.currentTimeMillis()/1000));
+
+        return payUserMapper.updateByPrimaryKeySelective(payUser);
+
     }
 
     @Override
-    public List<PayUserVO> queryList(@RequestParam("search") Search search, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") @Max(1000) Integer size)
+    public PageResult<PayUserVO> queryList(@RequestParam("search") @NotNull Search search,
+                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                     @RequestParam(value = "size", defaultValue = "10") @Max(1000) Integer size)
     {
-        return null;
+
+        Example example = new ExampleBuilder(PayUser.class).search(search).sort(Arrays.asList("id_desc")).build();
+
+        Page<PayUser> payUserList = (Page<PayUser>) payUserMapper.selectByExampleAndRowBounds(example, new RowBounds(page, size));
+
+        return new PageResult<>(payUserList.getTotal(), DozerUtils.mapList(payUserList, PayUserVO.class));
+
+
+
     }
 
     @Override
@@ -106,7 +136,7 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public int info(@RequestParam(value = "userName") String userName,
+    public int reset(@RequestParam(value = "userName") String userName,
                     @RequestParam(value = "passwordOld") String passwordOld,
                     @RequestParam(value = "password") String password,
                     HttpServletResponse resp)
@@ -141,9 +171,18 @@ public class UserController implements IUserController {
 
     }
 
-    @GetMapping("/{id}")
-    public PayUser get(@PathVariable("id") int id)
+    @Override
+    public List<XqhUserRole> getRoleByUserId(@PathVariable @NotNull @Min(1) Integer userId)
     {
-        return  payUserMapper.selectByPrimaryKey(id);
+        Search search = new Search();
+        search.put("userId", userId);
+
+        Example example = new ExampleBuilder(XqhUserRole.class).search(search).build();
+
+        List<XqhUserRole> userRoleList = userRoleMapper.selectByExample(example);
+
+        return userRoleList;
     }
+
+
 }

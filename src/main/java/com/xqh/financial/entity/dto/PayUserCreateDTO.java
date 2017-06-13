@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class PayUserCreateDTO {
 
-    @Length(min = 6, max = 50)
+    @Length(max = 50)
     @NotNull
     private String username;
 
@@ -20,7 +20,7 @@ public class PayUserCreateDTO {
     @NotNull
     private String password;
 
-    @Length(min = 6, max = 50)
+    @Length(max = 50)
     @NotNull
     private String name;
 

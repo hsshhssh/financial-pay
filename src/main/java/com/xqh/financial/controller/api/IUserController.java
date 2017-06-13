@@ -1,9 +1,11 @@
 package com.xqh.financial.controller.api;
 
+import com.xqh.financial.entity.XqhUserRole;
 import com.xqh.financial.entity.dto.PayUserCreateDTO;
 import com.xqh.financial.entity.dto.PayUserUpdateDTO;
 import com.xqh.financial.entity.vo.PayUserVO;
 import com.xqh.financial.entity.vo.UserInfoVO;
+import com.xqh.financial.utils.PageResult;
 import com.xqh.financial.utils.Search;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -36,9 +40,10 @@ public interface IUserController {
     @ApiImplicitParams({
         //@ApiImplicitParam
     })
-    public List<PayUserVO> queryList(@RequestParam("search") Search search,
-                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                     @RequestParam(value = "size", defaultValue = "10") @Max(1000) Integer size);
+    @PostMapping("list")
+    public PageResult<PayUserVO> queryList(@RequestParam("search") @NotNull Search search,
+                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                           @RequestParam(value = "size", defaultValue = "10") @Max(1000) Integer size);
 
 
     @ApiOperation(value = "登录接口")
@@ -64,9 +69,13 @@ public interface IUserController {
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
     })
     @PostMapping("/reset")
-    public int info(@RequestParam(value = "userName") String userName,
+    public int reset(@RequestParam(value = "userName") String userName,
                     @RequestParam(value = "passwordOld") String passwordOld,
                     @RequestParam(value = "password") String password,
                     HttpServletResponse resp);
+
+
+    @GetMapping("/role/{userId}")
+    public List<XqhUserRole> getRoleByUserId(@PathVariable @NotNull @Min(1) Integer userId);
 
 }

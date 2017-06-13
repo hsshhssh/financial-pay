@@ -54,6 +54,10 @@ public class FinancialPayApplicationTests {
 		System.out.println(CommonUtils.getMd5("123456"));
 
 		System.out.println(CommonUtils.getMd5(UUID.randomUUID().toString()).toUpperCase());
+
+		String time = "1496677387";
+		String s = "111" + time + "A3F4A7E77AD7474E9105AD5B7DFB8240";
+		System.out.println(CommonUtils.getMd5(s));
 	}
 
 }
