@@ -73,7 +73,7 @@ public class Jobs
     public List<PayOrder> getOrderListByDay(int day)
     {
         Search search = new Search();
-        search.put("createTime_gt", CommonUtils.getZeroHourTime(day));
+        search.put("createTime_gte", CommonUtils.getZeroHourTime(day));
         search.put("createTime_lt", CommonUtils.getZeroHourTime(day + 1));
 
         Example example = new ExampleBuilder(PayOrder.class).search(search).build();

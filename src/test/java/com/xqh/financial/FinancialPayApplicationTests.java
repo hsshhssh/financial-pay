@@ -6,6 +6,7 @@ import com.xqh.financial.utils.DoubleUtils;
 import com.xqh.financial.utils.UrlUtils;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,6 +59,12 @@ public class FinancialPayApplicationTests {
 		String time = "1496677387";
 		String s = "111" + time + "A3F4A7E77AD7474E9105AD5B7DFB8240";
 		System.out.println(CommonUtils.getMd5(s));
+
+		Calendar cal = Calendar.getInstance();
+		System.out.println(cal.get(Calendar.YEAR));
+
+		System.out.println(CommonUtils.getMonthStartEndTime(12, 2017));
+
 	}
 
 }

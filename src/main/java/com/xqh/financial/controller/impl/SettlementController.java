@@ -1,7 +1,9 @@
 package com.xqh.financial.controller.impl;
 
 import com.github.pagehelper.Page;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.xqh.financial.controller.api.ISettlementController;
 import com.xqh.financial.entity.PayAppSettlement;
 import com.xqh.financial.entity.PayOrder;
@@ -21,9 +23,7 @@ import tk.mybatis.mapper.entity.Example;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hssh on 2017/5/14.
@@ -65,10 +65,15 @@ public class SettlementController implements ISettlementController
     @Override
     public PageResult<PayAppSettlementVO> list(@RequestParam("search") @Valid @NotNull Search search,
                                                @RequestParam(value = "page", defaultValue = "1") int page,
-                                               @RequestParam(value = "size", defaultValue = "10") int size)
+                                               @RequestParam(value = "size", defaultValue = "10") int size,
+                                               @RequestParam(value = "sort", required = false) Sort sort)
     {
 
-        Example example = new ExampleBuilder(PayAppSettlement.class).search(search).sort(Arrays.asList("id_desc")).build();
+        if(sort == null || sort.size() == 0) {
+            sort = new Sort(Arrays.asList("id_desc"));
+        }
+
+        Example example = new ExampleBuilder(PayAppSettlement.class).search(search).sort(sort).build();
 
         Page<PayAppSettlement> settlementList = (Page<PayAppSettlement>) appSettlementMapper.selectByExampleAndRowBounds(example, new RowBounds(page, size));
 
@@ -118,5 +123,81 @@ public class SettlementController implements ISettlementController
         res.add((double) todayOrderCount);
 
         return res;
+    }
+
+    @Override
+    public List<PayAppSettlementVO> appMonthList(@RequestParam(value = "userId", required = false) Integer userId,
+                                                 @RequestParam(value = "appId", required = false) Integer appId,
+                                                 @RequestParam(value = "month", required = false) Integer month,
+                                                 @RequestParam(value = "year", required = false) Integer year)
+    {
+
+        Search search = new Search();
+        if(userId != null)
+        {
+            search.put("userId_eq", userId);
+        }
+        if(appId != null)
+        {
+            search.put("appId_eq", appId);
+        }
+
+
+        // 结算时间段 以月为单位
+        List<Integer> monthStartEndTime;
+        if(month == null)
+        {
+            // 取当前月
+            Calendar cal = Calendar.getInstance();
+            monthStartEndTime = CommonUtils.getMonthStartEndTime(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
+        }
+        else
+        {
+            monthStartEndTime = CommonUtils.getMonthStartEndTime(month, year);
+        }
+        search.put("orderTime_gte", monthStartEndTime.get(0));
+        search.put("orderTime_lt", monthStartEndTime.get(1));
+
+        Example example = new ExampleBuilder(PayAppSettlement.class).search(search).build();
+
+        List<PayAppSettlement> list = appSettlementMapper.selectByExample(example);
+
+        // 汇总数据
+        int nowTime = (int) (System.currentTimeMillis()/1000);
+        Multimap<Integer, PayAppSettlement> appSettlementMap = ArrayListMultimap.create();
+        for (PayAppSettlement payAppSettlement : list)
+        {
+            appSettlementMap.put(payAppSettlement.getAppId(), payAppSettlement);
+        }
+
+        List<PayAppSettlement> resList = Lists.newArrayList();
+        for (Integer _appId : appSettlementMap.keySet())
+        {
+            double totalMoney = 0;
+            double totalHandlingCharge = 0;
+            double settlementMoney = 0;
+            int _userId = 0;
+            for (PayAppSettlement settlement : appSettlementMap.get(_appId))
+            {
+                _userId = settlement.getUserId();
+                totalMoney = DoubleUtils.add(totalMoney, settlement.getTotalMoney());
+                totalHandlingCharge = DoubleUtils.add(totalHandlingCharge, settlement.getTotalHandlingCharge());
+                settlementMoney = DoubleUtils.add(settlementMoney, settlement.getSettlementMoney());
+            }
+
+            PayAppSettlement payAppSettlement = new PayAppSettlement();
+            payAppSettlement.setUserId(_userId);
+            payAppSettlement.setAppId(_appId);
+            payAppSettlement.setTotalMoney(totalMoney);
+            payAppSettlement.setTotalHandlingCharge(totalHandlingCharge);
+            payAppSettlement.setSettlementMoney(settlementMoney);
+            payAppSettlement.setOrderTime(monthStartEndTime.get(0));
+            payAppSettlement.setUpdateTime(nowTime);
+            payAppSettlement.setCreateTime(nowTime);
+
+            resList.add(payAppSettlement);
+        }
+
+        return DozerUtils.mapList(resList, PayAppSettlementVO.class);
     }
 }
