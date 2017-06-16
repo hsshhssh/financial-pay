@@ -98,4 +98,9 @@ public class Constant {
      */
     public final static Integer WXWAP_PAY_TYPE = 1;
 
+    /**
+     * 支付宝wap支付方式
+     */
+    public final static Integer ALIPAYWAP_PAY_TYPE = 2;
+
 }

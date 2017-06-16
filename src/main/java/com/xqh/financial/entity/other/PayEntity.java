@@ -3,7 +3,6 @@ package com.xqh.financial.entity.other;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -30,7 +29,6 @@ public class PayEntity {
     private Integer time;
 
     @Min(1)
-    @Max(1)
     private Integer payType;
 
     @Length(min = 1, max = 32)

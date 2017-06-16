@@ -310,15 +310,35 @@ public class ZPayService {
     }
 
 
-
-
-
+    /**
+     * 通过本平台支付方式获得掌易付支付方式
+     * 默认为微信
+     */
     private String getCurrency(int payType) {
-        return "1000200010000000";
+        if(Constant.ALIPAYWAP_PAY_TYPE == payType)
+        {
+            return "1000200020000000";
+        }
+        else
+        {
+            return "1000200010000000";
+        }
     }
 
+    /**
+     * 通过本平台支付方式获得掌易付支付方式
+     * 默认问微信
+     */
     private String getPaymode(int payType) {
-        return "1";
+        if(Constant.ALIPAYWAP_PAY_TYPE == payType)
+        {
+            return "2";
+        }
+        else
+        {
+            return "1";
+        }
+
     }
 
 }
