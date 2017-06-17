@@ -16,6 +16,10 @@ public class DozerPayTypeConverter implements CustomConverter
         {
             return "微信wap支付";
         }
+        else if(payType == Constant.ALIPAYWAP_PAY_TYPE)
+        {
+            return "支付宝wap支付";
+        }
         else
         {
             return null;
