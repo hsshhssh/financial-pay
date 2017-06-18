@@ -68,6 +68,11 @@
             <b>userName</b>
         </field>
 
+        <field>
+            <a>userId</a>
+            <b>userId</b>
+        </field>
+
         <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
             <a>totalMoney</a>
             <b>totalMoneyYuan</b>
