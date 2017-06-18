@@ -32,10 +32,13 @@ public class PayAppController implements IPayAppController
 
 
     @Override
-    public List<PayApp> listNoPage(@RequestParam("userId") int userId)
+    public List<PayApp> listNoPage(@RequestParam(value = "userId", required = false) Integer userId)
     {
         Search search = new Search();
-        search.put("userId_eq", userId);
+        if(userId != null)
+        {
+            search.put("userId_eq", userId);
+        }
 
         Example example = new ExampleBuilder(PayApp.class).search(search).sort(Arrays.asList("id_desc")).build();
 

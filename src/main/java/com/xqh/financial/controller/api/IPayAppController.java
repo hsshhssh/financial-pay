@@ -19,7 +19,7 @@ public interface IPayAppController
 {
 
     @PostMapping("listNoPage")
-    public List<PayApp> listNoPage(@RequestParam("userId") int userId);
+    public List<PayApp> listNoPage(@RequestParam(value = "userId", required = false) Integer userId);
 
     @PostMapping("/list")
     public PageResult list(@RequestParam("search") @Valid @NotNull Search search,
