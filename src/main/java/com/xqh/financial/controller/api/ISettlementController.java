@@ -1,6 +1,5 @@
 package com.xqh.financial.controller.api;
 
-import com.xqh.financial.entity.PayAppSettlement;
 import com.xqh.financial.entity.PayUserSettlement;
 import com.xqh.financial.entity.vo.PayAppSettlementVO;
 import com.xqh.financial.utils.PageResult;
@@ -29,7 +28,7 @@ public interface ISettlementController
 
 
     @RequestMapping("/app/{day}")
-    public Map<Integer, PayAppSettlement> getAppSettlementByDay(@PathVariable("day") int day);
+    public Map<Integer, PayAppSettlementVO> getAppSettlementByDay(@PathVariable("day") int day);
 
 
     @PostMapping("/app/list")

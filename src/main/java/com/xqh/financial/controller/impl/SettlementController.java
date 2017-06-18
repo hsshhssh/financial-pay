@@ -3,6 +3,7 @@ package com.xqh.financial.controller.impl;
 import com.github.pagehelper.Page;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.xqh.financial.controller.api.ISettlementController;
 import com.xqh.financial.entity.PayAppSettlement;
@@ -24,6 +25,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+
+import static sun.tools.jstat.Alignment.keySet;
 
 /**
  * Created by hssh on 2017/5/14.
@@ -54,11 +57,20 @@ public class SettlementController implements ISettlementController
     }
 
     @Override
-    public Map<Integer, PayAppSettlement> getAppSettlementByDay(@PathVariable("day") int day)
+    public Map<Integer, PayAppSettlementVO> getAppSettlementByDay(@PathVariable("day") int day)
     {
         List<PayOrder> orderList = jobs.getOrderListByDay(day);
 
-        return jobs.getAppSettlement(orderList);
+        Map<Integer, PayAppSettlementVO> res = Maps.newHashMap();
+
+        Map<Integer, PayAppSettlement> map = jobs.getAppSettlement(orderList);
+
+        for (Integer i : map.keySet())
+        {
+            res.put(i, DozerUtils.map(map.get(i), PayAppSettlementVO.class));
+        }
+
+        return res;
 
     }
 
