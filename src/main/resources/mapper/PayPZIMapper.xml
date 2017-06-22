@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xqh.financial.mapper.PayPZIMapper" >
+  <resultMap id="BaseResultMap" type="com.xqh.financial.entity.PayPZI" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="app_id" property="appId" jdbcType="INTEGER" />
+    <result column="zpay_parent_id" property="zpayParentId" jdbcType="CHAR" />
+    <result column="zpay_app_id" property="zpayAppId" jdbcType="INTEGER" />
+    <result column="zpay_key" property="zpayKey" jdbcType="CHAR" />
+    <result column="zpay_qn" property="zpayQn" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="upadte_time" property="upadteTime" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

@@ -1,9 +1,13 @@
 package com.xqh.financial.controller;
 
 
+import com.xqh.financial.service.ZPayService;
 import com.xqh.financial.utils.CommonUtils;
+import com.xqh.financial.utils.ConfigParamsUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +26,17 @@ public class PayController {
 
     private static Logger logger = LoggerFactory.getLogger(PayController.class);
 
+    @Autowired
+    ZPayService zPayService;
+
+    @Autowired
+    private ConfigParamsUtils configParamsUtils;
+
     @RequestMapping("/pay")
     public void pay(@RequestParam("money") int money, HttpServletResponse resp) {
         String partnerId = "1000100020001163";
         String appId = "3061";
-        String currency = "1000200010000000";
+        String currency = "1000200020000000";
         String times = CommonUtils.getFormatDate("yyyyMMddHHmmss");
         String secretKey = "A3F4A7E77AD7474E9105AD5B7DFB8240";
 
@@ -40,8 +50,8 @@ public class PayController {
         sb.append("qn=zyap3061_56450_100&");
         sb.append("currency="+ currency +"&");
         sb.append("sign=" + sign + "&");
-        sb.append("cpparam=1&");
-        sb.append("notifyUrl=http://139.196.51.152:8080/nodifyUrl&");
+        sb.append("cpparam=abc&");
+        sb.append("notifyUrl=http://139.196.51.152:8080/nodifyUrl?num=aaa&");
         String name = null;
         try {
             name = java.net.URLEncoder.encode("测试项目","utf-8");
@@ -49,7 +59,7 @@ public class PayController {
             e.printStackTrace();
         }
         sb.append("appFeeName=" + name + "&");
-        sb.append("paymode=1&");
+        sb.append("paymode=2&");
         sb.append("times=" + times);
         logger.info(sb.toString());
 
@@ -63,8 +73,10 @@ public class PayController {
 
 
     @RequestMapping("/nodifyUrl")
-    public int nodifyUrl(@RequestParam(value="result", required = false) int result, HttpServletRequest request) {
+    public int nodifyUrl(@RequestParam(value="result", required = false) int result,
+                         HttpServletRequest request) {
         logger.info("nodifyUri result:{}", result);
+        logger.info(request.getRequestURI());
         Map<String, String[]> params = request.getParameterMap();
         String queryString = "";
         for (String key : params.keySet()) {
@@ -74,13 +86,17 @@ public class PayController {
                 queryString += key + "=" + value + "&";
             }
         }
-        logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
+        if(StringUtils.isNotBlank(queryString)) {
+            logger.info("/nodifyUrl Param: " + queryString.substring(0, queryString.length() - 1));
+        } else {
+            logger.info("/nodifyUrl Param: no param");
+        }
 
         return result;
     }
 
     @RequestMapping("/pay/callback")
-    public String callback(HttpServletRequest request) {
+    public void callback(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String[]> params = request.getParameterMap();
         String queryString = "";
         for (String key : params.keySet()) {
@@ -90,7 +106,19 @@ public class PayController {
                 queryString += key + "=" + value + "&";
             }
         }
-        logger.info("/pay/callback param: " + queryString.substring(0, queryString.length() - 1));
-        return queryString.substring(0, queryString.length() - 1);
+        logger.info("/pay/callbackUrl param: " + queryString.substring(0, queryString.length() - 1));
+        try {
+            //Thread.sleep(20000);
+            response.getWriter().print(configParamsUtils.getCallbackValue());
+        } catch (IOException e) {
+            throw new RuntimeException();
+        //} catch (InterruptedException e) {
+        //    e.printStackTrace();
+        }
     }
+
+
+
+
+
 }
