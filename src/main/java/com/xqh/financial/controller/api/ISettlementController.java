@@ -2,6 +2,7 @@ package com.xqh.financial.controller.api;
 
 import com.xqh.financial.entity.PayUserSettlement;
 import com.xqh.financial.entity.vo.PayAppSettlementVO;
+import com.xqh.financial.entity.vo.PayUserSettlementVO;
 import com.xqh.financial.utils.PageResult;
 import com.xqh.financial.utils.Search;
 import com.xqh.financial.utils.Sort;
@@ -36,6 +37,12 @@ public interface ISettlementController
                                                @RequestParam(value = "page", defaultValue = "1")  int page,
                                                @RequestParam(value = "size", defaultValue = "10") int size,
                                                @RequestParam(value = "sort", required = false) Sort sort);
+
+    @PostMapping("/user/list")
+    public PageResult<PayUserSettlementVO> userList(@RequestParam("search") @Valid @NotNull Search search,
+                                                    @RequestParam(value = "page", defaultValue = "1")  int page,
+                                                    @RequestParam(value = "size", defaultValue = "10") int size,
+                                                    @RequestParam(value = "sort", required = false) Sort sort);
 
     @PostMapping("/data")
     public List<Double> getPayData(@RequestParam("userId") @Min(1) Integer userId);
