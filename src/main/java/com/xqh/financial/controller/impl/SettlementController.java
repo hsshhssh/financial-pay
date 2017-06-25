@@ -10,6 +10,7 @@ import com.xqh.financial.entity.PayAppSettlement;
 import com.xqh.financial.entity.PayOrder;
 import com.xqh.financial.entity.PayUserSettlement;
 import com.xqh.financial.entity.vo.PayAppSettlementVO;
+import com.xqh.financial.entity.vo.PayUserSettlementVO;
 import com.xqh.financial.mapper.PayAppSettlementMapper;
 import com.xqh.financial.mapper.PayOrderMapper;
 import com.xqh.financial.mapper.PayUserSettlementMapper;
@@ -24,9 +25,10 @@ import tk.mybatis.mapper.entity.Example;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.*;
-
-import static sun.tools.jstat.Alignment.keySet;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hssh on 2017/5/14.
@@ -91,6 +93,23 @@ public class SettlementController implements ISettlementController
 
         return new PageResult<>(settlementList.getTotal(), DozerUtils.mapList(settlementList.getResult(), PayAppSettlementVO.class));
 
+    }
+
+    @Override
+    public PageResult<PayUserSettlementVO> userList(@RequestParam("search") @Valid @NotNull Search search,
+                                                    @RequestParam(value = "page", defaultValue = "1") int page,
+                                                    @RequestParam(value = "size", defaultValue = "10") int size,
+                                                    @RequestParam(value = "sort", required = false) Sort sort) {
+        if(sort == null || sort.size() == 0)
+        {
+            sort = new Sort(Arrays.asList("id_desc"));
+        }
+
+        Example example = new ExampleBuilder(PayUserSettlement.class).search(search).sort(sort).build();
+
+        Page<PayUserSettlement> settlementList = (Page<PayUserSettlement>) userSettlementMapper.selectByExampleAndRowBounds(example, new RowBounds(page, size));
+
+        return new PageResult<>(settlementList.getTotal(), DozerUtils.mapList(settlementList.getResult(), PayUserSettlementVO.class));
     }
 
     @Override
