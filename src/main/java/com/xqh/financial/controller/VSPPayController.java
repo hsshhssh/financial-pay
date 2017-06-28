@@ -51,13 +51,13 @@ public class VSPPayController
         params.put("appid", "00010835");
         params.put("version", "11");
         params.put("trxamt", String.valueOf(money));
-        params.put("reqsn", "2");
+        params.put("reqsn", String.valueOf(System.currentTimeMillis()));
         params.put("paytype", "A01");
         params.put("randomstr", SybUtil.getValidatecode(8));
         params.put("body", "测试应用");
         params.put("remark", "mark");
         //params.put("acct", acct);
-        params.put("notify_url", "www.baidu.com");
+        params.put("notify_url", "http://139.196.51.152:8080/vsp/callback");
         params.put("sign", SybUtil.sign(params,"gzxqhpay1qa@WS#ED"));
 
         byte[] bys = http.postParams(params, true);
