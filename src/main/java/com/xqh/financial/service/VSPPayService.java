@@ -99,7 +99,7 @@ public class VSPPayService
         // 判断订单流水号
         PayOrderSerial orderSerial = null;
         String cusorderid = params.get("cusorderid");
-        if(cusorderid != null && !StringUtils.isNumeric(cusorderid))
+        if(cusorderid != null && StringUtils.isNumeric(cusorderid))
         {
             orderSerial = orderSerialMapper.selectByPrimaryKey(Integer.valueOf(cusorderid));
         }
@@ -129,7 +129,7 @@ public class VSPPayService
 
         // 校验金额
         String money = params.get("trxamt");
-        if(null == money || StringUtils.isNumeric(money) || orderSerial.getMoney().intValue() != Integer.valueOf(money).intValue())
+        if(null == money || !StringUtils.isNumeric(money) || orderSerial.getMoney().intValue() != Integer.valueOf(money).intValue())
         {
             logger.error("通联支付回调 金额无效 orderSerialMoney:{}, callbackMoney:{}", orderSerial.getMoney(), money);
             throw new VerifyException("通联支付回调 金额无效");
