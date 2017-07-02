@@ -187,9 +187,10 @@ public class VSPPayService
     public void callbackUser(CallbackEntity callbackEntity)
     {
         logger.info("异步回调商户开始 orderId:{} appId:{}", callbackEntity.getOrderId(), callbackEntity.getAppId());
-        logger.info("回到商户url:{}", callbackEntity.getCallbackUrl());
+        String url = xqhPayService.genCallbackUrl(callbackEntity);
+        logger.info("回调商户url:{}", url);
 
-        HttpResult httpResult = HttpUtils.get(callbackEntity.getCallbackUrl());
+        HttpResult httpResult = HttpUtils.get(url);
 
         logger.info("回调商户返回值: {}", httpResult);
 

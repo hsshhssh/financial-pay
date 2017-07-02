@@ -247,7 +247,7 @@ public class XQHPayService {
      * @param callbackEntity
      * @return
      */
-    private String genCallbackUrl(CallbackEntity callbackEntity) {
+    public String genCallbackUrl(CallbackEntity callbackEntity) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(callbackEntity.getCallbackUrl() + "?");
