@@ -110,6 +110,14 @@ public class VSPPayService
             throw new VerifyException(String.format("通联支付回调 订单流水号无效 orderSerial:%s", cusorderid));
         }
 
+        // 支付结果
+        String trxstatus = params.get("trxstatus");
+        if(null == trxstatus || !"0000".equals(trxstatus))
+        {
+            logger.error("通联支付回调 状态非成功 trxstatus:{}", trxstatus);
+            throw new VerifyException("通联支付回调 状态非成功");
+        }
+
         // 判断通联参数
         String vspAppId = params.get("appid");
         String vspCusid = params.get("cusid");
@@ -210,7 +218,7 @@ public class VSPPayService
             params.put("body", appName);
             //params.put("remark", "mark");
             //params.put("acct", acct);
-            params.put("notify_url", config.getZpayNotifyHost().trim() + "/vsp/callback");
+            params.put("notify_url", config.getZpayNotifyHost().trim() + "/xqh/financial/vsp/pay/callback");
             params.put("sign", SybUtil.sign(params,vspConfig.getKey().trim()));
 
             byte[] bys = http.postParams(params, true);
