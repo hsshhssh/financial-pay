@@ -127,7 +127,7 @@ public class SybUtil {
 		Map reqMap = request.getParameterMap();
 		for(Object key:reqMap.keySet()){
 			String value = ((String[])reqMap.get(key))[0];
-			System.out.println(key+";"+value);
+			//System.out.println(key+";"+value);
 			map.put(key.toString(),value);
 		}
 		return map;

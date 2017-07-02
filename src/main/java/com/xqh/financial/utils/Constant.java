@@ -26,7 +26,7 @@ public class Constant {
     public static int RESULT_TIME_OUT = 1002;
 
     /**
-     * 链接超时失效1002
+     * 无支付通道
      */
     public static int RESULT_NO_PAYTYPE = 1003;
 
@@ -91,6 +91,11 @@ public class Constant {
      * 掌易付支付通道
      */
     public static String ZPAY_CHANNEL_CODE = "0001";
+
+    /**
+     * 通联支付通道
+     */
+    public static String VSP_CHANNEL_CODE = "0002";
 
 
     /**

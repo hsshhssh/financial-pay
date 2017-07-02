@@ -24,9 +24,9 @@ import java.util.TreeMap;
 //@RestController
 @Controller
 @RequestMapping("vsp")
-public class VSPPayController
+public class VSPPayDemoController
 {
-    private static Logger logger = LoggerFactory.getLogger(VSPPayController.class);
+    private static Logger logger = LoggerFactory.getLogger(VSPPayDemoController.class);
 
     @GetMapping("pay/html")
     public void payHtml(@RequestParam("money") int money, HttpServletRequest req, HttpServletResponse resp)

@@ -221,8 +221,12 @@ public class ZPayService {
         logger.info("回调商户异步操作结束 orderId:{}", callbackEntity.getOrderId());
     }
 
+    /**
+     * 使用XQHPayService updateOrderStatus
+     */
     @Transactional
-    public void updateOrderStatus(HttpResult httpResult, int orderId, int crfId)
+    @Deprecated
+    private void updateOrderStatus(HttpResult httpResult, int orderId, int crfId)
     {
         int nowTime = (int) (System.currentTimeMillis()/1000);
         if(Constant.CALLBACK_SUCCESS_RESULT.equals(httpResult.getContent()))
@@ -290,10 +294,10 @@ public class ZPayService {
 
     /**
      * 生成商户回调地址
-     * @param callbackEntity
-     * @return
+     * 使用XQHPayService的genCallbackUrl方法
      */
-    public String genCallbackUrl(CallbackEntity callbackEntity) {
+    @Deprecated
+    private String genCallbackUrl(CallbackEntity callbackEntity) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(callbackEntity.getCallbackUrl() + "?");
