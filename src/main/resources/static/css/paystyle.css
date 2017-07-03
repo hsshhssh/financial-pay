@@ -1,0 +1,90 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color:#F1F2F4;
+}
+div{margin:0;padding:0}
+.pay_head{
+	text-align: center;
+	width: 100%;
+	height:8%;
+	background-color:#3F3F3F;
+	line-height: 3em;
+	
+}
+.pay_head img{
+	float: left;
+	width: 4%;
+	vertical-align: middle;
+	margin-top: 2.5%;
+	margin-left: 4%;
+}
+.pay_head span{
+	margin-left: -6%;
+	color: white;
+}
+.pay_body{
+	width: 100%;
+	height: 30%;
+	background-color: white;
+	text-align: center;
+}
+
+.pay_body_firstchild{
+	padding-top: 8%;
+	font-size: 1.2em;
+}
+.pay_body_secondchild{
+	padding-top: 3%;
+	font-size: 4em;
+}
+/*.pay_border {
+	
+	background-color:gray;
+}*/
+.pay_border {
+	width: 100%;
+	height: 2%;
+	/*background: url(../img/border.png) no-repeat;*/
+}
+.pay_way{
+	background-color: white;
+	width: 100%;
+	height: 26%;
+	
+}
+.pay_way >div{
+	padding-top: 8%;
+	padding-left: 4%;
+}
+.pay_way img{
+	vertical-align: middle;
+	width: 8%;
+	margin-top: -1%;
+	
+}
+.paytitle{
+	padding-left: 4%;
+}
+.pay_select{
+	float: right;
+	
+}
+.pay_select img{
+	vertical-align: middle;
+	margin-top: -5%;
+	width: 60%;
+}
+.pay_botton{
+	width: 100%;
+	height: 32%;
+	margin-top:4%;
+	background-color: white;
+	}
+.pay_botton img{
+	width: 92%;
+	margin-top: 5%;
+	margin-left: 4%;
+}
