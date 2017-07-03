@@ -133,4 +133,10 @@ public class VSPPayDemoController
         }
     }
 
+    @GetMapping("checkstand")
+    public String checkstand()
+    {
+        return "checkstand";
+    }
+
 }
