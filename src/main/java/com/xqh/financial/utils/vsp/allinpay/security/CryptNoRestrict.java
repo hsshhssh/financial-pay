@@ -4,6 +4,7 @@
 package com.xqh.financial.utils.vsp.allinpay.security;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.Provider;
 import java.security.Signature;
@@ -62,12 +63,13 @@ public class CryptNoRestrict implements CryptInf
 	public boolean SignMsg(final String TobeSigned, final String KeyFile, final String PassWord) throws Exception
 	{
 		boolean result = false;
-		FileInputStream fiKeyFile = null;
-		this.lastSignMsg = "";
-		KeyStore ks = prvd==null?KeyStore.getInstance("PKCS12"):KeyStore.getInstance("PKCS12",prvd);
+		InputStream fiKeyFile = null;
+		this.lastSignMsg = "";		KeyStore ks = prvd==null?KeyStore.getInstance("PKCS12"):KeyStore.getInstance("PKCS12",prvd);
+
 		// ks.load(new FileInputStream(KeyFile), PassWord.toCharArray());
-		fiKeyFile = new FileInputStream(KeyFile);
-		//fiKeyFile = new FileInputStream(ResourceUtils.getFile("classpath:file/20058100001175504.p12"));
+		//fiKeyFile = new FileInputStream(KeyFile);
+		//fiKeyFile = (FileInputStream) CryptNoRestrict.class.getClassLoader().getResourceAsStream("file/20058100001175504.p12");
+		fiKeyFile = CryptNoRestrict.class.getClassLoader().getResourceAsStream("file/20058100001175504.p12");
 		//PassWord.toCharArray()
 		try
 		{
