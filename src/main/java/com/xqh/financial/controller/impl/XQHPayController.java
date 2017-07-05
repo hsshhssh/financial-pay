@@ -4,7 +4,6 @@ import com.xqh.financial.controller.api.IXQHPayController;
 import com.xqh.financial.entity.PayApp;
 import com.xqh.financial.entity.PayAppPlatform;
 import com.xqh.financial.entity.other.PayEntity;
-import com.xqh.financial.exception.RepeatPayException;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.mapper.PayAppMapper;
 import com.xqh.financial.service.AppPlatformService;

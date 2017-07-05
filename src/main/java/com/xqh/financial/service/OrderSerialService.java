@@ -1,6 +1,5 @@
 package com.xqh.financial.service;
 
-import com.xqh.financial.entity.PayOrder;
 import com.xqh.financial.entity.PayOrderSerial;
 import com.xqh.financial.exception.RepeatPayException;
 import com.xqh.financial.mapper.PayOrderSerialMapper;
@@ -10,7 +9,6 @@ import com.xqh.financial.utils.Sort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
