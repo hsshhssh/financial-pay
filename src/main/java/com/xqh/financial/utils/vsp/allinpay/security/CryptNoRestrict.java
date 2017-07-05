@@ -3,6 +3,8 @@
  */
 package com.xqh.financial.utils.vsp.allinpay.security;
 
+import org.springframework.util.ResourceUtils;
+
 import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.security.Provider;
@@ -66,7 +68,8 @@ public class CryptNoRestrict implements CryptInf
 		this.lastSignMsg = "";
 		KeyStore ks = prvd==null?KeyStore.getInstance("PKCS12"):KeyStore.getInstance("PKCS12",prvd);
 		// ks.load(new FileInputStream(KeyFile), PassWord.toCharArray());
-		fiKeyFile = new FileInputStream(KeyFile);
+		//fiKeyFile = new FileInputStream(KeyFile);
+		fiKeyFile = new FileInputStream(ResourceUtils.getFile("classpath:file/20058100001175504.p12"));
 		//PassWord.toCharArray()
 		try
 		{

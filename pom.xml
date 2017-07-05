@@ -10,6 +10,7 @@
 
 	<name>financial-pay</name>
 	<description>Demo project for Spring Boot</description>
+	<maven.test.skip>true</maven.test.skip>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

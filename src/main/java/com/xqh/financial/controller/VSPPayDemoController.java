@@ -153,7 +153,7 @@ public class VSPPayDemoController
         String _tempXmlStr =xmlStr.substring(0, iStart) + xmlStr.substring(end + 13);
         logger.info("待加密xml: {}", _tempXmlStr);
 
-        String signStr = XmlTools.signPlain(_tempXmlStr, VSPPayDemoController.class.getClassLoader().getResource("file/20058100001175504.p12").getPath(), "111111", false);
+        String signStr = XmlTools.signPlain(_tempXmlStr, null , "111111", false);
         xmlStr = String.format(xmlStr, signStr);
         logger.info("加密结果 sign:{}", signStr);
         logger.info("请求报文 xml:{}", xmlStr);
