@@ -69,7 +69,7 @@ public class CryptNoRestrict implements CryptInf
 		// ks.load(new FileInputStream(KeyFile), PassWord.toCharArray());
 		//fiKeyFile = new FileInputStream(KeyFile);
 		//fiKeyFile = (FileInputStream) CryptNoRestrict.class.getClassLoader().getResourceAsStream("file/20058100001175504.p12");
-		fiKeyFile = CryptNoRestrict.class.getClassLoader().getResourceAsStream("file/20058100001175504.p12");
+		fiKeyFile = CryptNoRestrict.class.getClassLoader().getResourceAsStream(KeyFile);
 		//PassWord.toCharArray()
 		try
 		{
