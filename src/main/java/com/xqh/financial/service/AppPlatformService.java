@@ -1,7 +1,6 @@
 package com.xqh.financial.service;
 
 import com.xqh.financial.entity.PayAppPlatform;
-import com.xqh.financial.entity.PayPlatform;
 import com.xqh.financial.mapper.PayAppPlatformMapper;
 import com.xqh.financial.utils.Constant;
 import com.xqh.financial.utils.ExampleBuilder;
