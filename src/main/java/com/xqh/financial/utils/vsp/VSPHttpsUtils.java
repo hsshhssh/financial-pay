@@ -26,7 +26,7 @@ import java.security.cert.X509Certificate;
 /**
  * @author zhangminpeng on 2016-06-13 14:50
  */
-public class HttpsUtils {
+public class VSPHttpsUtils {
 
     /**
      * 创建 HTTPS 链接客户端,默认信任证书,不跟随重定向

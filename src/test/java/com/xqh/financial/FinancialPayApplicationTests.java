@@ -68,7 +68,7 @@ public class FinancialPayApplicationTests {
 		System.out.println(cal.get(Calendar.YEAR));
 
 		System.out.println(CommonUtils.getMonthStartEndTime(12, 2017));
-		
+
     }
 
 }

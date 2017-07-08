@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.vsp.HttpConnectionUtil;
-import com.xqh.financial.utils.vsp.HttpsUtils;
+import com.xqh.financial.utils.vsp.VSPHttpsUtils;
 import com.xqh.financial.utils.vsp.SybUtil;
 import com.xqh.financial.utils.vsp.allinpay.XmlTools;
 import org.apache.http.Header;
@@ -162,7 +162,7 @@ public class VSPPayDemoController
 
         StringEntity stringEntity = new StringEntity(xmlStr, "GBK");
 
-        String result = HttpsUtils.post("https://tlt.allinpay.com/aipg/ProcessServlet", headers, stringEntity);
+        String result = VSPHttpsUtils.post("https://tlt.allinpay.com/aipg/ProcessServlet", headers, stringEntity);
 
         logger.info("请求结果 result:{}", result);
 
