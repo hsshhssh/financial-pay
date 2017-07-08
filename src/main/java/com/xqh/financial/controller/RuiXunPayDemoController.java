@@ -12,10 +12,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,9 +73,10 @@ public class RuiXunPayDemoController
             }
             catch (Exception e)
             {
-                logger.error("锐讯支付获得url，返回值转换失败 e:{}", e);
+                logger.error("锐讯支付获得url，返回值转换失败", e.getMessage());
                 return;
             }
+            logger.info("锐讯支付获得payUrl 返回值 map:{}", contentMap);
 
             String payUrl = null;
             try
@@ -87,7 +85,7 @@ public class RuiXunPayDemoController
             }
             catch (Exception e)
             {
-                logger.error("锐讯支付获得url，转换支付url失败 e:{}", e);
+                logger.error("锐讯支付获得url，转换支付url失败 e", e);
                 return;
             }
 
@@ -100,7 +98,7 @@ public class RuiXunPayDemoController
 
     }
 
-    @GetMapping("callback")
+    @PostMapping("callback")
     public void callback(HttpServletRequest req, HttpServletResponse resp)
     {
         Map<String, String[]> params = req.getParameterMap();
@@ -123,7 +121,7 @@ public class RuiXunPayDemoController
         }
     }
 
-    @GetMapping("notify")
+    @PostMapping("notify")
     public void notify(HttpServletRequest req, HttpServletResponse resp)
     {
         Map<String, String[]> params = req.getParameterMap();
