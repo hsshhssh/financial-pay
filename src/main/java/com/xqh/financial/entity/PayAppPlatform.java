@@ -27,7 +27,7 @@ public class PayAppPlatform {
     private Integer platformId;
 
     /**
-     * 支付平台编码
+     * 平台编码
      */
     @Column(name = "platform_code")
     private String platformCode;
@@ -48,6 +48,11 @@ public class PayAppPlatform {
      */
     @Column(name = "interest_rate")
     private Integer interestRate;
+
+    /**
+     * 备注信息
+     */
+    private String remark;
 
     /**
      * 创建时间

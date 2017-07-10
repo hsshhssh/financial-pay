@@ -136,6 +136,29 @@ public class RuiXunPayDemoController
         logger.info("/ruixun/callback param: " + queryString.substring(0, queryString.length() - 1));
     }
 
+
+    public void withdraw(HttpServletRequest req, HttpServletResponse resp) throws Exception
+    {
+        String url = "https://mpay.wxhang.cn/gateway";
+        List<BasicNameValuePair> nvps = Lists.newArrayList();
+        nvps.add(new BasicNameValuePair("appid", "mp_e402845fd900467f"));
+        nvps.add(new BasicNameValuePair("requestNo", String.valueOf(System.currentTimeMillis())));
+        nvps.add(new BasicNameValuePair("productId", "0107"));
+        nvps.add(new BasicNameValuePair("transId", "10"));
+        nvps.add(new BasicNameValuePair("orderData", String.valueOf(System.currentTimeMillis()/1000)));
+        nvps.add(new BasicNameValuePair("orderNo", String.valueOf(System.currentTimeMillis())));
+        nvps.add(new BasicNameValuePair("returnUrl", "http://139.196.51.152:8080/ruixun/notify"));
+        nvps.add(new BasicNameValuePair("notifyUrl", "http://139.196.51.152:8080/ruixun/callback"));
+        nvps.add(new BasicNameValuePair("transAmt", "1"));
+        nvps.add(new BasicNameValuePair("commodityName", "福利"));
+        nvps.add(new BasicNameValuePair("merchantId", "282"));
+        nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps)));
+
+        HttpResult httpResult = HttpsUtils.post(url, null, new UrlEncodedFormEntity(nvps, "UTF-8"), "UTF-8");
+
+
+    }
+
     private Map<String, String> convertResToMap(String content)
     {
         List<String> contentList = Splitter.on("&").omitEmptyStrings().splitToList(content);

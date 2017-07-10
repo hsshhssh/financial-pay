@@ -12,6 +12,7 @@
     <result column="zpay_app_id" property="zpayAppId" jdbcType="INTEGER" />
     <result column="zpay_key" property="zpayKey" jdbcType="CHAR" />
     <result column="zpay_qn" property="zpayQn" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="upadte_time" property="upadteTime" jdbcType="INTEGER" />
   </resultMap>

@@ -5,8 +5,8 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Table(name = "pay_user_settlement")
-public class PayUserSettlement {
+@Table(name = "pay_user_playform_settlement")
+public class PayUPS {
     /**
      * 主键id
      */
@@ -21,13 +21,19 @@ public class PayUserSettlement {
     private Integer userId;
 
     /**
-     * 总金额
+     * 支付平台编码
+     */
+    @Column(name = "playform_code")
+    private String playformCode;
+
+    /**
+     * 订单总金额
      */
     @Column(name = "total_money")
     private Double totalMoney;
 
     /**
-     * 总手续费
+     * 手续费总额
      */
     @Column(name = "total_handling_charge")
     private Double totalHandlingCharge;
@@ -39,7 +45,7 @@ public class PayUserSettlement {
     private Double settlementMoney;
 
     /**
-     * 订单时间
+     * 结算时间
      */
     @Column(name = "order_time")
     private Integer orderTime;

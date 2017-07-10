@@ -8,9 +8,10 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="app_id" property="appId" jdbcType="INTEGER" />
-    <result column="total_money" property="totalMoney" jdbcType="INTEGER" />
-    <result column="total_handling_charge" property="totalHandlingCharge" jdbcType="INTEGER" />
-    <result column="settlement_money" property="settlementMoney" jdbcType="INTEGER" />
+    <result column="total_money" property="totalMoney" jdbcType="DECIMAL" />
+    <result column="total_handling_charge" property="totalHandlingCharge" jdbcType="DECIMAL" />
+    <result column="settlement_money" property="settlementMoney" jdbcType="DECIMAL" />
+    <result column="order_time" property="orderTime" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
