@@ -43,6 +43,9 @@ public class XQHPayController implements IXQHPayController{
     @Autowired
     private VSPPayService vspPayService;
 
+    @Autowired
+    private RuiXunPayService ruiXunPayService;
+
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
 
@@ -121,6 +124,11 @@ public class XQHPayController implements IXQHPayController{
         {
             logger.info("通联支付通道 payEntity:{}", payEntity);
             vspPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
+        }
+        else if(Constant.RUIXUN_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
+        {
+            logger.info("锐讯支付通道 payEntity:{}", payEntity);
+            ruiXunPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
         }
         else
         {

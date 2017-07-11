@@ -97,15 +97,19 @@ public class Constant {
      */
     public static String VSP_CHANNEL_CODE = "0002";
 
+    /**
+     * 锐讯支付通道
+     */
+    public static String RUIXUN_CHANNEL_CODE = "0003";
 
     /**
      * 微信wap支付方式
      */
-    public final static Integer WXWAP_PAY_TYPE = 1;
+    public final static int WXWAP_PAY_TYPE = 1;
 
     /**
      * 支付宝wap支付方式
      */
-    public final static Integer ALIPAYWAP_PAY_TYPE = 2;
+    public final static int ALIPAYWAP_PAY_TYPE = 2;
 
 }
