@@ -49,7 +49,7 @@ public class XQHPayController implements IXQHPayController{
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
 
-        CommonUtils.getRequestParam(req, "新企航支付请求" + req.getRequestURI());
+        CommonUtils.printRequestParam(req, "新企航支付请求" + req.getRequestURI());
 
         // 取得支付实体类
         PayEntity payEntity = null;

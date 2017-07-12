@@ -122,6 +122,7 @@ public class SybUtil {
 		}
 	}
 
+	@Deprecated
 	public static TreeMap<String, String> getParams(HttpServletRequest request){
 		TreeMap<String, String> map = new TreeMap<String, String>();
 		Map reqMap = request.getParameterMap();

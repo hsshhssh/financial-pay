@@ -71,7 +71,7 @@ public class ZPayController implements IZPayController {
     public void callback(HttpServletRequest req, HttpServletResponse resp)
     {
 
-        CommonUtils.getRequestParam(req, "掌易付回调");
+        CommonUtils.printRequestParam(req, "掌易付回调");
 
         CallbackEntity callbackEntity = null;
         try

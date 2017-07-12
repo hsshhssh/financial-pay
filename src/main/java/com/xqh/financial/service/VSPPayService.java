@@ -160,7 +160,7 @@ public class VSPPayService
         }
 
         // 生成回调实体类
-        CallbackEntity callbackEntity = xqhPayService.getCallbackByOrderSerial(orderSerial, vspConfig.getKey());
+        CallbackEntity callbackEntity = xqhPayService.getCallbackByOrderSerial(orderSerial, payApp.getSecretkey());
 
         // 创建订单
         PayOrder payOrder = xqhPayService.insertOrderByOrderSerial(orderSerial, callbackEntity.getOrderNo(), params.get("trxid"));

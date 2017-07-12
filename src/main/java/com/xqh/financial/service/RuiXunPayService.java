@@ -1,12 +1,15 @@
 package com.xqh.financial.service;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.VerifyException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.xqh.financial.entity.PayApp;
-import com.xqh.financial.entity.PayPRXI;
+import com.xqh.financial.entity.*;
+import com.xqh.financial.entity.other.CallbackEntity;
 import com.xqh.financial.entity.other.HttpResult;
 import com.xqh.financial.exception.ValidationException;
+import com.xqh.financial.mapper.PayAppMapper;
+import com.xqh.financial.mapper.PayOrderSerialMapper;
 import com.xqh.financial.mapper.PayPRXIMapper;
 import com.xqh.financial.utils.*;
 import com.xqh.financial.utils.ruixun.RuiXunConfigParamUtils;
@@ -17,7 +20,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +32,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 锐讯支付逻辑层
@@ -47,6 +53,13 @@ public class RuiXunPayService
     @Autowired
     private XQHPayService xqhPayService;
 
+    @Autowired
+    private PayOrderSerialMapper orderSerialMapper;
+
+    @Autowired
+    private PayAppMapper payAppMapper;
+
+
     private static Logger logger = LoggerFactory.getLogger(RuiXunPayService.class);
 
     public void pay(HttpServletResponse resp, int userId, int appId, int money, int orderSerial, int payType, PayApp payApp)
@@ -58,6 +71,7 @@ public class RuiXunPayService
         {
             logger.error("锐讯支付 无支付通道 appId:{} userId:{} payType:{}", appId, userId, payType);
             xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_NO_PAYTYPE);
+            return ;
         }
 
         // 获取锐讯支付平台信息
@@ -69,6 +83,7 @@ public class RuiXunPayService
         {
             logger.error("锐讯支付 支付通道异常 payPRXIList.size:{}", payPRXIList.size());
             xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_NO_PAYTYPE);
+            return ;
         }
 
 
@@ -79,6 +94,7 @@ public class RuiXunPayService
         {
             logger.error("锐讯支付 获得支付url失败 orderSerial:{} payUrl:{}", orderSerial, payUrl);
             xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_UNKNOWN_ERROR);
+            return;
         }
 
         try
@@ -88,13 +104,16 @@ public class RuiXunPayService
         catch (IOException e) {
             logger.error("锐讯支付 跳转支付url失败 orderSerial:{} payUrl:{}", orderSerial, payUrl);
             xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_UNKNOWN_ERROR);
+            return ;
 
         }
 
-
     }
 
-
+    /**
+     * 取得支付url
+     * @return
+     */
     private String getPayUrl(int orderSerial, String productId, int money, String appName, PayPRXI payPRXI)
     {
 
@@ -245,4 +264,112 @@ public class RuiXunPayService
     }
 
 
+    /**
+     * 异步回调-校验参数
+     * @return
+     */
+    public PayOrderSerial verifyCallbackParam(TreeMap<String, String> params)
+    {
+        // 取得订单流水信息
+        PayOrderSerial orderSerial = null;
+        String orderNo = params.get("orderNo");
+        if(orderNo != null && StringUtils.isNumeric(orderNo))
+        {
+            orderSerial = orderSerialMapper.selectByPrimaryKey(Integer.valueOf(orderNo));
+        }
+
+        if(null == orderSerial)
+        {
+            logger.error("锐讯支付 异步回调 订单流水号异常 orderSerial:{} params：{}", orderNo, params);
+            throw new VerifyException("锐讯支付 异步回调 订单流水号异常");
+        }
+
+
+        // 支付结果
+        String respCode = params.get("respCode");
+        if(!"0000".equals(respCode))
+        {
+            logger.error("锐讯支付 异步回调 支付结果非成功 respCode:{}, params:{}", respCode, params);
+            throw new VerifyException("锐讯支付 异步回调 支付结果非成功");
+        }
+
+        // 锐讯参数
+        String appid = params.get("appid");
+        if(!ruixunConfig.getAppid().equals(appid))
+        {
+            logger.error("锐讯支付 异步回调 appid异常 appid:{}, params:{}", appid, params);
+            throw new VerifyException("锐讯支付 异步回调 appid异常");
+        }
+
+        // TODO 检验签名
+        return orderSerial;
+
+
+    }
+
+
+    /**
+     * 创建订单
+     */
+    @Transactional
+    public CallbackEntity insertOrderAndGenCallbackEntity(PayOrderSerial orderSerial, TreeMap<String, String> params)
+    {
+        int nowTime = (int) (System.currentTimeMillis()/1000);
+
+        // 取得payApp
+        PayApp payApp = payAppMapper.selectByPrimaryKey(orderSerial.getAppId());
+        if(null == payApp)
+        {
+            logger.error("锐讯支付 异步回调 获得应用信息失败 appId:{} orderSerialId:{}", orderSerial.getAppId(), orderSerial.getId());
+            return null;
+        }
+        logger.info("锐讯支付 异步回调 取得应用信息成功 appId:{}", payApp.getId());
+
+
+        // 生成回调实体类
+        CallbackEntity callbackEntity = xqhPayService.getCallbackByOrderSerial(orderSerial, payApp.getSecretkey());
+        logger.info("锐讯支付 异步回调 生成回调实体类成功 callbackEntity:{}", callbackEntity);
+
+
+        // 创建订单
+        PayOrder payOrder = xqhPayService.insertOrderByOrderSerial(orderSerial, callbackEntity.getOrderNo(), params.get("payId"));
+        if(null == payOrder)
+        {
+            logger.error("锐讯支付 异步回调 创建订单失败 appId:{} orderSerialId:{}", orderSerial.getAppId(), orderSerial.getId());
+            return null;
+        }
+        callbackEntity.setOrderId(payOrder.getId());
+        callbackEntity.setCallbackUrl(payApp.getCallbackUrl());
+        logger.info("锐讯支付 异步回调 创建订单成功 appId:{}", payApp.getId());
+
+
+        // 创建失败回调记录
+        PayCFR payCFR = xqhPayService.insertCFR(orderSerial, callbackEntity, payOrder);
+        callbackEntity.setCfrId(payCFR.getId());
+        logger.info("锐讯支付 异步回调 创建失败的回调记录成功 appId:{}", payApp.getId());
+
+        return callbackEntity;
+    }
+
+
+    /**
+     * 异步回调商户
+     */
+    @Async
+    public void callbackUser(CallbackEntity callbackEntity)
+    {
+        logger.info("锐讯支付 异步回调商户开始 orderId:{} appId:{}", callbackEntity.getOrderId(), callbackEntity.getAppId());
+        String url = xqhPayService.genCallbackUrl(callbackEntity);
+        logger.info("锐讯支付 回调商户url:{}", url);
+
+        HttpResult httpResult = HttpUtils.get(url);
+
+        logger.info("锐讯支付 回调商户返回值: {}", httpResult);
+
+        // 根据回调结果修改订单状态
+        xqhPayService.updateOrderStatus(httpResult, callbackEntity.getOrderId(), callbackEntity.getCfrId());
+
+        logger.info("锐讯支付 回调商户异步操作结束 orderId:{}", callbackEntity.getOrderId());
+
+    }
 }

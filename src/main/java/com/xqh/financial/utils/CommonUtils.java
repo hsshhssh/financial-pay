@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hssh on 2017/5/1.
@@ -81,7 +78,12 @@ public class CommonUtils {
         }
     }
 
-    public static void getRequestParam(HttpServletRequest rep, String url) {
+    /**
+     * 打印请求参数
+     * @param rep
+     * @param url
+     */
+    public static void printRequestParam(HttpServletRequest rep, String url) {
         Map<String, String[]> params = rep.getParameterMap();
         String queryString = "";
         for (String key : params.keySet()) {
@@ -169,5 +171,22 @@ public class CommonUtils {
             res.add((int) (cal.getTime().getTime()/1000));
         }
         return res;
+    }
+
+
+    /**
+     * 取得请求参数
+     * @param request
+     * @return
+     */
+    public static TreeMap<String, String> getParams(HttpServletRequest request){
+        TreeMap<String, String> map = new TreeMap<String, String>();
+        Map reqMap = request.getParameterMap();
+        for(Object key:reqMap.keySet()){
+            String value = ((String[])reqMap.get(key))[0];
+            //System.out.println(key+";"+value);
+            map.put(key.toString(),value);
+        }
+        return map;
     }
 }
