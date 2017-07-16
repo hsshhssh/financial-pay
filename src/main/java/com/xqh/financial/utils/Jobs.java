@@ -59,12 +59,12 @@ public class Jobs
         // 入库
         for (Integer appId : appSettlementMap.keySet())
         {
-            //appSettlementMapper.insertSelective(appSettlementMap.get(appId));
+            appSettlementMapper.insertSelective(appSettlementMap.get(appId));
         }
 
         for(Integer userId : userSettlementMap.keySet())
         {
-            //userSettlementMapper.insertSelective(userSettlementMap.get(userId));
+            userSettlementMapper.insertSelective(userSettlementMap.get(userId));
         }
 
         for (String s : userPlatformSettlementMap.keySet())
