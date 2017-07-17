@@ -26,7 +26,7 @@ public class Constant {
     public static int RESULT_TIME_OUT = 1002;
 
     /**
-     * 链接超时失效1002
+     * 无支付通道
      */
     public static int RESULT_NO_PAYTYPE = 1003;
 
@@ -92,15 +92,24 @@ public class Constant {
      */
     public static String ZPAY_CHANNEL_CODE = "0001";
 
+    /**
+     * 通联支付通道
+     */
+    public static String VSP_CHANNEL_CODE = "0002";
+
+    /**
+     * 锐讯支付通道
+     */
+    public static String RUIXUN_CHANNEL_CODE = "0003";
 
     /**
      * 微信wap支付方式
      */
-    public final static Integer WXWAP_PAY_TYPE = 1;
+    public final static int WXWAP_PAY_TYPE = 1;
 
     /**
      * 支付宝wap支付方式
      */
-    public final static Integer ALIPAYWAP_PAY_TYPE = 2;
+    public final static int ALIPAYWAP_PAY_TYPE = 2;
 
 }

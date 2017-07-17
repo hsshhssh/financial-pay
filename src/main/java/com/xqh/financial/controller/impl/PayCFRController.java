@@ -6,6 +6,7 @@ import com.xqh.financial.entity.PayCFR;
 import com.xqh.financial.entity.other.HttpResult;
 import com.xqh.financial.entity.vo.PayCFRVO;
 import com.xqh.financial.mapper.PayCFRMapper;
+import com.xqh.financial.service.XQHPayService;
 import com.xqh.financial.service.ZPayService;
 import com.xqh.financial.utils.*;
 import org.apache.ibatis.session.RowBounds;
@@ -31,7 +32,7 @@ public class PayCFRController implements IPayCFRController
     private PayCFRMapper payCFRMapper;
 
     @Autowired
-    private ZPayService zPayService;
+    private XQHPayService xqhPayService;
 
     private static Logger logger = LoggerFactory.getLogger(PayCFRController.class);
 
@@ -68,7 +69,7 @@ public class PayCFRController implements IPayCFRController
 
         HttpResult httpResult = HttpUtils.get(payCFR.getCallbackUrl());
 
-        zPayService.updateOrderStatus(httpResult, payCFR.getOrderId(), payCFR.getId());
+        xqhPayService.updateOrderStatus(httpResult, payCFR.getOrderId(), payCFR.getId());
 
         return 1;
     }

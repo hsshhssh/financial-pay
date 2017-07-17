@@ -80,7 +80,7 @@ public class HttpConnectionUtil {
     			.append('=')
     			.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
     	}
-    	System.out.println("参数:"+outBuf.toString());
+    	//System.out.println("参数:"+outBuf.toString());
     	return postParams(outBuf.toString(),readreturn);
     }
     

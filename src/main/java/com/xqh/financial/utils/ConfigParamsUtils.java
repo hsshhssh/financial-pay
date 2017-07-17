@@ -5,12 +5,16 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 /**
+ * 支付配置
  * Created by hssh on 2017/5/12.
  */
 @Component
 @Data
 public class ConfigParamsUtils {
 
+    /**
+     * 当前服务器的ip+port
+     */
     @Value(path = "/config/zkconf/xqhpay.conf", key = "zpayNotifyHost")
     private String zpayNotifyHost;
 

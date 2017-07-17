@@ -5,28 +5,30 @@
     <title></title>
 </head>
 <body>
-<form action="#" th:action="@{https://pay.ipaynow.cn/}" th:object="${command}" method="post">
-    功能码：<input type="text" name="funcode" th:field="*{funcode}"></input>
-    应用ID:<input type="text" name="appId" th:field="*{appId}"></input>
-    商户订单号：<input type="text" name="mhtOrderNo" th:field="*{mhtOrderNo}"></input>
-    商户订单名称：<input type="text" name="mhtOrderName" th:field="*{mhtOrderName}"></input>
-    版本号：<input type="text" name="version" th:field="*{version}"></input>
-    币种：<input type="text" name="mhtCurrencyType" th:field="*{mhtCurrencyType}"></input>
-    金额：<input type="text" name="mhtOrderAmt" th:field="*{mhtOrderAmt}"></input>
-    订单详情：<input type="text" name="mhtOrderDetail" th:field="*{mhtOrderDetail}"></input>
-    订单类型：<input type="text" name="mhtOrderType" th:field="*{mhtOrderType}"></input>
-    订单时间：<input type="text" name="mhtOrderStartTime" th:field="*{mhtOrderStartTime}"></input>
-    后台通知URL：<input type="text" name="notifyUrl" th:field="*{notifyUrl}"></input>
-    前台通知URL：<input type="text" name="frontNotifyUrl" th:field="*{frontNotifyUrl}"></input>
-    字符集：<input type="text" name="mhtCharset" value="UTF-8" ></input>
-    设备类型：<input type="text" name="deviceType" th:field="*{deviceType}" ></input>
-    输出格式：<input type="text" name="outputType" th:field="*{outputType}" ></input>
-    商户保留域：<input type="text" name="mhtReserved" th:field="*{mhtReserved}"></input>
-    支付渠道：<input type="text" name="payChannelType" th:field="*{payChannelType}"></input>
-    签名类型：<input type="text" name="mhtSignType" th:field="*{mhtSignType}" ></input>
-    支付账号：<input type="text" name="payAccNo" th:field="*{payAccNo}" ></input>
-    数字签名：<input type="text" name="mhtSignature" th:field="*{mhtSignature}" ></input>
-    <input type="submit" value="Add"></input>
-</form>
+<p th:text="${payUrl}">Welcome to our grocery store!</p>
+<div th:include="pay::pay (${payUrl})">...</div>
+<!--<form action="#" th:action="@{https://pay.ipaynow.cn/}" th:object="${command}" method="post">-->
+    <!--功能码：<input type="text" name="funcode" th:field="*{funcode}"></input>-->
+    <!--应用ID:<input type="text" name="appId" th:field="*{appId}"></input>-->
+    <!--商户订单号：<input type="text" name="mhtOrderNo" th:field="*{mhtOrderNo}"></input>-->
+    <!--商户订单名称：<input type="text" name="mhtOrderName" th:field="*{mhtOrderName}"></input>-->
+    <!--版本号：<input type="text" name="version" th:field="*{version}"></input>-->
+    <!--币种：<input type="text" name="mhtCurrencyType" th:field="*{mhtCurrencyType}"></input>-->
+    <!--金额：<input type="text" name="mhtOrderAmt" th:field="*{mhtOrderAmt}"></input>-->
+    <!--订单详情：<input type="text" name="mhtOrderDetail" th:field="*{mhtOrderDetail}"></input>-->
+    <!--订单类型：<input type="text" name="mhtOrderType" th:field="*{mhtOrderType}"></input>-->
+    <!--订单时间：<input type="text" name="mhtOrderStartTime" th:field="*{mhtOrderStartTime}"></input>-->
+    <!--后台通知URL：<input type="text" name="notifyUrl" th:field="*{notifyUrl}"></input>-->
+    <!--前台通知URL：<input type="text" name="frontNotifyUrl" th:field="*{frontNotifyUrl}"></input>-->
+    <!--字符集：<input type="text" name="mhtCharset" value="UTF-8" ></input>-->
+    <!--设备类型：<input type="text" name="deviceType" th:field="*{deviceType}" ></input>-->
+    <!--输出格式：<input type="text" name="outputType" th:field="*{outputType}" ></input>-->
+    <!--商户保留域：<input type="text" name="mhtReserved" th:field="*{mhtReserved}"></input>-->
+    <!--支付渠道：<input type="text" name="payChannelType" th:field="*{payChannelType}"></input>-->
+    <!--签名类型：<input type="text" name="mhtSignType" th:field="*{mhtSignType}" ></input>-->
+    <!--支付账号：<input type="text" name="payAccNo" th:field="*{payAccNo}" ></input>-->
+    <!--数字签名：<input type="text" name="mhtSignature" th:field="*{mhtSignature}" ></input>-->
+    <!--<input type="submit" value="Add"></input>-->
+<!--</form>-->
 </body>
 </html>

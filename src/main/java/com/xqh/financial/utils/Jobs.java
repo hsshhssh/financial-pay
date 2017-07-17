@@ -1,14 +1,11 @@
 package com.xqh.financial.utils;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.xqh.financial.entity.PayAppSettlement;
-import com.xqh.financial.entity.PayOrder;
-import com.xqh.financial.entity.PayUserSettlement;
-import com.xqh.financial.mapper.PayAppSettlementMapper;
-import com.xqh.financial.mapper.PayOrderMapper;
-import com.xqh.financial.mapper.PayUserSettlementMapper;
+import com.xqh.financial.entity.*;
+import com.xqh.financial.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +33,12 @@ public class Jobs
     @Autowired
     PayUserSettlementMapper userSettlementMapper;
 
+    @Autowired
+    PayPlatformMapper platformMapper;
+
+    @Autowired
+    PayUPSMapper payUPSMapper;
+
     @Scheduled(cron = "0 0 1 * * ? ")
     public void settlement()
     {
@@ -50,6 +53,8 @@ public class Jobs
 
         Map<Integer, PayUserSettlement> userSettlementMap = getUserSettlement(orderList);
 
+        Map<String, PayUPS> userPlatformSettlementMap = getUserPlatformSettlement(orderList);
+
 
         // 入库
         for (Integer appId : appSettlementMap.keySet())
@@ -60,6 +65,11 @@ public class Jobs
         for(Integer userId : userSettlementMap.keySet())
         {
             userSettlementMapper.insertSelective(userSettlementMap.get(userId));
+        }
+
+        for (String s : userPlatformSettlementMap.keySet())
+        {
+            payUPSMapper.insertSelective(userPlatformSettlementMap.get(s));
         }
 
     }
@@ -181,6 +191,63 @@ public class Jobs
 
         return userSettlementMap;
 
+    }
+
+
+    /**
+     * 用户结算平台结算
+     * @param orderList
+     * @return
+     */
+    public Map<String, PayUPS> getUserPlatformSettlement(List<PayOrder> orderList)
+    {
+        int nowTime = (int) (System.currentTimeMillis()/1000);
+
+        List<PayPlatform> payPlatformList = platformMapper.selectAll();
+        Map<Integer, PayPlatform> payPlatformMap = Maps.newHashMap();
+        for (PayPlatform payPlatform : payPlatformList)
+        {
+            payPlatformMap.put(payPlatform.getId(), payPlatform);
+        }
+
+        Multimap<String, PayOrder> userPlatformOrderMap = ArrayListMultimap.create();
+        Map<String, PayUPS> userPlatformSettlementMap = Maps.newHashMap();
+
+        String tempKey;
+        for (PayOrder payOrder : orderList)
+        {
+            tempKey = payOrder.getUserId() + "-" + payPlatformMap.get(payOrder.getPlatformId()).getPlatformCode();
+            userPlatformOrderMap.put(tempKey, payOrder);
+        }
+
+        for (String s : userPlatformOrderMap.keySet())
+        {
+            List<String> userIdAndPlatformCode = Splitter.on("-").splitToList(s);
+
+            double totalMoney = 0;
+            double totalHandlingCharge = 0;
+            int userId = Integer.parseInt(userIdAndPlatformCode.get(0));
+            for (PayOrder payOrder : userPlatformOrderMap.get(s))
+            {
+                totalMoney = DoubleUtils.add(totalMoney, payOrder.getMoney());
+                double temp = DoubleUtils.mul(payOrder.getMoney(), DoubleUtils.div(payOrder.getInterestRate(), 10000)); // 利息单位万分之几
+                totalHandlingCharge = DoubleUtils.add(totalHandlingCharge, temp);
+            }
+
+            PayUPS payUPS = new PayUPS();
+            payUPS.setUserId(userId);
+            payUPS.setPlayformCode(userIdAndPlatformCode.get(1));
+            payUPS.setTotalMoney(totalMoney);
+            payUPS.setTotalHandlingCharge(totalHandlingCharge);
+            payUPS.setSettlementMoney(DoubleUtils.sub(totalMoney, totalHandlingCharge));
+            payUPS.setOrderTime(CommonUtils.getZeroHourTime(-1));
+            payUPS.setUpdateTime(nowTime);
+            payUPS.setCreateTime(nowTime);
+
+            userPlatformSettlementMap.put(s, payUPS);
+        }
+
+        return userPlatformSettlementMap;
     }
 
 }

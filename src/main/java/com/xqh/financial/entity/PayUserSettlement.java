@@ -39,7 +39,7 @@ public class PayUserSettlement {
     private Double settlementMoney;
 
     /**
-     * 订单日期
+     * 订单时间
      */
     @Column(name = "order_time")
     private Integer orderTime;
