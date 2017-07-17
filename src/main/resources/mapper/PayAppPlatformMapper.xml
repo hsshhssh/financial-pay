@@ -12,6 +12,7 @@
     <result column="pay_type" property="payType" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="TINYINT" />
     <result column="interest_rate" property="interestRate" jdbcType="TINYINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>

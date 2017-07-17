@@ -128,6 +128,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/bouncycastle/bcprov-jdk14 -->
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcprov-jdk14</artifactId>
+			<version>138</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

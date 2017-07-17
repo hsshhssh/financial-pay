@@ -4,7 +4,6 @@ import com.xqh.financial.controller.api.IXQHPayController;
 import com.xqh.financial.entity.PayApp;
 import com.xqh.financial.entity.PayAppPlatform;
 import com.xqh.financial.entity.other.PayEntity;
-import com.xqh.financial.exception.RepeatPayException;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.mapper.PayAppMapper;
 import com.xqh.financial.service.*;
@@ -44,10 +43,13 @@ public class XQHPayController implements IXQHPayController{
     @Autowired
     private VSPPayService vspPayService;
 
+    @Autowired
+    private RuiXunPayService ruiXunPayService;
+
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
 
-        CommonUtils.getRequestParam(req, "新企航支付请求" + req.getRequestURI());
+        CommonUtils.printRequestParam(req, "新企航支付请求" + req.getRequestURI());
 
         // 取得支付实体类
         PayEntity payEntity = null;
@@ -122,6 +124,11 @@ public class XQHPayController implements IXQHPayController{
         {
             logger.info("通联支付通道 payEntity:{}", payEntity);
             vspPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
+        }
+        else if(Constant.RUIXUN_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
+        {
+            logger.info("锐讯支付通道 payEntity:{}", payEntity);
+            ruiXunPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
         }
         else
         {

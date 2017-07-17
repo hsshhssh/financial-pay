@@ -64,7 +64,7 @@ public class VSPPayService
         if(null == vspPayType)
         {
             logger.error("通联支付 无支付通道 appId:{} userId:{} payType:{}", appId, userId, payType);
-            CommonUtils.writeResponse(resp, Constant.RESULT_NO_PAYTYPE);
+            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(),  Constant.RESULT_NO_PAYTYPE);
         }
 
 
@@ -73,7 +73,7 @@ public class VSPPayService
         if(null == payUrl)
         {
             logger.error("通联支付生成支付url失败 appId:{} orderSerial:{}", appId, orderSerial);
-            CommonUtils.writeResponse(resp, Constant.RESULT_UNKNOWN_ERROR);
+            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_UNKNOWN_ERROR);
         }
 
         logger.info("通联支付发起支付 url:{}", payUrl);
@@ -85,7 +85,7 @@ public class VSPPayService
         catch (IOException e)
         {
             logger.error("通联支付发起支付失败 appId:{} orderSerial:{} e:{}", appId, orderSerial, e);
-            CommonUtils.writeResponse(resp, Constant.RESULT_UNKNOWN_ERROR);
+            xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_UNKNOWN_ERROR);
         }
 
     }
@@ -160,7 +160,7 @@ public class VSPPayService
         }
 
         // 生成回调实体类
-        CallbackEntity callbackEntity = xqhPayService.getCallbackByOrderSerial(orderSerial, vspConfig.getKey());
+        CallbackEntity callbackEntity = xqhPayService.getCallbackByOrderSerial(orderSerial, payApp.getSecretkey());
 
         // 创建订单
         PayOrder payOrder = xqhPayService.insertOrderByOrderSerial(orderSerial, callbackEntity.getOrderNo(), params.get("trxid"));

@@ -6,6 +6,10 @@ import com.xqh.financial.utils.DoubleUtils;
 import com.xqh.financial.utils.UrlUtils;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +19,7 @@ import java.util.UUID;
 public class FinancialPayApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void contextLoads() throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
 
 		String key = "_aa";
 		System.out.println("_aa".lastIndexOf("_"));
@@ -65,6 +69,8 @@ public class FinancialPayApplicationTests {
 
 		System.out.println(CommonUtils.getMonthStartEndTime(12, 2017));
 
-	}
+
+
+    }
 
 }

@@ -51,6 +51,11 @@ public class PayPZI {
     private String zpayQn;
 
     /**
+     * 备注信息
+     */
+    private String remark;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")
