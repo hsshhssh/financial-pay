@@ -33,7 +33,7 @@ public class CheckstandDemoController
     {
         int payUserId = 2;
         int appId = 8;
-        double money = 0.01;
+        int money = 1;
         String key = "A85CE8F77D2917013D4963CEC6B7522E";
         String sign = CommonUtils.getMd5("" + payUserId + appId + money + key);
 
@@ -54,8 +54,7 @@ public class CheckstandDemoController
     public void pay(HttpServletResponse resp, HttpServletRequest req) throws IOException {
         int payUserId = Integer.parseInt(req.getParameter("payUserId"));
         int appId = Integer.parseInt(req.getParameter("appId"));
-        double moneyDouble = DoubleUtils.mul(100, Double.parseDouble(req.getParameter("money")));
-        int money = new Double(moneyDouble).intValue();
+        int money = Integer.parseInt(req.getParameter("money"));
         int payType = Integer.parseInt(req.getParameter("payType"));
         String sign = req.getParameter("sign");
 
@@ -63,7 +62,7 @@ public class CheckstandDemoController
         String key = "A85CE8F77D2917013D4963CEC6B7522E";
 
         // 校验参数
-        String _sign = CommonUtils.getMd5("" + payUserId + appId + req.getParameter("money") + key);
+        String _sign = CommonUtils.getMd5("" + payUserId + appId + money + key);
         if(!sign.equals(_sign))
         {
             logger.error("新企航收银台支付 校验不通过 appId:{}", appId);
