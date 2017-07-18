@@ -3,6 +3,7 @@ package com.xqh.financial.controller;
 import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.ConfigParamsUtils;
 import com.xqh.financial.utils.Constant;
+import com.xqh.financial.utils.DoubleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class CheckstandDemoController
     {
         int payUserId = 2;
         int appId = 8;
-        int money = 1;
+        double money = 0.01;
         String key = "A85CE8F77D2917013D4963CEC6B7522E";
         String sign = CommonUtils.getMd5("" + payUserId + appId + money + key);
 
@@ -53,7 +54,8 @@ public class CheckstandDemoController
     public void pay(HttpServletResponse resp, HttpServletRequest req) throws IOException {
         int payUserId = Integer.parseInt(req.getParameter("payUserId"));
         int appId = Integer.parseInt(req.getParameter("appId"));
-        int money = Integer.parseInt(req.getParameter("money"));
+        double moneyDouble = DoubleUtils.mul(100, Double.parseDouble(req.getParameter("money")));
+        int money = new Double(moneyDouble).intValue();
         int payType = Integer.parseInt(req.getParameter("payType"));
         String sign = req.getParameter("sign");
 
