@@ -3,15 +3,15 @@ store.payway='001';
 
 $('#wx').click(function(){//微信支付方式的选择
 	
- $('#wx').attr('src', '../static/img/select.png');
-  $('#ali').attr('src', '../static/img/unselect.png');
+ $('#wx').attr('src', '/img/select.png');
+  $('#ali').attr('src', '/img/unselect.png');
   store.payway='001';
 });
 
 $('#ali').click(function(){//支付宝支付方式的选择
 	
- $('#wx').attr('src', '../static/img/unselect.png');
-  $('#ali').attr('src', '../static/img/select.png');
+ $('#wx').attr('src', '/img/unselect.png');
+  $('#ali').attr('src', '/img/select.png');
   store.payway='002';
 });
 
