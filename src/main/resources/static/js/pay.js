@@ -1,39 +1,22 @@
 var store=window.sessionStorage;
-store.payway='002';
+store.payway='001';
 
 $('#wx').click(function(){//微信支付方式的选择
 	
- $('#wx').attr('src', '/img/select.png');
-  $('#ali').attr('src', '/img/unselect.png');
+ $('#wx').attr('src', '../static/img/select.png');
+  $('#ali').attr('src', '../static/img/unselect.png');
   store.payway='001';
 });
 
 $('#ali').click(function(){//支付宝支付方式的选择
 	
- $('#wx').attr('src', '/img/unselect.png');
-  $('#ali').attr('src', '/img/select.png');
-  store.payway='002';
-});
-$('#ali').click(function(){//支付宝支付方式的选择
-	
- $('#wx').attr('src', '/img/unselect.png');
-  $('#ali').attr('src', '/img/select.png');
+ $('#wx').attr('src', '../static/img/unselect.png');
+  $('#ali').attr('src', '../static/img/select.png');
   store.payway='002';
 });
 
-$('#surepay').click(function(){//支付宝支付方式的选择
-	if(store.payway=='001')
-	{
-		location.href='http://139.196.51.152:8080/checkstand/pay?payUserId=2&appId=8&money=1&sign=0059743044813112892732a13b788109&payType=1';
-		
-	}
-		if(store.payway=='002')
-	{
-		location.href='http://139.196.51.152:8080/checkstand/pay?payUserId=2&appId=8&money=1&sign=0059743044813112892732a13b788109&payType=2';
-		
-	}
- 
-});
+
+
  
  function getUrlParam(name) {//获取钱数并填充。
  		
@@ -41,13 +24,31 @@ $('#surepay').click(function(){//支付宝支付方式的选择
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
             //返回参数值
             if (r != null){
-            $('#money').html(unescape(r[2]));
+            
             return unescape(r[2]);
             }
             
             return null; 
       }
-$(document).ready(function(){ //页面加载完成后执行的函数。
+ $('#surepay').click(function(){//确认支付
+	var payUserId=getUrlParam('payUserId');
+	var appId=getUrlParam('appId');
+	var sign=getUrlParam('sign');
+	var money=getUrlParam('money');
+	if(store.payway=='001')
+	{
+		location.href='http://139.196.51.152:8080/checkstand/pay?payUserId='+payUserId+'&appId='+appId+'&money='+money+'&sign='+sign+'&payType=1';
 		
-		getUrlParam('money');
+	}
+		if(store.payway=='002')
+	{
+		location.href='http://139.196.51.152:8080/checkstand/pay?payUserId='+payUserId+'&appId='+appId+'&money='+money+'&sign='+sign+'&payType=2';
+		
+	}
+ 
+});
+$(document).ready(function(){ //页面加载完成后执行的函数。
+	
+		$('#money').html(getUrlParam('money')/100);
+		
 }); 
