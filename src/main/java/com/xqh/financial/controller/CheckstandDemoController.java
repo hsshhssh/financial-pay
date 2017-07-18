@@ -63,7 +63,7 @@ public class CheckstandDemoController
         String key = "A85CE8F77D2917013D4963CEC6B7522E";
 
         // 校验参数
-        String _sign = CommonUtils.getMd5("" + payUserId + appId + money + key);
+        String _sign = CommonUtils.getMd5("" + payUserId + appId + req.getParameter("money") + key);
         if(!sign.equals(_sign))
         {
             logger.error("新企航收银台支付 校验不通过 appId:{}", appId);
