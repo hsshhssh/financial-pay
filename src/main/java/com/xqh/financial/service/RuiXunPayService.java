@@ -62,7 +62,7 @@ public class RuiXunPayService
 
     private static Logger logger = LoggerFactory.getLogger(RuiXunPayService.class);
 
-    public void pay(HttpServletResponse resp, int userId, int appId, int money, int orderSerial, int payType, PayApp payApp)
+    public void pay(HttpServletResponse resp, int userId, int appId, int money, int orderSerial, int payType, PayApp payApp, String ip)
     {
 
         // 获得支付方式
@@ -88,7 +88,7 @@ public class RuiXunPayService
 
 
         // 获得支付url
-        String payUrl = getPayUrl(orderSerial, productId, money, payApp.getAppName(), payPRXIList.get(0));
+        String payUrl = getPayUrl(orderSerial, productId, money, payApp.getAppName(), payPRXIList.get(0), ip);
 
         if(StringUtils.isBlank(payUrl))
         {
@@ -114,7 +114,7 @@ public class RuiXunPayService
      * 取得支付url
      * @return
      */
-    private String getPayUrl(int orderSerial, String productId, int money, String appName, PayPRXI payPRXI)
+    private String getPayUrl(int orderSerial, String productId, int money, String appName, PayPRXI payPRXI, String ip)
     {
 
 
@@ -131,6 +131,7 @@ public class RuiXunPayService
         nvps.add(new BasicNameValuePair("transAmt", String.valueOf(money)));
         nvps.add(new BasicNameValuePair("commodityName", appName));
         nvps.add(new BasicNameValuePair("merchantId", payPRXI.getRuixinMerchantid()));
+        nvps.add(new BasicNameValuePair("ip", ip));
         nvps.add(new BasicNameValuePair("storeId", payPRXI.getRuixinStoreid()));
 
         String sign;
