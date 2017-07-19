@@ -37,12 +37,12 @@ $('#ali').click(function(){//支付宝支付方式的选择
 	var money=getUrlParam('money');
 	if(store.payway=='001')
 	{
-		location.href='http://139.196.51.152:8080/checkstand/pay?payUserId='+payUserId+'&appId='+appId+'&money='+money+'&sign='+sign+'&payType=1';
+		location.href='http://pay.uerbx.com/checkstand/pay?payUserId='+payUserId+'&appId='+appId+'&money='+money+'&sign='+sign+'&payType=1';
 		
 	}
 		if(store.payway=='002')
 	{
-		location.href='http://139.196.51.152:8080/checkstand/pay?payUserId='+payUserId+'&appId='+appId+'&money='+money+'&sign='+sign+'&payType=2';
+		location.href='http://pay.uerbx.com/checkstand/pay?payUserId='+payUserId+'&appId='+appId+'&money='+money+'&sign='+sign+'&payType=2';
 		
 	}
  
