@@ -128,7 +128,9 @@ public class XQHPayController implements IXQHPayController{
         else if(Constant.RUIXUN_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
         {
             logger.info("锐讯支付通道 payEntity:{}", payEntity);
-            ruiXunPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
+            String ip = CommonUtils.getIp(req);
+            logger.info("锐讯支付 client ip:{}", ip);
+            ruiXunPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp, ip);
         }
         else
         {

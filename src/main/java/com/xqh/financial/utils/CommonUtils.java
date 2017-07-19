@@ -23,7 +23,6 @@ public class CommonUtils {
     public static String getFormatDate(String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         long times = System.currentTimeMillis();
-        System.out.println(times);
         Date date = new Date(times);
         String tim = sdf.format(date);
         return tim;
@@ -188,5 +187,28 @@ public class CommonUtils {
             map.put(key.toString(),value);
         }
         return map;
+    }
+
+    public static String getIp(HttpServletRequest req)
+    {
+        String ip = req.getHeader("X-Real-IP");
+        if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+            logger.info("X-Real-IP :{}", ip);
+            return ip;
+        }
+        ip = req.getHeader("X-Forwarded-For");
+        if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+            // 多次反向代理后会有多个IP值，第一个为真实IP。
+            int index = ip.indexOf(',');
+            logger.info("X-Forwarded-For :{}", ip);
+            if (index != -1) {
+                return ip.substring(0, index);
+            } else {
+                return ip;
+            }
+        } else {
+            logger.info("remoteAddr: {}", req.getRemoteAddr());
+            return req.getRemoteAddr();
+        }
     }
 }

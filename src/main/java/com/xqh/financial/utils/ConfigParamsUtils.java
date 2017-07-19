@@ -16,7 +16,7 @@ public class ConfigParamsUtils {
      * 当前服务器的ip+port
      */
     @Value(path = "/config/zkconf/xqhpay.conf", key = "zpayNotifyHost")
-    private String zpayNotifyHost;
+    private String  zpayNotifyHost;
 
     @Value(path = "/config/zkconf/xqhpay.conf", key = "debugFlag")
     private String debugFlag;
