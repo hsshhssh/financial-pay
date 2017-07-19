@@ -34,6 +34,8 @@ public class RuiXunPayDemoController
 
     @GetMapping("pay")
     public void pay(@RequestParam("money") int money, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        String ip = CommonUtils.getIp(req);
+
         String url = "https://mpay.wxhang.cn/gateway";
         List<BasicNameValuePair> nvps = Lists.newArrayList();
         nvps.add(new BasicNameValuePair("appid", "mp_e402845fd900467f"));
@@ -47,6 +49,7 @@ public class RuiXunPayDemoController
         nvps.add(new BasicNameValuePair("transAmt", String.valueOf(money)));
         nvps.add(new BasicNameValuePair("commodityName", "测试应用"));
         nvps.add(new BasicNameValuePair("merchantId", "282"));
+        nvps.add(new BasicNameValuePair("ip", ip));
         nvps.add(new BasicNameValuePair("storeId", "359"));
         nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps)));
 
