@@ -36,7 +36,7 @@ public class PayController {
     public void pay(@RequestParam("money") int money, HttpServletResponse resp) {
         String partnerId = "1000100020001163";
         String appId = "3061";
-        String currency = "1000200020000000";
+        String currency = "1000200010000000";
         String times = CommonUtils.getFormatDate("yyyyMMddHHmmss");
         String secretKey = "A3F4A7E77AD7474E9105AD5B7DFB8240";
 
@@ -59,7 +59,7 @@ public class PayController {
             e.printStackTrace();
         }
         sb.append("appFeeName=" + name + "&");
-        sb.append("paymode=2&");
+        sb.append("paymode=1&");
         sb.append("times=" + times);
         logger.info(sb.toString());
 
