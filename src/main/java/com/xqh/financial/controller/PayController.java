@@ -50,7 +50,7 @@ public class PayController {
         sb.append("qn=zyap3061_56450_100&");
         sb.append("currency="+ currency +"&");
         sb.append("sign=" + sign + "&");
-        sb.append("cpparam=abc&");
+        sb.append("cpparam=" + System.currentTimeMillis() + "&");
         sb.append("notifyUrl=http://139.196.51.152:8080/nodifyUrl?num=aaa&");
         String name = null;
         try {
