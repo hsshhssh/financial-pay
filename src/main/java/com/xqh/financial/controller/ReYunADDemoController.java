@@ -28,10 +28,15 @@ public class ReYunADDemoController
     @GetMapping("ad")
     public void ad(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        String idfa = "D5EAC54B-8A97-46B6-A257-95392C46C325";
-        String mac = "90:B9:31:58:AE:80";
+        // 丧东
+        String idfa = "2D41B44B-6CA1-4201-ACE5-CC064CE8E881";
+        String mac = "48:3B:38:D6:21:FF";
+
+        // me
+        //String idfa = "D3C0A2CE-B7D4-4154-A59E-78B3CA837547";
+        //String mac = "90:B9:31:58:AE:80";
         String muid = CommonUtils.getMd5(idfa);
-        String callback = URLEncoder.encode("http://139.196.51.152:8080/nodifyUrl","UTF-8");
+        String callback = URLEncoder.encode("http://139.196.51.152:8080/reyun/callback","UTF-8");
 
 
 
