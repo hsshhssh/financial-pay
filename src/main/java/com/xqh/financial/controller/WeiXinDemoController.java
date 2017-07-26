@@ -34,7 +34,7 @@ public class WeiXinDemoController
 
         String formatUrl = String.format(url, appId, URLEncoder.encode(redirectUrl,"UTF-8"));
 
-        logger.info("weixin openid go to url:{}" );
+        logger.info("weixin openid go to url:{}", formatUrl);
 
         resp.sendRedirect(formatUrl);
     }
