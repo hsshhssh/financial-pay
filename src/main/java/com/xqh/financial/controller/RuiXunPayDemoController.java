@@ -33,14 +33,18 @@ public class RuiXunPayDemoController
     private static Logger logger = LoggerFactory.getLogger(RuiXunPayDemoController.class);
 
     @GetMapping("pay")
-    public void pay(@RequestParam("money") int money, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public void pay(@RequestParam("money") int money, HttpServletRequest req, HttpServletResponse resp, @RequestParam(value = "openid", required = false) String openid) throws Exception {
         String ip = CommonUtils.getIp(req);
+
+        openid = openid == null ? "c40CB97KHlOubgXyb7AkIesBuo1mRNEG" : openid;
+
+        logger.info("openid :{}", openid);
 
         String url = "https://mpay.wxhang.cn/gateway";
         List<BasicNameValuePair> nvps = Lists.newArrayList();
         nvps.add(new BasicNameValuePair("appid", "mp_e402845fd900467f"));
         nvps.add(new BasicNameValuePair("requestNo", CommonUtils.getFormatDate("yyyyMMddHHmmssSSS")));
-        nvps.add(new BasicNameValuePair("productId", "0107"));
+        nvps.add(new BasicNameValuePair("productId", "0105"));
         nvps.add(new BasicNameValuePair("transId", "10"));
         nvps.add(new BasicNameValuePair("orderDate", String.valueOf(System.currentTimeMillis()/1000))); // 应用场境需要转成 精确到 秒的时间戳
         nvps.add(new BasicNameValuePair("orderNo", CommonUtils.getFormatDate("yyyyMMddHHmmss")));
@@ -51,6 +55,7 @@ public class RuiXunPayDemoController
         nvps.add(new BasicNameValuePair("merchantId", "282"));
         nvps.add(new BasicNameValuePair("ip", ip));
         nvps.add(new BasicNameValuePair("storeId", "359"));
+        nvps.add(new BasicNameValuePair("openid", openid));
         nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps)));
 
 
