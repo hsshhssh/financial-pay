@@ -36,7 +36,7 @@ public class ReYunADDemoController
         //String idfa = "D3C0A2CE-B7D4-4154-A59E-78B3CA837547";
         //String mac = "90:B9:31:58:AE:80";
         String muid = CommonUtils.getMd5(idfa);
-        String callback = URLEncoder.encode("http://139.196.51.152:8080/reyun/callback","UTF-8");
+        String callback = URLEncoder.encode("http://139.196.51.152:8080/reyun/callback?id=1&app=2","UTF-8");
 
 
 
