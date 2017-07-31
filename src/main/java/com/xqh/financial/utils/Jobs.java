@@ -80,7 +80,6 @@ public class Jobs
 
     /**
      * 取得订单列表
-     * @param day 0今天  -1昨天 依次类推
      * @return
      */
     public List<PayOrder> getOrderListByDay(int startTime, int endTime)
