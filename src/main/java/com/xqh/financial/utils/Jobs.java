@@ -46,14 +46,17 @@ public class Jobs
         logger.info("结算开始 当前时间: {}", nowTime);
 
         // 取得昨天的订单
-        List<PayOrder> orderList = getOrderListByDay(-1);
-        logger.info("昨天订单数 size:{}", orderList.size());
+        List<PayOrder> zeroOrderList = getOrderListByDay(CommonUtils.getZeroHourTime(-1), CommonUtils.getZeroHourTime(0));
 
-        Map<Integer, PayAppSettlement> appSettlementMap = getAppSettlement(orderList);
+        List<PayOrder> elevenOrderList = getOrderListByDay(CommonUtils.getZeroHourTime(-1) - 3600, CommonUtils.getZeroHourTime(0) - 3600);
 
-        Map<Integer, PayUserSettlement> userSettlementMap = getUserSettlement(orderList);
+        logger.info("昨天订单数 size:{}", zeroOrderList.size());
 
-        Map<String, PayUPS> userPlatformSettlementMap = getUserPlatformSettlement(orderList);
+        Map<Integer, PayAppSettlement> appSettlementMap = getAppSettlement(zeroOrderList);
+
+        Map<Integer, PayUserSettlement> userSettlementMap = getUserSettlement(zeroOrderList);
+
+        Map<String, PayUPS> userPlatformSettlementMap = getUserPlatformSettlement(elevenOrderList);
 
 
         // 入库
@@ -80,11 +83,15 @@ public class Jobs
      * @param day 0今天  -1昨天 依次类推
      * @return
      */
-    public List<PayOrder> getOrderListByDay(int day)
+    public List<PayOrder> getOrderListByDay(int startTime, int endTime)
     {
         Search search = new Search();
-        search.put("createTime_gte", CommonUtils.getZeroHourTime(day));
-        search.put("createTime_lt", CommonUtils.getZeroHourTime(day + 1));
+        //search.put("createTime_gte", CommonUtils.getZeroHourTime(day));
+        //search.put("createTime_lt", CommonUtils.getZeroHourTime(day + 1));
+
+        search.put("createTime_gte", startTime);
+        search.put("createTime_lt", endTime);
+
 
         Example example = new ExampleBuilder(PayOrder.class).search(search).build();
 
