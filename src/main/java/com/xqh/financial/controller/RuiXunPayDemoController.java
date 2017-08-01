@@ -42,7 +42,7 @@ public class RuiXunPayDemoController
 
         String url = "https://mpay.wxhang.cn/gateway";
         List<BasicNameValuePair> nvps = Lists.newArrayList();
-        nvps.add(new BasicNameValuePair("appid", "mp_e402845fd900467f"));
+        nvps.add(new BasicNameValuePair("appid", "mp_acde240135eb3054"));
         nvps.add(new BasicNameValuePair("requestNo", CommonUtils.getFormatDate("yyyyMMddHHmmssSSS")));
         nvps.add(new BasicNameValuePair("productId", "0105"));
         nvps.add(new BasicNameValuePair("transId", "10"));
@@ -52,17 +52,17 @@ public class RuiXunPayDemoController
         nvps.add(new BasicNameValuePair("notifyUrl", "http://139.196.51.152:8080/ruixun/callback"));
         nvps.add(new BasicNameValuePair("transAmt", String.valueOf(money)));
         nvps.add(new BasicNameValuePair("commodityName", "测试应用"));
-        nvps.add(new BasicNameValuePair("merchantId", "282"));
+        nvps.add(new BasicNameValuePair("merchantId", "301"));
         nvps.add(new BasicNameValuePair("ip", ip));
-        nvps.add(new BasicNameValuePair("storeId", "359"));
+        nvps.add(new BasicNameValuePair("storeId", "444"));
         nvps.add(new BasicNameValuePair("openid", openid));
-        nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps)));
+        nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps, "1.0")));
 
 
         HttpResult httpResult = HttpsUtils.post(url, null, new UrlEncodedFormEntity(nvps, "UTF-8"), "UTF-8");
         if(httpResult.getStatus() == 200)
         {
-            boolean signFlag = SignUtils.verferSignData(httpResult.getContent());
+            boolean signFlag = SignUtils.verferSignData(httpResult.getContent(), "1.0");
             if (!signFlag) {
                 logger.error("验签失败");
             }
