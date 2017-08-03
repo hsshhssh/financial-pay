@@ -154,7 +154,7 @@ public class RuiXunPayService
             PayInfoEntity payInfoEntity = new PayInfoEntity();
             payInfoEntity.setPayType(payType);
             payInfoEntity.setRetCode(Constant.PAYINFO_SUCC_RETCODE);
-            payInfoEntity.setPayInfo(payInfo);
+            payInfoEntity.setPayInfo(JSONObject.parseObject(payInfo));
 
             resp.getWriter().print(JSONObject.toJSONString(payInfoEntity));
 

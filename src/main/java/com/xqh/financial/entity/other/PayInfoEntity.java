@@ -1,5 +1,6 @@
 package com.xqh.financial.entity.other;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 /**
@@ -22,6 +23,6 @@ public class PayInfoEntity
     /**
      * 微信公众号支付信息
      */
-    private String payInfo;
+    private JSONObject payInfo;
 
 }
