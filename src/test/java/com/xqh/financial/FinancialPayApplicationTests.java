@@ -1,15 +1,13 @@
 package com.xqh.financial;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.xqh.financial.entity.other.PayInfoEntity;
 import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.DoubleUtils;
 import com.xqh.financial.utils.UrlUtils;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +17,7 @@ import java.util.UUID;
 public class FinancialPayApplicationTests {
 
 	@Test
-	public void contextLoads() throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+	public static void main(String[] args) {
 
 		String key = "_aa";
 		System.out.println("_aa".lastIndexOf("_"));
@@ -70,7 +68,17 @@ public class FinancialPayApplicationTests {
 		System.out.println(CommonUtils.getMonthStartEndTime(12, 2017));
 
 
+		JSONObject obj = new JSONObject();
+		obj.put("aa", "aa11");
+		obj.put("bb", "bb22");
+		PayInfoEntity payInfoEntity = new PayInfoEntity();
+		payInfoEntity.setPayType(5);
+		payInfoEntity.setRetCode("SUCCESS");
+		payInfoEntity.setPayInfo(JSONObject.toJSONString(obj));
+		System.out.println(JSONObject.toJSONString(payInfoEntity));
 
-    }
+
+
+	}
 
 }
