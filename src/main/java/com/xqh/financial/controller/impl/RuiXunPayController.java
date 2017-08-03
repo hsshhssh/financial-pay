@@ -1,6 +1,7 @@
 package com.xqh.financial.controller.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Throwables;
 import com.xqh.financial.controller.api.IRuiXunPayController;
 import com.xqh.financial.entity.PayOrderSerial;
 import com.xqh.financial.entity.other.CallbackEntity;
@@ -10,6 +11,7 @@ import com.xqh.financial.utils.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +58,16 @@ public class RuiXunPayController implements IRuiXunPayController
 
 
         // 插入订单
-        CallbackEntity callbackEntity = ruiXunPayService.insertOrderAndGenCallbackEntity(orderSerial, params);
+        CallbackEntity callbackEntity = null;
+        try
+        {
+            callbackEntity = ruiXunPayService.insertOrderAndGenCallbackEntity(orderSerial, params);
+        } catch (DuplicateKeyException e)
+        {
+            // 重复回调 => 返回成功
+            logger.warn("锐讯支付 异步回调 重复回调 orderSerial:{} param:{} e:{}", orderSerial, params, Throwables.getStackTraceAsString(e));
+            CommonUtils.writeResponse(resp, "SUCCESS");
+        }
         if(null == callbackEntity)
         {
             logger.error("锐讯支付 异步回调 插入订单失败 param:{}", params);

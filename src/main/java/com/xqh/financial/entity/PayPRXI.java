@@ -33,6 +33,18 @@ public class PayPRXI {
     private String ruixinStoreid;
 
     /**
+     * 手续费
+     */
+    @Column(name = "interest_rate")
+    private Integer interestRate;
+
+    /**
+     * 锐讯appid
+     */
+    @Column(name = "ruixin_app_id")
+    private String ruixinAppId;
+
+    /**
      * 备注
      */
     private String remark;

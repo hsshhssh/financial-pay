@@ -56,13 +56,13 @@ public class RuiXunPayDemoController
         nvps.add(new BasicNameValuePair("ip", ip));
         nvps.add(new BasicNameValuePair("storeId", "444"));
         nvps.add(new BasicNameValuePair("openid", openid));
-        nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps, "1.0")));
+        nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps, "100")));
 
 
         HttpResult httpResult = HttpsUtils.post(url, null, new UrlEncodedFormEntity(nvps, "UTF-8"), "UTF-8");
         if(httpResult.getStatus() == 200)
         {
-            boolean signFlag = SignUtils.verferSignData(httpResult.getContent(), "1.0");
+            boolean signFlag = SignUtils.verferSignData(httpResult.getContent(), "100");
             if (!signFlag) {
                 logger.error("验签失败");
             }
@@ -175,7 +175,7 @@ public class RuiXunPayDemoController
         Map<String, String> contentMap = Maps.newHashMap();
         for (String _s : contentList)
         {
-            List<String> _sList = Splitter.on("=").omitEmptyStrings().splitToList(_s);
+            List<String> _sList = Splitter.on("=").omitEmptyStrings().limit(2).splitToList(_s);
             if(_sList.size() != 2)
             {
                 throw new ValidationException(String.format("锐讯获得支付url 返回值异常 content:[%s], errorKeyValue:[%s]", content, _s));

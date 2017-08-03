@@ -9,10 +9,10 @@ import com.xqh.financial.mapper.PayAppMapper;
 import com.xqh.financial.mapper.PayCFRMapper;
 import com.xqh.financial.mapper.PayOrderMapper;
 import com.xqh.financial.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +63,7 @@ public class XQHPayService {
         String sign = req.getParameter("sign");
         String userOrderNo = req.getParameter("userOrderNo");
         String userParam = req.getParameter("userParam");
+        String openId = req.getParameter("openId");
 
         PayEntity payEntity = new PayEntity();
         payEntity.setUserId(Integer.valueOf(payUserIdStr));
@@ -73,6 +74,7 @@ public class XQHPayService {
         payEntity.setSign(sign);
         payEntity.setUserOrderNo(userOrderNo);
         payEntity.setUserParam(userParam);
+        payEntity.setOpenId(openId);
 
         ValidateUtils.validateEntity(payEntity);
 
@@ -100,6 +102,12 @@ public class XQHPayService {
             return Constant.RESULT_TIME_OUT;
         }
 
+        // openId
+        if(Constant.WX_OFFICE_ACCOUNT_PAY_TYPE == payEntity.getPayType() && StringUtils.isBlank(payEntity.getOpenId()))
+        {
+            logger.info("公众号支付 没有传opoenid payEntity:{}", payEntity);
+            return Constant.RESULT_INVALID_PARAM;
+        }
 
         // 校验sign
         String sign = CommonUtils.getMd5("" + payEntity.getUserId() + payEntity.getAppId() + payEntity.getMoney() + payEntity.getTime() + payApp.getSecretkey());

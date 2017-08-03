@@ -10,6 +10,8 @@ public class Constant {
      */
     public static String CALLBACK_SUCCESS_RESULT = "1";
 
+/////////////////////////////////////////////////////////////////////////
+
     /**
      * 支付成功
      */
@@ -53,6 +55,9 @@ public class Constant {
     public static int RESULT_UNKNOWN_ERROR = 1100;
 
 
+/////////////////////////////////////////////////////////////////////////
+
+
     /**
      * 回调状态成功
      */
@@ -62,6 +67,8 @@ public class Constant {
      * 回调状态失败
      */
     public static int CALLBACK_FAIL = 2;
+
+/////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -75,6 +82,8 @@ public class Constant {
      */
     public static int DISABLE_STATE = 2;
 
+/////////////////////////////////////////////////////////////////////////
+
     /**
      * 成功状态
      */
@@ -87,6 +96,7 @@ public class Constant {
     public static int FAIL_STATE = 2;
 
 
+///////////////////////////////////////////////////////////////////////
     /**
      * 掌易付支付通道
      */
@@ -102,6 +112,9 @@ public class Constant {
      */
     public static String RUIXUN_CHANNEL_CODE = "0003";
 
+
+
+////////////////////////////////////////////////////////////////////////
     /**
      * 微信wap支付方式
      */
@@ -111,5 +124,33 @@ public class Constant {
      * 支付宝wap支付方式
      */
     public final static int ALIPAYWAP_PAY_TYPE = 2;
+
+    /**
+     * 银联支付
+     */
+    public final static int UNION_PAY_TYPE = 3;
+
+    /**
+     * 微信扫码支付
+     */
+    public final static int WX_QRCODE_PAY_TYPE = 4;
+
+    /**
+     * 微信公众号支付
+     */
+    public final static int WX_OFFICE_ACCOUNT_PAY_TYPE = 5;
+
+
+////////////////////////////////////////////////////////////////////
+
+    /**
+     * 返回支付信息成功状态
+     */
+    public final static String PAYINFO_SUCC_RETCODE = "SUCCESS";
+
+    /**
+     * 返回支付信息失败状态
+     */
+    public final static String PAYINFO_FAIL_RETCODE = "FAIL";
 
 }

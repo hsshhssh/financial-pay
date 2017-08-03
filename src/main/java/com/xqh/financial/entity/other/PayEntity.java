@@ -41,6 +41,11 @@ public class PayEntity {
     private String userParam;
 
     /**
+     * openId 公众号支付时使用
+     */
+    private String openId;
+
+    /**
      * 订单流水号
      */
     private Integer orderSerial;
