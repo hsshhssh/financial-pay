@@ -243,6 +243,8 @@ public class RuiXunPayService
             return null;
         }
 
+        logger.info("锐讯支付 post请求支付信息返回值 httpResult：{}", httpResult);
+
         if(httpResult.getStatus() != 200)
         {
             logger.error("锐讯支付 post请求获取支付地址异常 status!=200 orderSerial:{} httpConent:{}", orderSerial, httpResult);
