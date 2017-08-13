@@ -52,7 +52,7 @@ public class SettlementController implements ISettlementController
     public Map<Integer, PayUserSettlement> getUserSettlementByDay(@PathVariable("day") int day)
     {
 
-        List<PayOrder> orderList = jobs.getOrderListByDay(day);
+        List<PayOrder> orderList = jobs.getOrderListByDay(CommonUtils.getZeroHourTime(day), CommonUtils.getZeroHourTime(day+1));
 
         return jobs.getUserSettlement(orderList);
 
@@ -61,7 +61,7 @@ public class SettlementController implements ISettlementController
     @Override
     public Map<Integer, PayAppSettlementVO> getAppSettlementByDay(@PathVariable("day") int day)
     {
-        List<PayOrder> orderList = jobs.getOrderListByDay(day);
+        List<PayOrder> orderList = jobs.getOrderListByDay(CommonUtils.getZeroHourTime(day), CommonUtils.getZeroHourTime(day+1));
 
         Map<Integer, PayAppSettlementVO> res = Maps.newHashMap();
 

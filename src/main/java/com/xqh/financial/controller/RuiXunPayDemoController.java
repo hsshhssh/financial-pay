@@ -33,14 +33,18 @@ public class RuiXunPayDemoController
     private static Logger logger = LoggerFactory.getLogger(RuiXunPayDemoController.class);
 
     @GetMapping("pay")
-    public void pay(@RequestParam("money") int money, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public void pay(@RequestParam("money") int money, HttpServletRequest req, HttpServletResponse resp, @RequestParam(value = "openid", required = false) String openid) throws Exception {
         String ip = CommonUtils.getIp(req);
+
+        openid = openid == null ? "c40CB97KHlOubgXyb7AkIesBuo1mRNEG" : openid;
+
+        logger.info("openid :{}", openid);
 
         String url = "https://mpay.wxhang.cn/gateway";
         List<BasicNameValuePair> nvps = Lists.newArrayList();
-        nvps.add(new BasicNameValuePair("appid", "mp_e402845fd900467f"));
+        nvps.add(new BasicNameValuePair("appid", "mp_acde240135eb3054"));
         nvps.add(new BasicNameValuePair("requestNo", CommonUtils.getFormatDate("yyyyMMddHHmmssSSS")));
-        nvps.add(new BasicNameValuePair("productId", "0107"));
+        nvps.add(new BasicNameValuePair("productId", "0105"));
         nvps.add(new BasicNameValuePair("transId", "10"));
         nvps.add(new BasicNameValuePair("orderDate", String.valueOf(System.currentTimeMillis()/1000))); // 应用场境需要转成 精确到 秒的时间戳
         nvps.add(new BasicNameValuePair("orderNo", CommonUtils.getFormatDate("yyyyMMddHHmmss")));
@@ -48,16 +52,17 @@ public class RuiXunPayDemoController
         nvps.add(new BasicNameValuePair("notifyUrl", "http://139.196.51.152:8080/ruixun/callback"));
         nvps.add(new BasicNameValuePair("transAmt", String.valueOf(money)));
         nvps.add(new BasicNameValuePair("commodityName", "测试应用"));
-        nvps.add(new BasicNameValuePair("merchantId", "282"));
+        nvps.add(new BasicNameValuePair("merchantId", "301"));
         nvps.add(new BasicNameValuePair("ip", ip));
-        nvps.add(new BasicNameValuePair("storeId", "359"));
-        nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps)));
+        nvps.add(new BasicNameValuePair("storeId", "444"));
+        nvps.add(new BasicNameValuePair("openid", openid));
+        nvps.add(new BasicNameValuePair("signature", SignUtils.signData(nvps, "100")));
 
 
         HttpResult httpResult = HttpsUtils.post(url, null, new UrlEncodedFormEntity(nvps, "UTF-8"), "UTF-8");
         if(httpResult.getStatus() == 200)
         {
-            boolean signFlag = SignUtils.verferSignData(httpResult.getContent());
+            boolean signFlag = SignUtils.verferSignData(httpResult.getContent(), "100");
             if (!signFlag) {
                 logger.error("验签失败");
             }
@@ -170,7 +175,7 @@ public class RuiXunPayDemoController
         Map<String, String> contentMap = Maps.newHashMap();
         for (String _s : contentList)
         {
-            List<String> _sList = Splitter.on("=").omitEmptyStrings().splitToList(_s);
+            List<String> _sList = Splitter.on("=").omitEmptyStrings().limit(2).splitToList(_s);
             if(_sList.size() != 2)
             {
                 throw new ValidationException(String.format("锐讯获得支付url 返回值异常 content:[%s], errorKeyValue:[%s]", content, _s));
