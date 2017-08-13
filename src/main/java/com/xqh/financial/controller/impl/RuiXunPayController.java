@@ -67,6 +67,7 @@ public class RuiXunPayController implements IRuiXunPayController
             // 重复回调 => 返回成功
             logger.warn("锐讯支付 异步回调 重复回调 orderSerial:{} param:{} e:{}", orderSerial, params, Throwables.getStackTraceAsString(e));
             CommonUtils.writeResponse(resp, "SUCCESS");
+            return ;
         }
         if(null == callbackEntity)
         {
