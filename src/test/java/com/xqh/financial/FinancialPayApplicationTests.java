@@ -74,10 +74,10 @@ public class FinancialPayApplicationTests {
 		PayInfoEntity payInfoEntity = new PayInfoEntity();
 		payInfoEntity.setPayType(5);
 		payInfoEntity.setRetCode("SUCCESS");
-		payInfoEntity.setPayInfo(JSONObject.toJSONString(obj));
 		System.out.println(JSONObject.toJSONString(payInfoEntity));
 
-
+		int orderSerial = 1234564;
+		System.out.println(String.valueOf(orderSerial % 100000));
 
 	}
 

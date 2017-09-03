@@ -15,6 +15,7 @@ import com.xqh.financial.mapper.PayAppSettlementMapper;
 import com.xqh.financial.mapper.PayOrderMapper;
 import com.xqh.financial.mapper.PayUserSettlementMapper;
 import com.xqh.financial.utils.*;
+import com.xqh.financial.utils.jobs.SettlementJobs;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ import java.util.Map;
 public class SettlementController implements ISettlementController
 {
     @Autowired
-    private Jobs jobs;
+    private SettlementJobs jobs;
 
     @Autowired
     private PayAppSettlementMapper appSettlementMapper;

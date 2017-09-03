@@ -27,6 +27,12 @@ public class PayOrder {
     private Integer orderSerial;
 
     /**
+     * 订单流水号后缀 取5位
+     */
+    @Column(name = "order_serial_suffix")
+    private Integer orderSerialSuffix;
+
+    /**
      * 商户订单号
      */
     @Column(name = "user_order_no")

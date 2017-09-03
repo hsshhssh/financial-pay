@@ -216,7 +216,7 @@ public class VSPPayService
             params.put("reqsn", String.valueOf(orderSerial));
             params.put("paytype", payType);
             params.put("randomstr", SybUtil.getValidatecode(8));
-            params.put("body", appName);
+            params.put("body", appName + xqhPayService.getAppNameSuffix(orderSerial));
             //params.put("remark", "mark");
             //params.put("acct", acct);
             params.put("notify_url", config.getZpayNotifyHost().trim() + "/xqh/financial/vsp/pay/callback");

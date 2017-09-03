@@ -67,9 +67,9 @@ public class PayCFRController implements IPayCFRController
             return 1;
         }
 
-        HttpResult httpResult = HttpUtils.get(payCFR.getCallbackUrl());
+            HttpResult httpResult = HttpUtils.get(payCFR.getCallbackUrl());
 
-        xqhPayService.updateOrderStatus(httpResult, payCFR.getOrderId(), payCFR.getId());
+            xqhPayService.updateOrderStatus(httpResult, payCFR.getOrderId(), payCFR.getId());
 
         return 1;
     }
