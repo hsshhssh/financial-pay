@@ -1,4 +1,4 @@
-package com.xqh.financial.utils;
+package com.xqh.financial.utils.jobs;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
@@ -6,10 +6,13 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.xqh.financial.entity.*;
 import com.xqh.financial.mapper.*;
+import com.xqh.financial.utils.CommonUtils;
+import com.xqh.financial.utils.DoubleUtils;
+import com.xqh.financial.utils.ExampleBuilder;
+import com.xqh.financial.utils.Search;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Example;
 
@@ -20,9 +23,9 @@ import java.util.Map;
  * Created by hssh on 2017/5/13.
  */
 @Component
-public class Jobs
+public class SettlementJobs
 {
-    private static Logger logger = LoggerFactory.getLogger(Jobs.class);
+    private static Logger logger = LoggerFactory.getLogger(SettlementJobs.class);
 
     @Autowired
     PayOrderMapper payOrderMapper;

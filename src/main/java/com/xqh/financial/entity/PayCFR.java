@@ -55,6 +55,13 @@ public class PayCFR {
     @Column(name = "callback_url")
     private String callbackUrl;
 
+
+    /**
+     * 回调次数
+     */
+    @Column(name = "callback_times")
+    private Integer callbackTimes;
+
     /**
      * 回调状态 1失败 2成功
      */

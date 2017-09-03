@@ -75,7 +75,7 @@ public class ZPayService {
         String secretKey = payPZI.getZpayKey();
         String qn = payPZI.getZpayQn();
         String paymode = getPaymode(payType);
-        String appName = payApp.getAppName();
+        String appName = payApp.getAppName() + xqhPayService.getAppNameSuffix(orderSerial);
 
         String sign = CommonUtils.getMd5(partnerId + zpayAppId + currency + money+times + secretKey);
 
@@ -157,6 +157,7 @@ public class ZPayService {
         int nowTime = (int) (System.currentTimeMillis()/1000);
         payOrder.setOrderNo(callbackEntity.getOrderNo());
         payOrder.setOrderSerial(payOrderSerial.getId());
+        payOrder.setOrderSerialSuffix(Integer.valueOf(xqhPayService.getAppNameSuffix(payOrderSerial.getId())));
         payOrder.setUserOrderNo(payOrderSerial.getUserOrderNo());
         payOrder.setUserId(payOrderSerial.getUserId());
         payOrder.setAppId(payOrderSerial.getAppId());

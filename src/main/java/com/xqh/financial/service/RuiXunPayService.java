@@ -211,7 +211,7 @@ public class RuiXunPayService
         nvps.add(new BasicNameValuePair("returnUrl", config.getZpayNotifyHost().trim() + "/xqh/financial/ruixun/pay/notify"));
         nvps.add(new BasicNameValuePair("notifyUrl", config.getZpayNotifyHost().trim() + "/xqh/financial/ruixun/pay/callback"));
         nvps.add(new BasicNameValuePair("transAmt", String.valueOf(money)));
-        nvps.add(new BasicNameValuePair("commodityName", appName));
+        nvps.add(new BasicNameValuePair("commodityName", appName + xqhPayService.getAppNameSuffix(orderSerial)));
         nvps.add(new BasicNameValuePair("merchantId", payPRXI.getRuixinMerchantid()));
         nvps.add(new BasicNameValuePair("ip", ip));
         if(Constant.WX_OFFICE_ACCOUNT_PAY_TYPE == payType)
