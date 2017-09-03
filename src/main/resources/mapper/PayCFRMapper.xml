@@ -14,9 +14,15 @@
     <result column="money" property="money" jdbcType="INTEGER" />
     <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="callback_times" property="callbackTimes" jdbcType="INTEGER" />
     <result column="success_time" property="successTime" jdbcType="INTEGER" />
     <result column="last_call_time" property="lastCallTime" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
+
+  <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select id,user_id,app_id,order_no,user_order_no,order_id,money,callback_url,state,callback_times,success_time,last_call_time,create_time,update_time from pay_callback_fail_record where id = #{id}
+  </select>
 </mapper>
+

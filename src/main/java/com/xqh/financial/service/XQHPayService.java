@@ -201,6 +201,7 @@ public class XQHPayService {
         PayOrder payOrder = new PayOrder();
         payOrder.setOrderNo(orderNo);
         payOrder.setOrderSerial(orderSerial.getId());
+        payOrder.setOrderSerialSuffix(Integer.valueOf(getAppNameSuffix(orderSerial.getId())));
         payOrder.setUserOrderNo(orderSerial.getUserOrderNo());
         payOrder.setUserId(orderSerial.getUserId());
         payOrder.setAppId(orderSerial.getAppId());
@@ -280,6 +281,17 @@ public class XQHPayService {
     public void updateOrderStatus(HttpResult httpResult, int orderId, int crfId)
     {
         int nowTime = (int) (System.currentTimeMillis()/1000);
+
+        // 給失败的回调记录上锁 记录回调次数
+        PayCFR cfrLockRecord = payCFRMapper.selectByPrimaryKeyForUpdate(crfId);
+        int times = 1;
+        if(cfrLockRecord != null)
+        {
+            times = cfrLockRecord.getCallbackTimes() + 1;
+            logger.info("失败回调记录id 回调当前回调数:{} 本次回调数：{}", cfrLockRecord.getCallbackTimes(), times);
+        }
+
+
         if(Constant.CALLBACK_SUCCESS_RESULT.equals(httpResult.getContent()))
         {
             // 成功
@@ -301,6 +313,7 @@ public class XQHPayService {
             PayCFR payCFR = new PayCFR();
             payCFR.setId(crfId);
             payCFR.setState(Constant.SUCCESS_STATE);
+            payCFR.setCallbackTimes(times);
             payCFR.setSuccessTime(nowTime);
             payCFR.setLastCallTime(nowTime);
             payCFR.setUpdateTime(nowTime);
@@ -330,6 +343,7 @@ public class XQHPayService {
             PayCFR payCFR = new PayCFR();
             payCFR.setId(crfId);
             payCFR.setState(Constant.FAIL_STATE);
+            payCFR.setCallbackTimes(times);
             payCFR.setLastCallTime(nowTime);
             payCFR.setUpdateTime(nowTime);
             int resCRF = payCFRMapper.updateByPrimaryKeySelective(payCFR);
@@ -342,4 +356,12 @@ public class XQHPayService {
         }
     }
 
+
+    /**
+     * 获取支付应用名后缀--取订单流水号后5位
+     */
+    public String getAppNameSuffix(int orderSerial)
+    {
+        return String.valueOf(orderSerial % 100000);
+    }
 }
