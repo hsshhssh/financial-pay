@@ -20,6 +20,10 @@ public class DozerPayTypeConverter implements CustomConverter
         {
             return "支付宝wap支付";
         }
+        else if(payType == Constant.WX_OFFICE_ACCOUNT_PAY_TYPE)
+        {
+            return "微信公众号支付";
+        }
         else
         {
             return null;
