@@ -183,4 +183,53 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>com.xqh.financial.entity.PayUPS</class-a>
+        <class-b>com.xqh.financial.entity.vo.PayPlatformSettlementVO</class-b>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPlatformEnNameConverter">
+            <a>playformCode</a>
+            <b>platformEnName</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPlatformNameConverter">
+            <a>playformCode</a>
+            <b>platformName</b>
+        </field>
+        <field>
+            <a>playformCode</a>
+            <b>playformCode</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerPayUserConverter">
+            <a>userId</a>
+            <b>userName</b>
+        </field>
+        <field>
+            <a>userId</a>
+            <b>userId</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>totalMoney</a>
+            <b>totalMoneyYuan</b>
+        </field>
+        <field>
+            <a>totalMoney</a>
+            <b>totalMoney</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>totalHandlingCharge</a>
+            <b>totalHandlingChargeYuan</b>
+        </field>
+        <field>
+            <a>totalHandlingCharge</a>
+            <b>totalHandlingCharge</b>
+        </field>
+        <field custom-converter="com.xqh.financial.utils.converter.DozerDiv100Converter">
+            <a>settlementMoney</a>
+            <b>settlementMoneyYuan</b>
+        </field>
+        <field>
+            <a>settlementMoney</a>
+            <b>settlementMoney</b>
+        </field>
+    </mapping>
+
 </mappings>
