@@ -1,10 +1,13 @@
 package com.xqh.financial;
 
+import com.github.zkclient.ZkClient;
 import com.xqh.financial.utils.DozerUtils;
+import com.xqh.financial.utils.ruixun.CertificateUtils;
 import org.dozer.DozerBeanMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,8 +29,11 @@ import java.util.List;
 @EnableScheduling
 public class FinancialPayApplication {
 
+
     public static void main(String[] args) {
-        SpringApplication.run(FinancialPayApplication.class, args);
+        ConfigurableApplicationContext ac = SpringApplication.run(FinancialPayApplication.class, args);
+
+        ac.getBean(CertificateUtils.class).initMap();
     }
 
 
@@ -64,6 +70,12 @@ public class FinancialPayApplication {
     @Bean
     public DozerUtils dozerUtils() {
         return new DozerUtils();
+    }
+
+    @Bean
+    public ZkClient zkClient()
+    {
+        return new ZkClient(System.getenv("ZK_HOST"));
     }
 
 }

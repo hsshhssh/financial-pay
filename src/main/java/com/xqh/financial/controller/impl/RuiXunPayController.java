@@ -8,6 +8,7 @@ import com.xqh.financial.entity.other.CallbackEntity;
 import com.xqh.financial.exception.ValidationException;
 import com.xqh.financial.service.RuiXunPayService;
 import com.xqh.financial.utils.CommonUtils;
+import com.xqh.financial.utils.ruixun.CertificateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class RuiXunPayController implements IRuiXunPayController
 
     @Autowired
     private RuiXunPayService ruiXunPayService;
+
+    @Autowired
+    private CertificateUtils certificateUtils;
 
     @Override
     public void notify(HttpServletRequest req, HttpServletResponse resp)
@@ -84,5 +88,11 @@ public class RuiXunPayController implements IRuiXunPayController
         ruiXunPayService.callbackUser(callbackEntity);
 
 
+    }
+
+    @Override
+    public void refreshConfig(HttpServletRequest req, HttpServletResponse resp)
+    {
+        certificateUtils.initMap();
     }
 }

@@ -16,4 +16,12 @@
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
+
+  <update id="validPlatform" parameterType="com.xqh.financial.entity.dto.SwitchPlatformDTO">
+      update pay_app_platform set state=1 where pay_type=#{payType} and platform_id=#{platformId} AND app_id in (select id from pay_app where user_id = #{userId});
+  </update>
+
+  <update id="invalidPlatform" parameterType="com.xqh.financial.entity.dto.SwitchPlatformDTO">
+      update pay_app_platform set state=id+1 where pay_type=#{payType} and platform_id != #{platformId} and app_id in (select id from pay_app where user_id=#{userId})
+  </update>
 </mapper>

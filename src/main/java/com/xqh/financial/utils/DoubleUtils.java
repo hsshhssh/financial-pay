@@ -86,4 +86,29 @@ public class DoubleUtils
 
         return abd.divide(bbd, 4, RoundingMode.HALF_UP).doubleValue();
     }
+
+    /**
+     * a / b
+     * @param a
+     * @param b
+     * @return
+     */
+    public static double sub(double a, double... b)
+    {
+        if(b.length == 0)
+        {
+            throw new IllegalArgumentException("a/b => b != 0");
+        }
+
+        BigDecimal abd = new BigDecimal(a);
+        for (double v : b)
+        {
+            BigDecimal vbd = new BigDecimal(v);
+            abd = abd.subtract(vbd).setScale(4, RoundingMode.HALF_UP);
+        }
+
+
+        return abd.doubleValue();
+    }
+
 }

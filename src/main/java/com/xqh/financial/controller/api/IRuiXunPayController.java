@@ -29,4 +29,8 @@ public interface IRuiXunPayController
     @RequestMapping("/pay/callback")
     public void callback(HttpServletRequest req, HttpServletResponse resp);
 
+
+    @RequestMapping("/pay/refreshConfig")
+    public void refreshConfig(HttpServletRequest req, HttpServletResponse resp);
+
 }

@@ -6,7 +6,8 @@ import javax.persistence.*;
 
 @Data
 @Table(name = "pay_platform_ruixun_info")
-public class PayPRXI {
+public class PayPRXI
+{
     /**
      * 主键id
      */
@@ -43,6 +44,18 @@ public class PayPRXI {
      */
     @Column(name = "ruixin_app_id")
     private String ruixinAppId;
+
+    /**
+     * 私钥证书zk路径
+     */
+    @Column(name = "private_certificate_path")
+    private String privateCertificatePath;
+
+    /**
+     * 公钥证书zk路径
+     */
+    @Column(name = "public_certificate_path")
+    private String publicCertificatePath;
 
     /**
      * 备注
