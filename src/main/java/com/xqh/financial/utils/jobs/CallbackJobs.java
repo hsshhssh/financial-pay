@@ -36,7 +36,7 @@ public class CallbackJobs
     @Autowired
     private XQHPayService xqhPayService;
 
-    @Scheduled(cron = "0 30 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void callback()
     {
         int nowTime = (int) (System.currentTimeMillis()/1000);
