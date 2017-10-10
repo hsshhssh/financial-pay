@@ -224,7 +224,8 @@ public class RuiXunPayService
         String sign;
         try
         {
-            sign = SignUtils.signData(nvps, interest);
+            //sign = SignUtils.signData(nvps, interest);
+            sign = SignUtils.signDataByZkPath(nvps, payPRXI.getPrivateCertificatePath());
         } catch (Exception e)
         {
             logger.error("锐讯支付 加密信息异常 orderSerial:{}, e:{}", orderSerial, e.getMessage());
@@ -252,7 +253,8 @@ public class RuiXunPayService
         }
         else
         {
-            boolean signFlag = SignUtils.verferSignData(httpResult.getContent(), interest);
+            //boolean signFlag = SignUtils.verferSignData(httpResult.getContent(), interest);
+            boolean signFlag = SignUtils.verferSignDataByZkPath(httpResult.getContent(), payPRXI.getPublicCertificatePath());
             if (!signFlag)
             {
                 logger.error("锐讯支付 验签失败 orderSerial:{} httpResult:{}", orderSerial, httpResult);

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xqh.financial.mapper.PayVerifyMapper" >
+  <resultMap id="BaseResultMap" type="com.xqh.financial.entity.PayVerify" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="verify_time" property="verifyTime" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="total_money" property="totalMoney" jdbcType="DECIMAL" />
+    <result column="settlement_money" property="settlementMoney" jdbcType="DECIMAL" />
+    <result column="transfer1" property="transfer1" jdbcType="DECIMAL" />
+    <result column="transfer2" property="transfer2" jdbcType="DECIMAL" />
+    <result column="transfer3" property="transfer3" jdbcType="DECIMAL" />
+    <result column="transfer4" property="transfer4" jdbcType="DECIMAL" />
+    <result column="transfer5" property="transfer5" jdbcType="DECIMAL" />
+    <result column="transfer6" property="transfer6" jdbcType="DECIMAL" />
+    <result column="diff" property="diff" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

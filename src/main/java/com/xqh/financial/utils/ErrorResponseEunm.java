@@ -8,7 +8,9 @@ public enum ErrorResponseEunm
     INVALID_PASSWORD(40000, "密码错误"),
     INVALID_USER(40001, "用户不存在"),
     DUPLICATE_USERNAME(40002, "用户名重复"),
-    INVALID_METHOD_ARGS(40003, "参数校验失败");
+    INVALID_METHOD_ARGS(40003, "参数校验失败"),
+    INVALID_TRANFER_MONEY(40004, "转账金额异常"),
+    ;
 
 
     ErrorResponseEunm(int status, String msg) {

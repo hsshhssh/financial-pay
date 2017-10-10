@@ -86,9 +86,9 @@ public class RSAUtil {
         return signByPrivate(content, privateKeyInfo, input_charset);
     }
 
-    public static boolean verifyByKeyPath(String content, String sign, String publicKeyPath, String input_charset) {
+    public static boolean verifyByKeyPath(String content, String sign, String publicKey, String input_charset) {
         try {
-            return verify(content, sign, getKey(publicKeyPath), input_charset);
+            return verify(content, sign, publicKey, input_charset);
         } catch (Exception e) {
             e.printStackTrace();
         }
