@@ -44,12 +44,12 @@ public class PayVerifyController implements IPayVerifyController
 
         double diff = DoubleUtils.sub(verifyOld.getSettlementMoney(), payVerify.getTransfer1(), payVerify.getTransfer2(), payVerify.getTransfer3(), payVerify.getTransfer4(), payVerify.getTransfer5(), payVerify.getTransfer6());
 
-        if(diff < 0)
-        {
-            logger.error("转账金额大于结算金额");
-            CommonUtils.sendError(resp, ErrorResponseEunm.INVALID_TRANFER_MONEY);
-            return;
-        }
+        //if(diff < 0)
+        //{
+        //    logger.error("转账金额大于结算金额");
+        //    CommonUtils.sendError(resp, ErrorResponseEunm.INVALID_TRANFER_MONEY);
+        //    return;
+        //}
 
         payVerify.setDiff(diff);
         payVerify.setUpdateTime((int) (System.currentTimeMillis()/1000));
