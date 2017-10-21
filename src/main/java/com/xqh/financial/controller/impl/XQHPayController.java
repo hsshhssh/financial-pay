@@ -118,7 +118,7 @@ public class XQHPayController implements IXQHPayController{
         if(Constant.ZPAY_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
         {
             logger.info("掌易付支付通道 payEntity:{}", payEntity);
-            zPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp);
+            zPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp, req);
         }
         else if(Constant.VSP_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
         {
@@ -130,7 +130,7 @@ public class XQHPayController implements IXQHPayController{
             logger.info("锐讯支付通道 payEntity:{}", payEntity);
             String ip = CommonUtils.getIp(req);
             logger.info("锐讯支付 client ip:{}", ip);
-            ruiXunPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp, ip, payAppPlatform.getInterestRate(), payEntity.getOpenId());
+            ruiXunPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp, ip, payAppPlatform.getInterestRate(), payEntity.getOpenId(), req);
         }
         else
         {

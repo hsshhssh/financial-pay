@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -64,7 +65,7 @@ public class RuiXunPayService
 
     private static Logger logger = LoggerFactory.getLogger(RuiXunPayService.class);
 
-    public void pay(HttpServletResponse resp, int userId, int appId, int money, int orderSerial, int payType, PayApp payApp, String ip, int interest, String openId)
+    public void pay(HttpServletResponse resp, int userId, int appId, int money, int orderSerial, int payType, PayApp payApp, String ip, int interest, String openId, HttpServletRequest req)
     {
 
         // 获得支付方式
@@ -102,7 +103,7 @@ public class RuiXunPayService
 
         try
         {
-            dealWithPayMapByPayType(resp, payMap, payType, orderSerial, payApp);
+            dealWithPayMapByPayType(resp, payMap, payType, orderSerial, payApp, req);
         } catch (IOException e) {
             logger.error("锐讯支付 处理支付信息失败 orderSerial:{} payMap:{}", orderSerial, payMap);
             xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_UNKNOWN_ERROR);
@@ -138,7 +139,7 @@ public class RuiXunPayService
      * @param resp
      * @param payType
      */
-    private void dealWithPayMapByPayType(HttpServletResponse resp, Map<String, String> payMap, int payType, int orderSerial, PayApp payApp) throws IOException
+    private void dealWithPayMapByPayType(HttpServletResponse resp, Map<String, String> payMap, int payType, int orderSerial, PayApp payApp, HttpServletRequest req) throws IOException
     {
         if(Constant.WX_OFFICE_ACCOUNT_PAY_TYPE == payType)
         {
@@ -183,6 +184,15 @@ public class RuiXunPayService
 
             logger.info("锐讯支付 支付url：{}", payUrl);
 
+            String redirectUrl = req.getParameter("redirectUrl");
+            logger.info("自定义跳转地址 redirectUrl:{}", redirectUrl);
+            if(StringUtils.isNotBlank(redirectUrl))
+            {
+                logger.info("自定义跳转地址 解码后 redirectUrl:{}", redirectUrl);
+                payUrl = getPayUrlDealWithRedirectUrl(payUrl, redirectUrl);
+                logger.info("添加跳转地址后的支付地址 payUrl:{}", payUrl);
+            }
+
             try
             {
                 resp.sendRedirect(payUrl);
@@ -195,6 +205,30 @@ public class RuiXunPayService
         }
 
         }
+    }
+
+
+    private String getPayUrlDealWithRedirectUrl(String payUrl, String redirectUrl) throws UnsupportedEncodingException
+    {
+        logger.info("添加的跳转地址 redirectUrl：{} payUrl:{}", redirectUrl, payUrl);
+
+        String wxPayUrl = URLDecoder.decode(payUrl.substring(payUrl.indexOf("?url=") + 5), "utf8");
+        logger.info("截取的微信地址 wxPayUrl:{}", wxPayUrl);
+
+
+        redirectUrl = URLEncoder.encode(redirectUrl, "utf8");
+        redirectUrl = URLEncoder.encode("https://mpay.wxhang.cn/h5proxy.html?url=" + redirectUrl, "utf8");
+
+        String newWXPayUrl = wxPayUrl + "&redirect_url=" + redirectUrl;
+
+        String encodeNewWXPayUrl = URLEncoder.encode(newWXPayUrl, "utf8");
+
+        String url = payUrl.substring(0, payUrl.indexOf("?url=") + 5) + encodeNewWXPayUrl;
+
+        logger.info("拼接后的微信地址 encodeNewWXPayUrl:{} 最终地址 url:{}", encodeNewWXPayUrl, url);
+
+        return url;
+
     }
 
 

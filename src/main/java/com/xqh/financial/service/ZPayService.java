@@ -11,6 +11,7 @@ import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.ConfigParamsUtils;
 import com.xqh.financial.utils.Constant;
 import com.xqh.financial.utils.HttpUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by hssh on 2017/5/7.
@@ -59,7 +61,7 @@ public class ZPayService {
     /**
      * 掌易付支付接口
      */
-    public void pay(HttpServletResponse resp, int userId, int appId, int money, int orderSerial, int payType, PayApp payApp) {
+    public void pay(HttpServletResponse resp, int userId, int appId, int money, int orderSerial, int payType, PayApp payApp, HttpServletRequest req) {
 
         PayPZI payPZI = payPZIService.select(userId, appId);
         if(null == payPZI) {
@@ -88,7 +90,27 @@ public class ZPayService {
         sb.append("currency="+ currency +"&");
         sb.append("sign=" + sign + "&");
         sb.append("cpparam=" + orderSerial + "&");
-        sb.append("notifyUrl=" + configParamsUtils.getZpayNotifyHost() + "/xqh/financial/zpay/nodifyUrl/" + appId + "&");
+
+        String redirectUrl = null;
+        String paramRedirectUrl = req.getParameter("redirectUrl");
+        if(StringUtils.isNotBlank(paramRedirectUrl))
+        {
+            logger.info("参数决定跳转地址 redirectUrl:{}", paramRedirectUrl);
+            try
+            {
+                redirectUrl = URLEncoder.encode(paramRedirectUrl, "utf8");
+            } catch (UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            logger.info("后台配置决定跳转地址");
+            redirectUrl = configParamsUtils.getZpayNotifyHost() + "/xqh/financial/zpay/nodifyUrl/" + appId;
+        }
+
+        sb.append("notifyUrl=" + redirectUrl + "&");
         String name = null;
         try {
             name = java.net.URLEncoder.encode(appName, "utf-8");
