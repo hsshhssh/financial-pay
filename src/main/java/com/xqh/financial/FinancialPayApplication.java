@@ -29,6 +29,8 @@ import java.util.List;
 @EnableScheduling
 public class FinancialPayApplication {
 
+    @org.springframework.beans.factory.annotation.Value("${zk.host}")
+    private String zkHost;
 
     public static void main(String[] args) {
         ConfigurableApplicationContext ac = SpringApplication.run(FinancialPayApplication.class, args);
@@ -75,7 +77,7 @@ public class FinancialPayApplication {
     @Bean
     public ZkClient zkClient()
     {
-        return new ZkClient(System.getenv("ZK_HOST"));
+        return new ZkClient(this.zkHost);
     }
 
 }

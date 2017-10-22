@@ -5,9 +5,12 @@ import com.github.zkclient.ZkClient;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -16,15 +19,19 @@ import java.util.Set;
 /**
  * Created by hssh on 2017/2/15.
  */
+@Component
 public class ValueChangeHandler {
+
+    @org.springframework.beans.factory.annotation.Value("${zk.host}")
+    private String zkHost;
 
     public static Logger logger = LoggerFactory.getLogger(ValueChangeHandler.class);
 
-    public static SetMultimap<String, ObjectField> map = HashMultimap.create();
+    public SetMultimap<String, ObjectField> map = HashMultimap.create();
 
-    public static ZkClient zkClient = new ZkClient(System.getenv("ZK_HOST"));
+    public ZkClient zkClient;
 
-    public static IZkDataListener iZkDataListener = new IZkDataListener() {
+    public IZkDataListener iZkDataListener = new IZkDataListener() {
         @Override
         public void handleDataChange(String dataPath, byte[] data) throws Exception {
 
@@ -50,7 +57,7 @@ public class ValueChangeHandler {
         }
     };
 
-    public static void add(String path, String key, Object object, Field field)
+    public void add(String path, String key, Object object, Field field)
     {
         StringBuffer pathKey = new StringBuffer();
         pathKey.append(path);
@@ -59,5 +66,20 @@ public class ValueChangeHandler {
 
         map.put(pathKey.toString(), new ObjectField(object, field));
     }
+
+    @PostConstruct
+    public void init()
+    {
+        if(StringUtils.isBlank(this.zkHost))
+        {
+            throw new IllegalArgumentException("zkHost配置无效");
+        }
+
+        this.zkClient = new ZkClient(zkHost);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@zkHost: " + this.zkHost + "@@@@@@@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    }
+
 
 }
