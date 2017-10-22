@@ -1,5 +1,6 @@
 package com.xqh.financial.utils.jobs;
 
+import com.google.common.collect.Lists;
 import com.xqh.financial.entity.PayCFR;
 import com.xqh.financial.entity.other.HttpResult;
 import com.xqh.financial.mapper.PayCFRMapper;
@@ -43,7 +44,7 @@ public class CallbackJobs
 
         logger.info("自动回调开始 nowTime:{}", nowTime);
 
-        List<PayCFR> payCFRList = getCallbackRecord();
+        List<PayCFR> payCFRList = getCallbackRecord(nowTime);
 
         logger.info("回调记录数 size:{}", payCFRList.size());
 
@@ -58,7 +59,7 @@ public class CallbackJobs
     }
 
 
-    public List<PayCFR> getCallbackRecord()
+    public List<PayCFR> getCallbackRecord(int nowTime)
     {
         Search search = new Search();
         search.put("state_eq", Constant.FAIL_STATE);
@@ -66,10 +67,22 @@ public class CallbackJobs
 
         Example example = new ExampleBuilder(PayCFR.class).search(search).sort(Arrays.asList("id_desc")).build();
 
+        int lastMinuteTime = nowTime - 60;
+        logger.info("nowTime:{} 前一分钟：{}", nowTime, lastMinuteTime);
 
         List<PayCFR> payCFRs = payCFRMapper.selectByExampleAndRowBounds(example, new RowBounds(1, 500));
 
-        return payCFRs;
+        List<PayCFR> result = Lists.newArrayList();
+
+        for (PayCFR payCFR : payCFRs)
+        {
+            if(payCFR.getCreateTime() <= lastMinuteTime)
+            {
+                result.add(payCFR);
+            }
+        }
+
+        return result;
 
     }
 
