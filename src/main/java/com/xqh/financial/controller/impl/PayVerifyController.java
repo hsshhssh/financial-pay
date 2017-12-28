@@ -1,6 +1,7 @@
 package com.xqh.financial.controller.impl;
 
 import com.github.pagehelper.Page;
+import com.google.common.collect.ImmutableMap;
 import com.xqh.financial.controller.api.IPayVerifyController;
 import com.xqh.financial.entity.PayVerify;
 import com.xqh.financial.entity.dto.PayVerifyUpdateDTO;
@@ -8,6 +9,7 @@ import com.xqh.financial.entity.vo.PayVerifySearchVO;
 import com.xqh.financial.entity.vo.PayVerifyTotalVO;
 import com.xqh.financial.entity.vo.PayVerifyVO;
 import com.xqh.financial.mapper.PayVerifyMapper;
+import com.xqh.financial.service.PayVerifyService;
 import com.xqh.financial.utils.*;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -22,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hssh on 2017/10/3.
@@ -33,6 +37,11 @@ public class PayVerifyController implements IPayVerifyController
 
     @Autowired
     private PayVerifyMapper payVerifyMapper;
+
+    @Autowired
+    private PayVerifyService payVerifyService;
+
+    public static Map<Integer, Double> diffMap = new HashMap<>();
 
     @Override
     public void update(@RequestBody @NotNull @Valid PayVerifyUpdateDTO dto,
@@ -68,9 +77,11 @@ public class PayVerifyController implements IPayVerifyController
         Page<PayVerify> verifyList = (Page<PayVerify>) payVerifyMapper.selectByExampleAndRowBounds(example, new RowBounds(page, size));
 
         PayVerifySearchVO res = new PayVerifySearchVO();
-        res.setVerifyVOPage(new PageResult<PayVerifyVO>(verifyList.getTotal(), DozerUtils.mapList(verifyList.getResult(), PayVerifyVO.class)));
+        // 列表数据
+        res.setVerifyVOPage(new PageResult<>(verifyList.getTotal(), DozerUtils.mapList(verifyList.getResult(), PayVerifyVO.class)));
 
 
+        // 列表总计数据
         PayVerifyTotalVO totalVO = new PayVerifyTotalVO();
         totalVO.setTotalMoneyTotal((double) 0);
         totalVO.setSettlementMoneyTotal((double) 0);
@@ -107,6 +118,26 @@ public class PayVerifyController implements IPayVerifyController
 
         res.setPayVerifyTotalVO(totalVO);
 
+
+        // 总差额
+        Integer userId = search.get("userId_eq") == null ? null : Integer.valueOf((String.valueOf(search.get("userId_eq"))));
+        Double totalDiff = Double.valueOf(0);
+        if(null != userId) {
+            totalDiff = diffMap.get(userId);
+        } else {
+            for (Integer tempUserId : diffMap.keySet())
+            {
+                totalDiff = DoubleUtils.add(totalDiff, diffMap.get(tempUserId));
+            }
+        }
+        res.setTotalDiff(totalDiff);
+
         return res;
+    }
+
+    @Override
+    public void refreshDiffMap()
+    {
+        diffMap = ImmutableMap.copyOf(payVerifyService.getDiffMap());
     }
 }

@@ -3,10 +3,7 @@ package com.xqh.financial.controller.api;
 import com.xqh.financial.entity.dto.PayVerifyUpdateDTO;
 import com.xqh.financial.entity.vo.PayVerifySearchVO;
 import com.xqh.financial.utils.Search;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -27,6 +24,9 @@ public interface IPayVerifyController
     public PayVerifySearchVO search(@RequestParam("search") @Valid @NotNull Search search,
                                     @RequestParam(value = "page", defaultValue = "1")  int page,
                                     @RequestParam(value = "size", defaultValue = "10") int size);
+
+    @GetMapping("refresh/diffMap")
+    public void refreshDiffMap();
 
 
 }
