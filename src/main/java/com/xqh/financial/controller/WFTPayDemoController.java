@@ -75,10 +75,11 @@ public class WFTPayDemoController
     }
 
     @PostMapping("callback")
-    public void callback(HttpServletRequest req, HttpServletResponse resp)
+    public void callback(HttpServletRequest req, HttpServletResponse resp) throws Exception
     {
-        TreeMap<String, String> params = CommonUtils.getParams(req);
-        log.info("callback params:{}", JSONObject.toJSON(params));
+        String paramStr = XmlUtils.parseRequst(req);
+        Map<String, String> paramMap = XmlUtils.toMap(paramStr.getBytes(), "UTF-9");
+        log.info("callback params:{}", JSONObject.toJSON(paramMap));
 
         CommonUtils.writeResponse(resp, "success");
         return;
