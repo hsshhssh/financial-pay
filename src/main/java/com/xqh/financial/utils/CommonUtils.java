@@ -211,4 +211,14 @@ public class CommonUtils {
             return req.getRemoteAddr();
         }
     }
+
+    public static String generateRandom(int num) {
+        String chars = "0123456789";
+        char[] rands = new char[num];
+        for (int i = 0; i < num; i++) {
+            int rand = (int) (Math.random() * 10);
+            rands[i] = chars.charAt(rand);
+        }
+        return String.valueOf(rands);
+    }
 }
