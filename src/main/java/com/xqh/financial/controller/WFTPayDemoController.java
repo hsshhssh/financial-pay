@@ -43,8 +43,8 @@ public class WFTPayDemoController
         map.put("body", "商品描述");
         map.put("total_fee", String.valueOf(money));
         map.put("mch_create_ip", CommonUtils.getIp(req));
-        map.put("notify_url", config.getZpayNotifyHost() + "/callback");
-        map.put("callback_url", config.getZpayNotifyHost() + "/notify");
+        map.put("notify_url", config.getZpayNotifyHost() + "/wft/callback");
+        map.put("callback_url", config.getZpayNotifyHost() + "/wft/notify");
         map.put("device_info", "iOS_WAP");
         map.put("mch_app_name", "百度");
         map.put("mch_app_id", "www.baidu.com");
