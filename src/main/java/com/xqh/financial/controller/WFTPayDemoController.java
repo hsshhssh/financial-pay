@@ -78,7 +78,7 @@ public class WFTPayDemoController
     public void callback(HttpServletRequest req, HttpServletResponse resp) throws Exception
     {
         String paramStr = XmlUtils.parseRequst(req);
-        Map<String, String> paramMap = XmlUtils.toMap(paramStr.getBytes(), "UTF-9");
+        Map<String, String> paramMap = XmlUtils.toMap(paramStr.getBytes(), "UTF-8");
         log.info("callback params:{}", JSONObject.toJSON(paramMap));
 
         CommonUtils.writeResponse(resp, "success");
