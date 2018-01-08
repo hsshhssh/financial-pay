@@ -5,7 +5,6 @@ package com.xqh.financial.utils.pingan;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,11 +61,11 @@ public class TLinx2Util {
      * @param respObject
      * @return
      */
-    public static Boolean verifySign(JSONObject respObject) {
+    public static Boolean verifySign(JSONObject respObject, String key) {
         String respSign = respObject.get("sign").toString();
 
         respObject.remove("sign");    // 删除sign节点
-        respObject.put("open_key", TestParams.OPEN_KEY);
+        respObject.put("open_key", key);
         System.out.println("==========开始验签==========");
         String veriSign = sign(respObject);    // 按A~z排序，串联成字符串，先进行sha1加密(小写)，再进行md5加密(小写)，得到签名
 
@@ -84,10 +83,10 @@ public class TLinx2Util {
      * @param postmap 说明：
      * @throws Exception
      */
-    public static void handleEncrypt(TreeMap<String, String> datamap, TreeMap<String, String> postmap) throws Exception {
+    public static void handleEncrypt(TreeMap<String, String> datamap, TreeMap<String, String> postmap, String key) throws Exception {
 
         JSONObject dataobj = JSONObject.fromObject(datamap);
-        String data    = TLinxAESCoder.encrypt(dataobj.toString(), TestParams.OPEN_KEY);    // AES加密，并bin2hex
+        String data    = TLinxAESCoder.encrypt(dataobj.toString(), key);    // AES加密，并bin2hex
         log.info("====加密后的data= "+data);
         postmap.put("data", data);
     }
@@ -96,11 +95,11 @@ public class TLinx2Util {
      * 签名
      * @param postmap
      */
-    public static void handleSign(TreeMap<String, String> postmap) {
+    public static void handleSign(TreeMap<String, String> postmap, String key) {
         Map<String, String> veriDataMap = new HashMap<String, String>();
 
         veriDataMap.putAll(postmap);
-        veriDataMap.put("open_key", TestParams.OPEN_KEY);
+        veriDataMap.put("open_key", key);
 
         // 签名
         String sign = sign(veriDataMap);
@@ -130,64 +129,64 @@ public class TLinx2Util {
      *
      * @param args 说明：
      */
-    public static void main(String[] args) {
-
-        // 初始化参数
-        String pmtType   = "0,1,2,3";
-        String timestamp = new Date().getTime() / 1000 + "";    // 时间
-
-		try {
-			// 固定参数
-			TreeMap<String, String> postmap = new TreeMap<String, String>();//请求参数的map
-			postmap.put("open_id", TestParams.OPEN_ID);
-			postmap.put("timestamp", timestamp);
-
-			TreeMap<String, String> datamap = new TreeMap<String, String>();//data参数的map
-			datamap.put("pmt_type", pmtType);
-
-			/**
-			 * 1 data字段内容进行AES加密，再二进制转十六进制(bin2hex)
-			 */
-			handleEncrypt(datamap, postmap);
-
-            /**
-             * 2 请求参数签名 按A~z排序，串联成字符串，先进行sha1加密(小写)，再进行md5加密(小写)，得到签名
-             */
-            handleSign(postmap);
-
-            /**
-             * 3 请求、响应
-             */
-            String rspStr = handlePost(postmap, TestParams.PAYLIST);
-
-
-            /**
-             * 4 验签  有data节点时才验签
-             */
-            JSONObject respObject = JSONObject.fromObject(rspStr);
-
-            Object dataStr    = respObject.get("data");
-			System.out.println("返回data字符串="+dataStr);
-
-            if (!rspStr.isEmpty() || (dataStr != null)) {
-                if (verifySign(respObject)) {    // 验签成功
-
-                    /**
-                     * 5 AES解密，并hex2bin
-                     */
-                    String respData = TLinxAESCoder.decrypt(dataStr.toString(), TestParams.OPEN_KEY);
-
-                    System.out.println("==================响应data内容:" + respData);
-                } else {
-                    System.out.println("=====验签失败=====");
-                }
-            } else {
-                System.out.println("=====没有返回data数据=====");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //public static void main(String[] args) {
+    //
+    //    // 初始化参数
+    //    String pmtType   = "0,1,2,3";
+    //    String timestamp = new Date().getTime() / 1000 + "";    // 时间
+    //
+		//try {
+		//	// 固定参数
+		//	TreeMap<String, String> postmap = new TreeMap<String, String>();//请求参数的map
+		//	postmap.put("open_id", TestParams.OPEN_ID);
+		//	postmap.put("timestamp", timestamp);
+    //
+		//	TreeMap<String, String> datamap = new TreeMap<String, String>();//data参数的map
+		//	datamap.put("pmt_type", pmtType);
+    //
+		//	/**
+		//	 * 1 data字段内容进行AES加密，再二进制转十六进制(bin2hex)
+		//	 */
+		//	handleEncrypt(datamap, postmap);
+    //
+    //        /**
+    //         * 2 请求参数签名 按A~z排序，串联成字符串，先进行sha1加密(小写)，再进行md5加密(小写)，得到签名
+    //         */
+    //        handleSign(postmap);
+    //
+    //        /**
+    //         * 3 请求、响应
+    //         */
+    //        String rspStr = handlePost(postmap, TestParams.PAYLIST);
+    //
+    //
+    //        /**
+    //         * 4 验签  有data节点时才验签
+    //         */
+    //        JSONObject respObject = JSONObject.fromObject(rspStr);
+    //
+    //        Object dataStr    = respObject.get("data");
+		//	System.out.println("返回data字符串="+dataStr);
+    //
+    //        if (!rspStr.isEmpty() || (dataStr != null)) {
+    //            if (verifySign(respObject)) {    // 验签成功
+    //
+    //                /**
+    //                 * 5 AES解密，并hex2bin
+    //                 */
+    //                String respData = TLinxAESCoder.decrypt(dataStr.toString(), TestParams.OPEN_KEY);
+    //
+    //                System.out.println("==================响应data内容:" + respData);
+    //            } else {
+    //                System.out.println("=====验签失败=====");
+    //            }
+    //        } else {
+    //            System.out.println("=====没有返回data数据=====");
+    //        }
+    //    } catch (Exception e) {
+    //        e.printStackTrace();
+    //    }
+    //}
 }
 
 

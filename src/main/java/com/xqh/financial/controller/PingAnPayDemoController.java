@@ -32,7 +32,7 @@ public class PingAnPayDemoController
 
         TreeMap<String, String> postmap = new TreeMap<String, String>();
         String timestamp = new Date().getTime() / 1000 + "";
-        postmap.put("open_id", TestParams.OPEN_ID);
+        postmap.put("open_id", configParamsUtils.getPinganOpenId().trim());
         postmap.put("timestamp", timestamp);
 
         TreeMap<String, String> datamap = new TreeMap<String, String>();
@@ -56,9 +56,9 @@ public class PingAnPayDemoController
         datamap.put("JSAPI", "1");
         datamap.put("trade_type", "MWEB");
 
-        TLinx2Util.handleEncrypt(datamap, postmap);
+        TLinx2Util.handleEncrypt(datamap, postmap, configParamsUtils.getPinganOpenKey());
 
-        TLinx2Util.handleSign(postmap);
+        TLinx2Util.handleSign(postmap, configParamsUtils.getPinganOpenKey());
 
         String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYORDER);
         log.info("响应参数：{}", unicodeToString(rspStr));
@@ -88,7 +88,7 @@ public class PingAnPayDemoController
         try {
             // 固定参数
             TreeMap<String, String> postmap = new TreeMap<String, String>();//请求参数的map
-            postmap.put("open_id", TestParams.OPEN_ID);
+            postmap.put("open_id", configParamsUtils.getPinganOpenId().trim());
             postmap.put("timestamp", timestamp);
 
             TreeMap<String, String> datamap = new TreeMap<String, String>();//data参数的map
@@ -97,12 +97,12 @@ public class PingAnPayDemoController
             /**
              * 1 data字段内容进行AES加密，再二进制转十六进制(bin2hex)
              */
-            TLinx2Util.handleEncrypt(datamap, postmap);
+            TLinx2Util.handleEncrypt(datamap, postmap, configParamsUtils.getPinganOpenKey());
 
             /**
              * 2 请求参数签名 按A~z排序，串联成字符串，先进行sha1加密(小写)，再进行md5加密(小写)，得到签名
              */
-            TLinx2Util.handleSign(postmap);
+            TLinx2Util.handleSign(postmap, configParamsUtils.getPinganOpenKey());
 
             /**
              * 3 请求、响应
