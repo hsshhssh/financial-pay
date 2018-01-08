@@ -19,6 +19,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.xqh.financial.utils.pingan.HttpsUtil.getParamStr;
+
 /**
  * Created by hssh on 2018/1/4.
  */
@@ -65,7 +67,9 @@ public class PingAnPayDemoController
         TLinx2Util.handleSign(postmap);
 
         //String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYORDER);
-        StringEntity stringEntity = new StringEntity(HttpsUtil.getParamStr(postmap), "UTF-8");
+        String postmapStr = HttpsUtil.getParamStr(postmap);
+        log.info("请求参数:{}", postmapStr);
+        StringEntity stringEntity = new StringEntity(getParamStr(postmap), "UTF-8");
         HttpResult post = HttpsUtils.post(TestParams.OPEN_URL + TestParams.PAYORDER, null, stringEntity, "UTF-8");
         log.info("post response:{}", unicodeToString(post.getContent()));
     }
@@ -84,9 +88,43 @@ public class PingAnPayDemoController
         return;
     }
 
-    public static void main(String[] args)
-    {
-        System.out.println(unicodeToString("token\\u4e0d\\u80fd\\u4e3a\\u7a7a"));
+    @GetMapping("paylist")
+    public void payList(HttpServletRequest req, HttpServletResponse resp) {
+        // 初始化参数
+        String pmtType   = "0,1,2,3";
+        String timestamp = new Date().getTime() / 1000 + "";    // 时间
+
+        try {
+            // 固定参数
+            TreeMap<String, String> postmap = new TreeMap<String, String>();//请求参数的map
+            postmap.put("open_id", TestParams.OPEN_ID);
+            postmap.put("timestamp", timestamp);
+
+            TreeMap<String, String> datamap = new TreeMap<String, String>();//data参数的map
+            datamap.put("pmt_type", pmtType);
+
+            /**
+             * 1 data字段内容进行AES加密，再二进制转十六进制(bin2hex)
+             */
+            TLinx2Util.handleEncrypt(datamap, postmap);
+
+            /**
+             * 2 请求参数签名 按A~z排序，串联成字符串，先进行sha1加密(小写)，再进行md5加密(小写)，得到签名
+             */
+            TLinx2Util.handleSign(postmap);
+
+            /**
+             * 3 请求、响应
+             */
+            String postmapStr = HttpsUtil.getParamStr(postmap);
+            log.info("请求参数:{}", postmapStr);
+            StringEntity stringEntity = new StringEntity(postmapStr, "UTF-8");
+            HttpResult post = HttpsUtils.post(TestParams.OPEN_URL + TestParams.PAYLIST, null, stringEntity, "UTF-8");
+            log.info("响应结果：{}", unicodeToString(post.getContent()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String unicodeToString(String str) {
