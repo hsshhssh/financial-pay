@@ -116,7 +116,7 @@ public class TLinx2Util {
      */
     public static String handlePost(TreeMap<String, String> postmap, String interfaceName) {
         String url = TestParams.OPEN_URL + interfaceName;
-        System.out.println("====请求地址= " + url);
+        log.info("====请求地址= " + url);
         if (url.contains("https")) {
             return HttpsUtil.httpMethodPost(url, postmap, "UTF-8");
         } else {

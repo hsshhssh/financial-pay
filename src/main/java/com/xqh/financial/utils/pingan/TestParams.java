@@ -15,9 +15,9 @@ public interface TestParams {
 //  String OPEN_KEY = "0828e83720fdbe3685a7b94214af04f9";
 
 
-    String OPEN_URL = "http://openapi.tlinx.cn/mct1/";
+    //String OPEN_URL = "http://openapi.tlinx.cn/mct1/";
 
-    //String OPEN_URL = "https://api.tlinx.com/mct1";
+    String OPEN_URL = "https://api.tlinx.com/mct1/";
 
 
     String PAYLIST = "paylist";

@@ -139,7 +139,7 @@ public class HttpUtil {
 		if (null != paramsMap) {
 			params = getParamStr(paramsMap);
 		}
-		System.out.println("====post请求参数= "+params);
+		log.info("====post请求参数= "+params);
 		StringBuffer sb = new StringBuffer();
 		URL urls;
 		HttpURLConnection uc = null;

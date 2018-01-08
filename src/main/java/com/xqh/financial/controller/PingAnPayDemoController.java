@@ -1,14 +1,10 @@
 package com.xqh.financial.controller;
 
-import com.xqh.financial.entity.other.HttpResult;
 import com.xqh.financial.utils.CommonUtils;
 import com.xqh.financial.utils.ConfigParamsUtils;
-import com.xqh.financial.utils.HttpsUtils;
-import com.xqh.financial.utils.pingan.HttpsUtil;
 import com.xqh.financial.utils.pingan.TLinx2Util;
 import com.xqh.financial.utils.pingan.TestParams;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.entity.StringEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,8 +14,6 @@ import java.util.Date;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.xqh.financial.utils.pingan.HttpsUtil.getParamStr;
 
 /**
  * Created by hssh on 2018/1/4.
@@ -66,12 +60,9 @@ public class PingAnPayDemoController
 
         TLinx2Util.handleSign(postmap);
 
-        //String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYORDER);
-        String postmapStr = HttpsUtil.getParamStr(postmap);
-        log.info("请求参数:{}", postmapStr);
-        StringEntity stringEntity = new StringEntity(getParamStr(postmap), "UTF-8");
-        HttpResult post = HttpsUtils.post(TestParams.OPEN_URL + TestParams.PAYORDER, null, stringEntity, "UTF-8");
-        log.info("post response:{}", unicodeToString(post.getContent()));
+        String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYORDER);
+        log.info("响应参数：{}", unicodeToString(rspStr));
+
     }
 
     @PostMapping("callback")
@@ -116,11 +107,9 @@ public class PingAnPayDemoController
             /**
              * 3 请求、响应
              */
-            String postmapStr = HttpsUtil.getParamStr(postmap);
-            log.info("请求参数:{}", postmapStr);
-            StringEntity stringEntity = new StringEntity(postmapStr, "UTF-8");
-            HttpResult post = HttpsUtils.post(TestParams.OPEN_URL + TestParams.PAYLIST, null, stringEntity, "UTF-8");
-            log.info("响应结果：{}", unicodeToString(post.getContent()));
+
+            String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYLIST);
+            log.info("响应参数：{}", unicodeToString(rspStr));
 
         } catch (Exception e) {
             e.printStackTrace();
