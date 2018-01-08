@@ -5,6 +5,8 @@
  */
 package com.xqh.financial.utils.pingan;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -14,6 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @Author：caiqf
  * @Date：2016-4-12
  */
+@Slf4j
 public class TLinxAESCoder {
 	private static String CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
 	private static String KEY_ALGORITHM = "AES";
@@ -28,7 +31,7 @@ public class TLinxAESCoder {
 	}
 
 	public static String encrypt(String sSrc, String sKey) throws Exception {
-		System.out.println("====data加密前的明文= " + sSrc);
+		log.info("====data加密前的明文= " + sSrc);
 		SecretKeySpec skeySpec = new SecretKeySpec(sKey.getBytes("ASCII"), KEY_ALGORITHM);
 		Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
 		cipher.init(1, skeySpec);

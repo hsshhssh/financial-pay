@@ -2,6 +2,7 @@ package com.xqh.financial.utils.pingan;
 
 //~--- non-JDK imports --------------------------------------------------------
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.TreeMap;
  * Create 2017-03-07 14:01:23
  * @author Benny.YEE
  */
+@Slf4j
 public class TLinx2Util {
 
 
@@ -38,12 +40,12 @@ public class TLinx2Util {
              * 1 A~z排序(加上open_key)
              */
             sortStr = TLinxUtil.sort(postMap);
-            System.out.println("====排序后的待签名字符串= "+sortStr);
+            log.info("====排序后的待签名字符串= "+sortStr);
             /**
              * 2 sha1加密(小写)
              */
             String sha1 = TLinxSHA1.SHA1(sortStr);
-            System.out.println("====sha1加密后的待签名字符串= " + sha1);
+            log.info("====sha1加密后的待签名字符串= " + sha1);
             /**
              * 3 md5加密(小写)
              */
@@ -86,7 +88,7 @@ public class TLinx2Util {
 
         JSONObject dataobj = JSONObject.fromObject(datamap);
         String data    = TLinxAESCoder.encrypt(dataobj.toString(), TestParams.OPEN_KEY);    // AES加密，并bin2hex
-        System.out.println("====加密后的data= "+data);
+        log.info("====加密后的data= "+data);
         postmap.put("data", data);
     }
 
@@ -103,7 +105,7 @@ public class TLinx2Util {
         // 签名
         String sign = sign(veriDataMap);
 
-        System.out.println("====已签名字符串= " + sign);
+        log.info("====已签名字符串= " + sign);
         postmap.put("sign", sign);
     }
 
