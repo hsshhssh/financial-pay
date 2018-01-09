@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type="text/javascript" charset="utf-8" src="/js/wxjswap2.js"></script>
+    <script>
+        function urlSearch()
+        {
+            var name,value;
+            var str=location.href;
+            var num=str.indexOf("?")
+            str=str.substr(num+1);
+
+            var arr=str.split("&");
+            for(var i=0;i < arr.length;i++){
+                num=arr[i].indexOf("=");
+                if(num>0){
+                    name=arr[i].substring(0,num);
+                    value=arr[i].substr(num+1);
+                    this[name]=value;
+                }
+            }
+        }
+        var params = new urlSearch();
+        console.log(params.trade_no);
+        console.log(params.jumpurl);
+        wxjswap(params.trade_no,params.jumpurl);
+    </script>
+</head>
+<body>
+</body>
+</html>

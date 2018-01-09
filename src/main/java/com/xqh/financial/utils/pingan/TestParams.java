@@ -23,7 +23,7 @@ public interface TestParams {
 
     //String OPEN_URL = "http://openapi.tlinx.cn/mct1/";
 
-    String OPEN_URL = "https://api.tlinx.com/mct1/";
+    String OPEN_URL = "https://api.orangebank.com.cn/mct1/";
 
 
     String PAYLIST = "paylist";
