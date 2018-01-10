@@ -40,7 +40,7 @@ public class PingAnPayDemoController
         TreeMap<String, String> datamap = new TreeMap<String, String>();
 
         datamap.put("out_no", String.valueOf(System.currentTimeMillis()));
-        datamap.put("pmt_tag", "Weixin");
+        datamap.put("pmt_tag", configParamsUtils.getPinganPayType().trim());
         datamap.put("pmt_name", "微信");
         datamap.put("ord_name", "ordName");
         datamap.put("original_amount", String.valueOf(money));
@@ -53,11 +53,11 @@ public class PingAnPayDemoController
         datamap.put("tag", "tag");
         datamap.put("notify_url", configParamsUtils.getZpayNotifyHost().trim() + "/pingan/callback");
         String jumpurl = configParamsUtils.getZpayNotifyHost().trim() + "/pingan/notify";
-        datamap.put("jump_url", jumpurl);
+        //datamap.put("jump_url", jumpurl);
         //datamap.put("sub_appid", "sub_appid");
-        //datamap.put("sub_openid", "sub_openid");
-        datamap.put("JSAPI", "1");
         datamap.put("trade_type", "MWEB");
+        datamap.put("spbill_create_id", CommonUtils.getIp(req));
+        datamap.put("scene_info", "senceInfo");
 
 
         /**
@@ -73,7 +73,7 @@ public class PingAnPayDemoController
         /**
          * 3 请求、响应
          */
-        String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYORDER);
+        String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYORDER, configParamsUtils.getPinganUrl().trim());
         log.info("====post响应字符串= " + rspStr);
 
         /**
@@ -99,7 +99,7 @@ public class PingAnPayDemoController
                 System.out.println("==========验签失败==========");
             }
         } else {
-            System.out.println("==========没有返回data数据==========");
+            log.info("没有返回data数据 返回数据：{}", unicodeToString(rspStr));
         }
     }
 
@@ -146,7 +146,7 @@ public class PingAnPayDemoController
              * 3 请求、响应
              */
 
-            String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYLIST);
+            String rspStr = TLinx2Util.handlePost(postmap, TestParams.PAYLIST, configParamsUtils.getPinganUrl().trim());
             log.info("响应参数：{}", unicodeToString(rspStr));
 
         } catch (Exception e) {

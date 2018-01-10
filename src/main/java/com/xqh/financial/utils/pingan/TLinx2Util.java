@@ -113,8 +113,8 @@ public class TLinx2Util {
      * @param postmap
      * @return      响应字符串
      */
-    public static String handlePost(TreeMap<String, String> postmap, String interfaceName) {
-        String url = TestParams.OPEN_URL + interfaceName;
+    public static String handlePost(TreeMap<String, String> postmap, String interfaceName, String baseUrl) {
+        String url = baseUrl + interfaceName;
         log.info("====请求地址= " + url);
         if (url.contains("https")) {
             return HttpsUtil.httpMethodPost(url, postmap, "UTF-8");
