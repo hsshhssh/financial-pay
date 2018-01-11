@@ -91,6 +91,13 @@ public class TLinx2Util {
         postmap.put("data", data);
     }
 
+    public static void handleEncrypt(String dataStr, TreeMap<String, String> postmap, String key) throws Exception {
+
+        String data    = TLinxAESCoder.encrypt(dataStr, key);    // AES加密，并bin2hex
+        log.info("====加密后的data= "+data);
+        postmap.put("data", data);
+    }
+
     /**
      * 签名
      * @param postmap
