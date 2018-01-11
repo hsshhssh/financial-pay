@@ -94,4 +94,52 @@ public class WFTPayDemoController
         return;
     }
 
+
+    @GetMapping("gzhPay")
+    public void gzhPay(@RequestParam("money") int money,
+                       @RequestParam("openid") String openid,
+                       @RequestParam("appId") String appId,
+                       @RequestParam("key") String key,
+                       HttpServletRequest req,
+                       HttpServletResponse resp) throws Exception
+    {
+        SortedMap<String,String> map = new TreeMap<>();
+
+        map.put("service", "pay.weixin.jspay");
+        map.put("mch_id", "102515400454");
+        map.put("is_raw", "1");
+        map.put("out_trade_no", System.currentTimeMillis() + CommonUtils.generateRandom(5));
+        map.put("body", "商品描述");
+        map.put("sub_openid", openid);
+        map.put("sub_appid", appId);
+        map.put("total_fee", String.valueOf(money));
+        map.put("mch_create_ip", CommonUtils.getIp(req));
+        map.put("notify_url", config.getZpayNotifyHost() + "/wft/callback");
+        map.put("nonce_str", CommonUtils.generateRandom(15));
+        Map<String,String> params = SignUtils.paraFilter(map);
+        StringBuilder buf = new StringBuilder((params.size() +1) * 10);
+        SignUtils.buildPayParams(buf,params,false);
+        String preStr = buf.toString();
+        String sign = MD5.sign(preStr, "&key=" + key, "UTF-8");
+        map.put("sign", sign);
+        String xmlStr = XmlUtils.parseXML(map);
+        log.info("pay params:{}", xmlStr);
+
+        StringEntity stringEntity = new StringEntity(xmlStr, "UTF-8");
+        HttpResult httpResult = HttpsUtils.post("https://pay.swiftpass.cn/pay/gateway", null, stringEntity, "UTF-8");
+        log.info("pay result:{}", httpResult);
+
+        if(200 == httpResult.getStatus()) {
+            Map<String, String> resultMap = XmlUtils.toMap(httpResult.getContent().getBytes(), "UTF-8");
+            if("0".equals(resultMap.get("status")) && "0".equals(resultMap.get("result_code"))) {
+                //String pay_info = resultMap.get("pay_info");
+                //log.info("payurl:{}", pay_info);
+                //resp.sendRedirect(pay_info);
+                log.info("pay_info:{} ， token_id:{}",resultMap.get("pay_info"), resultMap.get("token_id"));
+            }
+        }
+
+        CommonUtils.writeResponse(resp, "pay fail");
+    }
+
 }
