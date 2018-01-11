@@ -37,27 +37,47 @@ public class PingAnPayDemoController
         postmap.put("open_id", configParamsUtils.getPinganOpenId().trim());
         postmap.put("timestamp", timestamp);
 
-        TreeMap<String, String> datamap = new TreeMap<String, String>();
+        TreeMap<String, Object> datamap = new TreeMap<>();
 
-        datamap.put("out_no", String.valueOf(System.currentTimeMillis()));
-        datamap.put("pmt_tag", configParamsUtils.getPinganPayType().trim());
-        datamap.put("pmt_name", "微信");
-        datamap.put("ord_name", "ordName");
-        datamap.put("original_amount", String.valueOf(money));
-        //datamap.put("discount_amount", discountAmount+"");
-        //datamap.put("ignore_amount", ignoreAmount+"");
-        datamap.put("trade_amount", String.valueOf(money));
-        //datamap.put("trade_account", tradeAccount);
-        datamap.put("trade_no", "tradeNo" + System.currentTimeMillis());
-        datamap.put("remark", "remark");
-        datamap.put("tag", "tag");
+
         datamap.put("notify_url", configParamsUtils.getZpayNotifyHost().trim() + "/pingan/callback");
-        String jumpurl = configParamsUtils.getZpayNotifyHost().trim() + "/pingan/notify";
-        //datamap.put("jump_url", jumpurl);
-        //datamap.put("sub_appid", "sub_appid");
+        datamap.put("original_amount", String.valueOf(money));
+        datamap.put("trade_amount", String.valueOf(money));
+        datamap.put("ord_name", "ordName");
+        datamap.put("out_no", String.valueOf(System.currentTimeMillis()));
+        datamap.put("spbill_create_ip", CommonUtils.getIp(req));
         datamap.put("trade_type", "MWEB");
-        datamap.put("spbill_create_id", CommonUtils.getIp(req));
-        datamap.put("scene_info", "senceInfo");
+
+        TreeMap<String, Object> scene_info = new TreeMap<>();
+        TreeMap<String, Object> h5_info = new TreeMap<>();
+        h5_info.put("type", "Wap");
+        h5_info.put("wap_url", "https://pay.qq.com");
+        h5_info.put("wap_name", "腾讯充值");
+        scene_info.put("h5_info", h5_info);
+
+        datamap.put("scene_info", scene_info);
+        datamap.put("pmt_tag", "WeixinOL");
+
+
+        //datamap.put("out_no", String.valueOf(System.currentTimeMillis()));
+        //datamap.put("pmt_tag", configParamsUtils.getPinganPayType().trim());
+        //datamap.put("pmt_name", "微信");
+        //datamap.put("ord_name", "ordName");
+        //datamap.put("original_amount", String.valueOf(money));
+        ////datamap.put("discount_amount", discountAmount+"");
+        ////datamap.put("ignore_amount", ignoreAmount+"");
+        //datamap.put("trade_amount", String.valueOf(money));
+        ////datamap.put("trade_account", tradeAccount);
+        //datamap.put("trade_no", "tradeNo" + System.currentTimeMillis());
+        //datamap.put("remark", "remark");
+        //datamap.put("tag", "tag");
+        //datamap.put("notify_url", configParamsUtils.getZpayNotifyHost().trim() + "/pingan/callback");
+        String jumpurl = configParamsUtils.getZpayNotifyHost().trim() + "/pingan/notify";
+        ////datamap.put("jump_url", jumpurl);
+        ////datamap.put("sub_appid", "sub_appid");
+        //datamap.put("trade_type", "MWEB");
+        //datamap.put("spbill_create_id", CommonUtils.getIp(req));
+        //datamap.put("scene_info", "senceInfo");
 
 
         /**
@@ -129,7 +149,7 @@ public class PingAnPayDemoController
             postmap.put("open_id", configParamsUtils.getPinganOpenId().trim());
             postmap.put("timestamp", timestamp);
 
-            TreeMap<String, String> datamap = new TreeMap<String, String>();//data参数的map
+            TreeMap<String, Object> datamap = new TreeMap<>();//data参数的map
             datamap.put("pmt_type", pmtType);
 
             /**
