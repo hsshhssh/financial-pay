@@ -1,5 +1,6 @@
 package com.xqh.financial.controller.api;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,6 @@ public interface IPayWFTPayController
      * @param req
      * @param resp
      */
-    @RequestMapping("/pay/callback")
+    @PostMapping("/pay/callback")
     public void callback(HttpServletRequest req, HttpServletResponse resp);
 }
