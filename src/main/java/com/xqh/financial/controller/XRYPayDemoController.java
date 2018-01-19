@@ -40,7 +40,7 @@ public class XRYPayDemoController
     {
         TreeMap<String, String> params = CommonUtils.getParams(req);
         log.info("callback param:{}", JSONObject.toJSON(params));
-        CommonUtils.writeResponse(resp, "Ok");
+        CommonUtils.writeResponse(resp, "ok");
     }
 
     @GetMapping("notify")
