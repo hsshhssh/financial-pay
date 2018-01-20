@@ -90,7 +90,7 @@ public class XRYPayService
 
         // 取得订单流水
         PayOrderSerial orderSerial = null;
-        String orderSerialIdStr = params.get("1516411243368");
+        String orderSerialIdStr = params.get("orderno");
         if(orderSerialIdStr != null && StringUtils.isNumeric(orderSerialIdStr))
         {
             orderSerial = orderSerialMapper.selectByPrimaryKey(Integer.valueOf(orderSerialIdStr));
