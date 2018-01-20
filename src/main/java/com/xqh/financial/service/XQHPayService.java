@@ -364,4 +364,9 @@ public class XQHPayService {
     {
         return String.valueOf(orderSerial % 100000);
     }
+
+    public String getAppName(String appName, int orderSerial)
+    {
+        return appName + getAppNameSuffix(orderSerial);
+    }
 }

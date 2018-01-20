@@ -2,7 +2,9 @@ package com.xqh.financial.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xqh.financial.utils.CommonUtils;
+import com.xqh.financial.utils.ConfigParamsUtils;
 import com.xqh.financial.utils.xry.BeiBaoFuPay;
+import com.xqh.financial.utils.xry.XRYPayEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +27,24 @@ public class XRYPayDemoController
 {
     @Resource
     private BeiBaoFuPay beiBaoFuPay;
+    @Resource
+    private ConfigParamsUtils configParamsUtils;
 
     @GetMapping("pay")
     public void pay(@RequestParam("money") int money, HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        String url = beiBaoFuPay.wechatPay(String.valueOf(money), "2", CommonUtils.getIp(req), "name", String.valueOf(System.currentTimeMillis()));
+        XRYPayEntity xryParam = new XRYPayEntity();
+        xryParam.setMoney(money);
+        xryParam.setIp(CommonUtils.getIp(req));
+        xryParam.setName("name");
+        xryParam.setOrder(String.valueOf(System.currentTimeMillis()));
+        xryParam.setCallbackUrl(configParamsUtils.getZpayNotifyHost() + "/xry/callback");
+        xryParam.setNotifyUrl(configParamsUtils.getZpayNotifyHost() + "xry/notify");
+        xryParam.setKey("64a93a3fcbf3500352b7f885f0b3dbfb");
+        xryParam.setParaId("11241");
+        xryParam.setAppId("11292");
+
+        String url = beiBaoFuPay.wechatPay(xryParam);
 
         log.info("xry payUrl:{}", url);
         resp.sendRedirect(url);

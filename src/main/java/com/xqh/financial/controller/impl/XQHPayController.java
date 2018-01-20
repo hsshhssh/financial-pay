@@ -41,6 +41,8 @@ public class XQHPayController implements IXQHPayController{
     private RuiXunPayService ruiXunPayService;
     @Resource
     private WFTPayService wftPayService;
+    @Resource
+    private XRYPayService xryPayService;
 
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
@@ -132,6 +134,11 @@ public class XQHPayController implements IXQHPayController{
         {
             logger.info("威富通支付通道 payEntity:{}", payEntity);
             wftPayService.pay(req, resp, payEntity, payApp);
+        }
+        else if(Constant.XRY_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
+        {
+            logger.info("新瑞云支付通道 payEntity:{}", payEntity);
+            xryPayService.pay(payEntity, payApp, req, resp);
         }
         else
         {

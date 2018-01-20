@@ -2,6 +2,7 @@ package com.xqh.financial.utils.xry;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xqh.financial.utils.ConfigParamsUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class BeiBaoFuPay {
 
 	@Resource
@@ -22,36 +24,34 @@ public class BeiBaoFuPay {
 	public static final String APP_ID = "11292";
 	public static final String PARA_KEY = "64a93a3fcbf3500352b7f885f0b3dbfb";
 
-	public String wechatPay(String money,String type,String ip,String name,String order){
+	public String wechatPay(XRYPayEntity entity){
 
 		String result = "";
 
 		Map<String,String> param = new HashMap<>();
-		param.put("body",name);
-		param.put("total_fee",money);
-		param.put("para_id",PARA_ID);
-		param.put("app_id",APP_ID);
-		param.put("order_no", order);
-		param.put("notify_url", configParamsUtils.getZpayNotifyHost() + "/xry/callback");
-		param.put("returnurl", configParamsUtils.getZpayNotifyHost() +  "/xry/notify");
+		param.put("body", entity.getName());
+		param.put("total_fee", String.valueOf(entity.getMoney()));
+		param.put("para_id", entity.getParaId());
+		param.put("app_id", entity.getAppId());
+		param.put("order_no", entity.getOrder());
+		param.put("notify_url", entity.getCallbackUrl());
+		param.put("returnurl", entity.getNotifyUrl());
 		param.put("attach",creatOrderNumber());
-		param.put("type",type);
+		param.put("type","2");
 		param.put("code","1");
 		param.put("device_id","1");
-		param.put("mch_create_ip",ip);
+		param.put("mch_create_ip", entity.getIp());
 		param.put("mch_app_id","http://qianhaiyunji.com/");
 		param.put("mch_app_name","云基网络");
 		param.put("child_para_id","1_2");
-		param.put("sign",creatSign(param, PARA_KEY));
-
+		param.put("sign",creatSign(param, entity.getKey()));
+		log.info("新瑞云 支付参数：{}", JSONObject.toJSON(param));
 		String post = HttpManager.post(wechat_service_url, param);
+		log.info("新瑞云 支付返回值：{}", post);
 		JSONObject json = JSONObject.parseObject(post);
-		System.out.println("onSuccess: "+post);
 
 		if(json.getIntValue("status")==0){
 			result = json.getString("pay_url");
-		}else{
-			result = "fail";
 		}
 		return result;
 	}
