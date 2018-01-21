@@ -40,6 +40,12 @@ public class PayPXI
     private String xryKey;
 
     /**
+     * 新瑞云名称
+     */
+    @Column(name = "xry_name")
+    private String xryName;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")

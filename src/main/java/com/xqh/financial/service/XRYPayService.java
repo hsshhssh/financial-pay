@@ -56,8 +56,8 @@ public class XRYPayService
         xryParam.setMoney(payEntity.getMoney());
         xryParam.setIp(CommonUtils.getIp(req));
         xryParam.setName(xqhPayService.getAppName(payApp.getAppName(), payEntity.getOrderSerial()));
-        xryParam.setOrder(String.valueOf(payEntity.getOrderSerial()));
-        xryParam.setCallbackUrl(configParamsUtils.getZpayNotifyHost() + "/xqh/financial/xry/callback");
+        xryParam.setOrder(pxiList.get(0).getXryName().trim() + "-"+String.valueOf(payEntity.getOrderSerial()));
+        xryParam.setCallbackUrl("http://pay.azsdcn.com/recevier/notify");
         xryParam.setNotifyUrl(payApp.getNodifyUrl());
         xryParam.setKey(pxiList.get(0).getXryKey());
         xryParam.setParaId(pxiList.get(0).getXryParaId());
@@ -90,7 +90,7 @@ public class XRYPayService
 
         // 取得订单流水
         PayOrderSerial orderSerial = null;
-        String orderSerialIdStr = params.get("orderno");
+        String orderSerialIdStr = params.get("orderno").substring(params.get("orderno").lastIndexOf("-") + 1);
         if(orderSerialIdStr != null && StringUtils.isNumeric(orderSerialIdStr))
         {
             orderSerial = orderSerialMapper.selectByPrimaryKey(Integer.valueOf(orderSerialIdStr));

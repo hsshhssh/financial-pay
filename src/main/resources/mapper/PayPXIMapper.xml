@@ -10,6 +10,7 @@
     <result column="xry_para_id" property="xryParaId" jdbcType="CHAR" />
     <result column="xry_app_id" property="xryAppId" jdbcType="CHAR" />
     <result column="xry_key" property="xryKey" jdbcType="CHAR" />
+    <result column="xry_name" property="xryName" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
