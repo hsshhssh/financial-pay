@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xqh.financial.mapper.PayPXIMapper" >
+  <resultMap id="BaseResultMap" type="com.xqh.financial.entity.PayPXI" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="xry_para_id" property="xryParaId" jdbcType="CHAR" />
+    <result column="xry_app_id" property="xryAppId" jdbcType="CHAR" />
+    <result column="xry_key" property="xryKey" jdbcType="CHAR" />
+    <result column="xry_name" property="xryName" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

@@ -23,4 +23,16 @@ public class ConfigParamsUtils {
 
     @Value(path = "/config/zkconf/xqhpay.conf", key = "callbackValue")
     private String callbackValue;
+
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "pinganOpenId")
+    private String pinganOpenId;
+
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "pinganOpenKey")
+    private String pinganOpenKey;
+
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "pinganUrl")
+    private String pinganUrl;
+
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "pinganPayType")
+    private String pinganPayType;
 }

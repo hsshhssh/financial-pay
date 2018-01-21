@@ -112,6 +112,16 @@ public class Constant {
      */
     public static String RUIXUN_CHANNEL_CODE = "0003";
 
+    /**
+     * 威富通支付通道
+     */
+    public static String WFT_CHANNEL_CODE = "0004";
+
+    /**
+     * 新瑞云支付通道
+     */
+    public static String XRY_CHANNEL_CODE = "0005";
+
 
 
 ////////////////////////////////////////////////////////////////////////
