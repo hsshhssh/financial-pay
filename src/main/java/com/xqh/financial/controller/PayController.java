@@ -118,7 +118,12 @@ public class PayController {
     }
 
 
-
+    @RequestMapping("/pay/referer")
+    public void referer(@RequestParam("referer") String referer, HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
+        resp.setHeader("Referer", referer);
+        resp.sendRedirect("http://tbpym.xinqh.net/d.htm");
+    }
 
 
 
