@@ -35,4 +35,10 @@ public class ConfigParamsUtils {
 
     @Value(path = "/config/zkconf/xqhpay.conf", key = "pinganPayType")
     private String pinganPayType;
+
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "jftMchId")
+    private String jftMchId;
+
+    @Value(path = "/config/zkconf/xqhpay.conf", key = "jftKey")
+    private String jftKey;
 }

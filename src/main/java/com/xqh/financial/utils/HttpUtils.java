@@ -2,6 +2,8 @@ package com.xqh.financial.utils;
 
 import com.xqh.financial.entity.other.HttpResult;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -85,6 +87,22 @@ public class HttpUtils {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(httpPost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return genHttpResult(response);
+    }
+
+    public static HttpResult post(String url, Header[] headers, HttpEntity entity) {
+        CloseableHttpClient httpClient = genHttpClient();
+
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeaders(headers);
+        httpPost.setEntity(entity);
         CloseableHttpResponse response = null;
         try {
             response = httpClient.execute(httpPost);
