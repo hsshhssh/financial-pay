@@ -13,4 +13,6 @@ public class PayVerifySearchVO
 
     private PayVerifyTotalVO payVerifyTotalVO;
 
+    private Double totalDiff;
+
 }
