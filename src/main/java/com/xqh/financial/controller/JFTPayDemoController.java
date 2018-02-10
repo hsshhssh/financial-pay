@@ -52,7 +52,7 @@ public class JFTPayDemoController
 
         Header[] headers = { new BasicHeader("Content-Type", "application/json") };
         String string = json.toString();
-        StringEntity entity = new StringEntity(string);
+        StringEntity entity = new StringEntity(string, "utf-8");
         log.info("请求参数：{}", string);
         HttpResult result = HttpUtils.post("https://pay.echase.cn/jygateway/api", headers, entity);
         log.info("响应值：{}", result);
