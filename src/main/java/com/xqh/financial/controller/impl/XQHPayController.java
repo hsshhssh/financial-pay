@@ -1,6 +1,6 @@
 package com.xqh.financial.controller.impl;
 
-import com.xqh.financial.controller.WFTPayDemoController;
+import com.alibaba.fastjson.JSONObject;
 import com.xqh.financial.controller.api.IXQHPayController;
 import com.xqh.financial.entity.PayApp;
 import com.xqh.financial.entity.PayAppPlatform;
@@ -43,6 +43,8 @@ public class XQHPayController implements IXQHPayController{
     private WFTPayService wftPayService;
     @Resource
     private XRYPayService xryPayService;
+    @Resource
+    private JFTPayService jftPayService;
 
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
@@ -139,6 +141,11 @@ public class XQHPayController implements IXQHPayController{
         {
             logger.info("新瑞云支付通道 payEntity:{}", payEntity);
             xryPayService.pay(payEntity, payApp, req, resp);
+        }
+        else if(Constant.JFT_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
+        {
+            logger.info("金付通支付通道 payEntity:{}", JSONObject.toJSON(payEntity));
+            jftPayService.pay(payEntity, payApp, req, resp);
         }
         else
         {

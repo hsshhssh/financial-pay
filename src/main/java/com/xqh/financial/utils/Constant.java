@@ -122,6 +122,11 @@ public class Constant {
      */
     public static String XRY_CHANNEL_CODE = "0005";
 
+    /**
+     * 金付通支付通道
+     */
+    public static String JFT_CHANNEL_CODE = "0006";
+
 
 
 ////////////////////////////////////////////////////////////////////////

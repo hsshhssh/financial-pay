@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -187,6 +189,21 @@ public class CommonUtils {
             map.put(key.toString(),value);
         }
         return map;
+    }
+
+    /**
+     * 获取post参数
+     */
+    public static String getPostParams(HttpServletRequest request) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader( request.getInputStream(), "utf-8"));
+        StringBuffer sb = new StringBuffer("");
+        String temp;
+        while ((temp = br.readLine()) != null) {
+            sb.append(temp);
+        }
+        br.close();
+        return sb.toString();
     }
 
     public static String getIp(HttpServletRequest req)

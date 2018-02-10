@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -67,11 +64,12 @@ public class JFTPayDemoController
         }
     }
 
-    @GetMapping("callback")
-    public void callback(HttpServletRequest req, HttpServletResponse resp)
+    @PostMapping("callback")
+    public void callback(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        TreeMap<String, String> params = CommonUtils.getParams(req);
-        log.info("金富通 异步回调参数：{}", JSONObject.toJSON(params));
+        String postParams = CommonUtils.getPostParams(req);
+        JSONObject params = JSONObject.parseObject(postParams);
+        log.info("金富通 异步回调参数：{}", params);
         JSONObject res = new JSONObject();
         res.put("status", "0");
         res.put("message", "success");
