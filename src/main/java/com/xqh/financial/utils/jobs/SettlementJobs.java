@@ -43,7 +43,7 @@ public class SettlementJobs
     @Autowired
     PayUPSMapper payUPSMapper;
 
-    //@Scheduled(cron = "0 0 1 * * ? ")
+    @Scheduled(cron = "0 0 1 * * ? ")
     public void settlement()
     {
         int nowTime = (int) (System.currentTimeMillis()/1000);
