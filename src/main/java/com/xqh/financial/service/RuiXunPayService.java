@@ -44,21 +44,15 @@ import java.util.TreeMap;
 @Service
 public class RuiXunPayService
 {
-    //@Autowired
-    //private RuiXunConfigParamUtils ruixunConfig;
 
     @Autowired
     private ConfigParamsUtils config;
-
     @Autowired
     private PayPRXIMapper payPRXIMapper;
-
     @Autowired
     private XQHPayService xqhPayService;
-
     @Autowired
     private PayOrderSerialMapper orderSerialMapper;
-
     @Autowired
     private PayAppMapper payAppMapper;
 
@@ -149,6 +143,7 @@ public class RuiXunPayService
             if(StringUtils.isEmpty(payInfo))
             {
                 logger.error("锐讯支付 公众号支付 获得支付信息异常 payMap:{}", payMap);
+
                 xqhPayService.notifyResult(resp, payApp.getNodifyUrl(), Constant.RESULT_UNKNOWN_ERROR);
                 return ;
             }

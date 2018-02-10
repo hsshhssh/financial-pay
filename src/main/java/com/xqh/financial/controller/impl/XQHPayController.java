@@ -1,5 +1,6 @@
 package com.xqh.financial.controller.impl;
 
+import com.xqh.financial.controller.WFTPayDemoController;
 import com.xqh.financial.controller.api.IXQHPayController;
 import com.xqh.financial.entity.PayApp;
 import com.xqh.financial.entity.PayAppPlatform;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,24 +29,20 @@ public class XQHPayController implements IXQHPayController{
 
     @Autowired
     private XQHPayService xqhPayService;
-
     @Autowired
     private ZPayService zPayService;
-
     @Autowired
     private PayAppMapper payAppMapper;
-
-    @Autowired
-    private PayPlatformService payPlatformService;
-
     @Autowired
     private AppPlatformService appPlatformService;
-
     @Autowired
     private VSPPayService vspPayService;
-
     @Autowired
     private RuiXunPayService ruiXunPayService;
+    @Resource
+    private WFTPayService wftPayService;
+    @Resource
+    private XRYPayService xryPayService;
 
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) {
@@ -131,6 +129,16 @@ public class XQHPayController implements IXQHPayController{
             String ip = CommonUtils.getIp(req);
             logger.info("锐讯支付 client ip:{}", ip);
             ruiXunPayService.pay(resp, payEntity.getUserId(), payEntity.getAppId(), payEntity.getMoney(),payEntity.getOrderSerial(), payEntity.getPayType(), payApp, ip, payAppPlatform.getInterestRate(), payEntity.getOpenId(), req);
+        }
+        else if(Constant.WFT_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
+        {
+            logger.info("威富通支付通道 payEntity:{}", payEntity);
+            wftPayService.pay(req, resp, payEntity, payApp);
+        }
+        else if(Constant.XRY_CHANNEL_CODE.equals(payAppPlatform.getPlatformCode()))
+        {
+            logger.info("新瑞云支付通道 payEntity:{}", payEntity);
+            xryPayService.pay(payEntity, payApp, req, resp);
         }
         else
         {

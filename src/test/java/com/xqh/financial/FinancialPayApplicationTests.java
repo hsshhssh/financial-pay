@@ -20,6 +20,7 @@ public class FinancialPayApplicationTests {
 	public static void main(String[] args) {
 
 		String key = "_aa";
+		System.out.println(key.substring(key.lastIndexOf("_") + 1));
 		System.out.println("_aa".lastIndexOf("_"));
 		System.out.println("aa".lastIndexOf("_"));
 		System.out.println("aa_bb".lastIndexOf("_"));

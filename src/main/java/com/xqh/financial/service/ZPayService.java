@@ -35,25 +35,18 @@ public class ZPayService {
 
     @Autowired
     private PayPZIService payPZIService;
-
     @Autowired
     private XQHPayService xqhPayService;
-
     @Autowired
     private PayOrderSerialMapper orderSerialMapper;
-
     @Autowired
     private PayAppMapper payAppMapper;
-
     @Autowired
     private PayOrderMapper payOrderMapper;
-
     @Autowired
     private AppPlatformService appPlatformService;
-
     @Autowired
     private PayCFRMapper payCFRMapper;
-
     @Autowired
     private ConfigParamsUtils configParamsUtils;
 
