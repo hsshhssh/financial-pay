@@ -83,7 +83,7 @@ public class JFTPayController implements IJFTPayController
         {
             // 重复回调 => 返回成功
             log.warn("金付通支付通道 异步回调 重复回调 orderSerial:{} param:{} e:{}", orderSerial, params, Throwables.getStackTraceAsString(e));
-            CommonUtils.writeResponse(resp, "ok");
+            jftPayService.sendResult(resp, pjiList.get(0).getJftKey());
             return ;
         }
         if(null == callbackEntity)
@@ -94,7 +94,7 @@ public class JFTPayController implements IJFTPayController
         }
         //返回成功
         log.warn("金付通支付通道 异步回调 回调成功 orderSerial:{} param:{}", orderSerial, params);
-        CommonUtils.writeResponse(resp, "ok");
+        jftPayService.sendResult(resp, pjiList.get(0).getJftKey());
 
         // 回调商户
         xqhPayAsyncService.callbackUser(callbackEntity, "金付通支付通道");
