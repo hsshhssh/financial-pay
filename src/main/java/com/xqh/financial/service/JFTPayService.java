@@ -117,22 +117,38 @@ public class JFTPayService
         return sign;
     }
 
-    public PayOrderSerial verifyCallbackParam(Map<String, String> params)
+    public PayOrderSerial verifyCallbackParam(JSONObject params)
     {
+        if(!"0".equals(params.getString("status")) || !"0".equals(params.getString("result_code")))
+        {
+            log.error("金付通支付 异步回调 支付结果不为成功 params:{}", params);
+            return null;
+        }
+
         // 取得订单流水
         PayOrderSerial orderSerial = null;
-        String orderSerialIdStr = params.get("orderno").substring(params.get("orderno").lastIndexOf("-") + 1);
-        if(orderSerialIdStr != null && StringUtils.isNumeric(orderSerialIdStr))
+        String orderSerialId = params.getString("out_trade_no");
+        if(StringUtils.isNotBlank(orderSerialId) && StringUtils.isNumeric(orderSerialId))
         {
-            orderSerial = orderSerialMapper.selectByPrimaryKey(Integer.valueOf(orderSerialIdStr));
+            orderSerial = orderSerialMapper.selectByPrimaryKey(Integer.valueOf(orderSerialId));
         }
         if(null == orderSerial)
         {
-            log.error("威富通支付 异步回调 订单流水号异常 params：{}", JSONObject.toJSON(params));
+            log.error("金付通支付 异步回调 订单流水号异常 params：{}", params);
             return null;
         }
 
         return orderSerial;
+    }
 
+
+    public void sendResult(HttpServletResponse resp, String key)
+    {
+        JSONObject res = new JSONObject();
+        res.put("status", "0");
+        res.put("message", "success");
+        res.put("sign", getSign(res, key));
+        log.info("回调响应：{}", res);
+        CommonUtils.writeResponse(resp, res);
     }
 }
