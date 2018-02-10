@@ -44,7 +44,7 @@ public class JFTPayDemoController
         json.put("out_trade_no", String.valueOf(System.currentTimeMillis()));
         json.put("total_fee", String.valueOf(money));
         json.put("device_info", "WEB");
-        json.put("scene_info", "app_name=测试应用&bundle_id=com.jinyou3.jinyou");
+        json.put("scene_info", "app_name=test&bundle_id=com.jinyou3.jinyou");
         json.put("mch_create_ip", CommonUtils.getIp(req));
         json.put("notify_url", config.getZpayNotifyHost() + "/jft/callback");
         json.put("callback_url", config.getZpayNotifyHost() + "/jft/notify");
