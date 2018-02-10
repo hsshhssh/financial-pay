@@ -58,11 +58,11 @@ public class JFTPayService
         json.put("trade_type", "pay.weixin.h5");
         json.put("mch_id", pjiList.get(0).getJftMchId());
         json.put("nonce_str", String.valueOf(System.currentTimeMillis()));
-        json.put("body", payApp.getAppName());
+        json.put("body", xqhPayService.getAppName(payApp.getAppName(), payEntity.getOrderSerial()));
         json.put("out_trade_no", String.valueOf(payEntity.getOrderSerial()));
         json.put("total_fee", String.valueOf(payEntity.getMoney()));
         json.put("device_info", "WEB");
-        json.put("scene_info", "app_name=" + payApp.getAppName() + "&bundle_id=com.jinyou3.jinyou");
+        json.put("scene_info", "app_name=" + xqhPayService.getAppName(payApp.getAppName(), payEntity.getOrderSerial()) + "&bundle_id=com.jinyou3.jinyou");
         json.put("mch_create_ip", CommonUtils.getIp(req));
         json.put("notify_url", config.getZpayNotifyHost() + "/xqh/financial/jft/callback");
         json.put("callback_url", payApp.getNodifyUrl());
